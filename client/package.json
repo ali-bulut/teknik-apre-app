@@ -9,7 +9,22 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "@hookform/resolvers": "0.0.6",
+    "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
+    "history": "^5.0.0",
+    "moment": "^2.27.0",
+    "react-bootstrap": "^1.4.0",
+    "react-data-table-component": "^6.11.7",
+    "react-datepicker": "^3.6.0",
+    "react-hook-form": "^6.0.6",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-toastify": "^6.0.8",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.29.1"
   },
   "scripts": {
     "start": "react-scripts start",
