@@ -16,6 +16,15 @@ import "bootstrap/dist/js/bootstrap";
 // toastify
 import "react-toastify/dist/ReactToastify.css";
 
+// google fonts
+import "./assets/fonts/google_comfortaa.css";
+import "./assets/fonts/google_hind_siliguri.css";
+import "./assets/fonts/google_muli.css";
+import "./assets/fonts/google_roboto.css";
+
+// font-awesome
+import "./assets/lib/fontawesome-5.11.2/css/all.min.css";
+
 const store = configureStore();
 
 ReactDOM.render(
