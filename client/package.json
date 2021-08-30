@@ -12,6 +12,7 @@
     "web-vitals": "^1.0.1",
     "@hookform/resolvers": "0.0.6",
     "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
     "history": "^5.0.0",
     "moment": "^2.27.0",
     "react-bootstrap": "^1.4.0",
