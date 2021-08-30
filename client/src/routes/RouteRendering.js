@@ -14,6 +14,7 @@ export const renderRoutes = () => {
         path={route.path}
         exact={route.exact}
         component={route.component}
+        allowedSubdomains={route.allowedSubdomains}
       />
     ) : (
       <PrivateRoute
@@ -22,6 +23,7 @@ export const renderRoutes = () => {
         exact={route.exact}
         component={route.component}
         roles={route.roles}
+        allowedSubdomains={route.allowedSubdomains}
       />
     )
   );

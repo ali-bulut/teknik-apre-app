@@ -5,6 +5,7 @@ import history from "../../history";
 import AdminNavbar from "./Navbar/AdminNavbar";
 import { getLocalStorage } from "../../helpers/LocalStorage";
 import Texts from "../../constants/Texts";
+import RolesPrefix from "../../constants/RolesPrefix";
 
 const MainNavbar = (props) => {
   let pathName = history.location.pathname;
@@ -39,10 +40,15 @@ const MainNavbar = (props) => {
         />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            {role === "admin" ? <AdminNavbar pathName={pathName} /> : null}
+            {role === RolesPrefix.admin ? (
+              <AdminNavbar pathName={pathName} />
+            ) : null}
           </Nav>
-          {getLocalStorage()?.token ? (
-            <Nav className="account-navbar-dropdown">
+          {getLocalStorage()?.token && (
+            <Nav
+              style={{ marginRight: 30 }}
+              className="account-navbar-dropdown"
+            >
               <NavDropdown
                 title={
                   <div className="account">
@@ -69,19 +75,6 @@ const MainNavbar = (props) => {
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
-          ) : (
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="mr-auto"></Nav>
-              <Nav>
-                <Nav.Link
-                  className="authentication-navbar-link-main"
-                  as={Link}
-                  to="/login"
-                >
-                  {Texts.login}
-                </Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
           )}
         </Navbar.Collapse>
       </Navbar>
