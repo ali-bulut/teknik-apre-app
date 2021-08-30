@@ -7,15 +7,12 @@ import Texts from "../../constants/Texts";
 const LoginPanel = (props) => {
   return (
     <Form className="authentication-card" noValidate onSubmit={props.onSubmit}>
-      <Form.Group style={{ maxWidth: "100%" }} as={Col} md="6">
-        <p
-          style={{ marginRight: 27, marginLeft: 27 }}
-          className="navbar-title-logo"
-        >
+      <Form.Group className="max-width-100" as={Col} md="6">
+        <p style={{ marginLeft: 27 }} className="navbar-title-logo">
           {Texts.adminPanelLogin}
         </p>
       </Form.Group>
-      <Form.Group style={{ maxWidth: "100%" }} as={Col} md="6">
+      <Form.Group className="max-width-100" as={Col} md="6">
         <InputGroup>
           <InputGroup.Prepend>
             <InputGroup.Text id="inputGroupPrepend">
@@ -29,14 +26,14 @@ const LoginPanel = (props) => {
             name="email"
             ref={props.register}
             isInvalid={props.errors.email}
-            autoComplete
+            autoComplete="true"
           />
           <Form.Control.Feedback type="invalid">
             {props.errors.email?.message}
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-      <Form.Group style={{ maxWidth: "100%" }} as={Col} md="6">
+      <Form.Group className="max-width-100" as={Col} md="6">
         <InputGroup>
           <InputGroup.Prepend>
             <InputGroup.Text>
@@ -50,14 +47,14 @@ const LoginPanel = (props) => {
             name="password"
             ref={props.register}
             isInvalid={props.errors.password}
-            autoComplete
+            autoComplete="true"
           />
           <Form.Control.Feedback type="invalid">
             {props.errors.password?.message}
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-      <Form.Group style={{ maxWidth: "100%" }} as={Col} md="6">
+      <Form.Group className="max-width-100" as={Col} md="6">
         <Button
           disabled={props.userAuthenticationLoading}
           className="login-submit-button"
@@ -65,7 +62,7 @@ const LoginPanel = (props) => {
         >
           {Texts.signIn}
         </Button>
-        <div style={{ clear: "both" }}></div>
+        <div className="clearfix"></div>
       </Form.Group>
     </Form>
   );

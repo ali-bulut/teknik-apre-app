@@ -39,3 +39,11 @@
   color: rgba(124, 77, 255, 0.8) !important;
   text-shadow: 1px 1px 5px #7c4dff !important;
 }
+
+.max-width-100 {
+  max-width: 100% !important;
+}
+
+.clearfix {
+  clear: both;
+}

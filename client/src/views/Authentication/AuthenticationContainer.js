@@ -18,16 +18,7 @@ const AuthenticationContainer = (props) => {
             {props.children}
           </Col>
         </Row>
-        <p
-          style={{
-            color: "white",
-            fontSize: 14,
-            position: "absolute",
-            bottom: 10,
-            textShadow: "1px 1px 10px white",
-            marginBottom: 0,
-          }}
-        >
+        <p className="footer-text">
           © {new Date().getFullYear()} {Texts.corpText}
         </p>
       </Container>

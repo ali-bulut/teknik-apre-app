@@ -39,9 +39,7 @@ const MainNavbar = (props) => {
         />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            {props.role === "admin" ? (
-              <AdminNavbar pathName={pathName} />
-            ) : null}
+            {role === "admin" ? <AdminNavbar pathName={pathName} /> : null}
           </Nav>
           {getLocalStorage()?.token ? (
             <Nav className="account-navbar-dropdown">

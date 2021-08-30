@@ -11,6 +11,15 @@
   min-height: 70vh;
 }
 
+.footer-text {
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  bottom: 10px;
+  text-shadow: 1px 1px 10px white;
+  margin-bottom: 0px;
+}
+
 @media (min-width: 768px) {
   .login-form {
     min-width: 600px;
