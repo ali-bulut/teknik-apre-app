@@ -45,7 +45,7 @@ const LoginPanel = (props) => {
           loading={props.userAuthenticationLoading}
           className="login-submit-button"
           type="submit"
-          style={{ borderRadius: 8 }}
+          style={{ borderRadius: 5 }}
         >
           {Texts.signIn}
         </CustomButton>

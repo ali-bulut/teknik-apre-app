@@ -9,8 +9,8 @@ const CustomInputGroup = (props) => {
           <InputGroup.Text
             style={{
               ...{
-                borderTopLeftRadius: 8,
-                borderBottomLeftRadius: 8,
+                borderTopLeftRadius: 5,
+                borderBottomLeftRadius: 5,
               },
               ...props.textStyle,
             }}
@@ -22,8 +22,8 @@ const CustomInputGroup = (props) => {
         <Form.Control
           style={{
             ...{
-              borderTopRightRadius: 8,
-              borderBottomRightRadius: 8,
+              borderTopRightRadius: 5,
+              borderBottomRightRadius: 5,
             },
             ...props.inputStyle,
           }}
