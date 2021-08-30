@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Col, Form, InputGroup } from "react-bootstrap";
+import { Col, Form, InputGroup } from "react-bootstrap";
 
 import "../../styles/Authentication/login.css";
 import Texts from "../../constants/Texts";
+import CustomButton from "../Common/CustomButton";
 
 const LoginPanel = (props) => {
   return (
@@ -55,13 +56,13 @@ const LoginPanel = (props) => {
         </InputGroup>
       </Form.Group>
       <Form.Group className="max-width-100" as={Col} md="6">
-        <Button
-          disabled={props.userAuthenticationLoading}
+        <CustomButton
+          loading={props.userAuthenticationLoading}
           className="login-submit-button"
           type="submit"
         >
           {Texts.signIn}
-        </Button>
+        </CustomButton>
         <div className="clearfix"></div>
       </Form.Group>
     </Form>

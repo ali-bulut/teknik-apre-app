@@ -1,11 +1,18 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { getLocalStorage } from "../helpers/LocalStorage";
-import { getRedirectedRoute } from "../helpers/RouteRedirection";
+import {
+  getRedirectedRoute,
+  subdomainRedirection,
+} from "../helpers/RouteRedirection";
 
 const PrivateRoute = ({ component: Component, ...options }) => {
   const token = getLocalStorage()?.token;
   const shouldRedirect = !token;
+
+  if (subdomainRedirection(options.allowedSubdomains)) {
+    return <Redirect to="/" />;
+  }
 
   if (shouldRedirect) {
     return <Redirect to="/login" />;
