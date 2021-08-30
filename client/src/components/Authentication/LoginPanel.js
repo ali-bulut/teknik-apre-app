@@ -1,9 +1,10 @@
 import React from "react";
-import { Col, Form, InputGroup } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 
 import "../../styles/Authentication/login.css";
 import Texts from "../../constants/Texts";
 import CustomButton from "../Common/CustomButton";
+import CustomInputGroup from "../Common/CustomInputGroup";
 
 const LoginPanel = (props) => {
   return (
@@ -14,52 +15,37 @@ const LoginPanel = (props) => {
         </p>
       </Form.Group>
       <Form.Group className="max-width-100" as={Col} md="6">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text id="inputGroupPrepend">
-              <i className="fas fa-user"></i>
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control
-            className="form-input"
-            type="text"
-            placeholder={Texts.emailOrUsername}
-            name="email"
-            ref={props.register}
-            isInvalid={props.errors.email}
-            autoComplete="true"
-          />
-          <Form.Control.Feedback type="invalid">
-            {props.errors.email?.message}
-          </Form.Control.Feedback>
-        </InputGroup>
+        <CustomInputGroup
+          icon="fas fa-user"
+          type="text"
+          placeholder={Texts.emailOrUsername}
+          name="email"
+          referance={props.register}
+          isInvalid={props.errors.email}
+          autoComplete="true"
+          messageType="invalid"
+          message={props.errors.email?.message}
+        />
       </Form.Group>
       <Form.Group className="max-width-100" as={Col} md="6">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text>
-              <i className="fas fa-key"></i>
-            </InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control
-            className="form-input"
-            type="password"
-            placeholder={Texts.password}
-            name="password"
-            ref={props.register}
-            isInvalid={props.errors.password}
-            autoComplete="true"
-          />
-          <Form.Control.Feedback type="invalid">
-            {props.errors.password?.message}
-          </Form.Control.Feedback>
-        </InputGroup>
+        <CustomInputGroup
+          icon="fas fa-key"
+          type="password"
+          placeholder={Texts.password}
+          name="password"
+          referance={props.register}
+          isInvalid={props.errors.password}
+          autoComplete="true"
+          messageType="invalid"
+          message={props.errors.password?.message}
+        />
       </Form.Group>
       <Form.Group className="max-width-100" as={Col} md="6">
         <CustomButton
           loading={props.userAuthenticationLoading}
           className="login-submit-button"
           type="submit"
+          style={{ borderRadius: 8 }}
         >
           {Texts.signIn}
         </CustomButton>
