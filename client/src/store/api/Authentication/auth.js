@@ -8,7 +8,7 @@ const endpoints = {
           role: "admin",
           token: "test-admin-token",
         });
-      }, 2000);
+      }, 1000);
     }),
 };
 
