@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 
 import { renderRoutes } from "./routes/RouteRendering";
 
-import "./App.css";
 import MainContent from "./views/Main/MainContent";
 
 const App = () => {

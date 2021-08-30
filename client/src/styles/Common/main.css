@@ -5,7 +5,7 @@
   line-height: 40px;
   margin: 15px;
   width: calc(100% - 30px);
-  color: #7c4dff !important;
+  color: var(--main-color) !important;
   text-decoration: none !important;
   display: flex;
   justify-content: flex-end;
@@ -19,7 +19,7 @@
   left: 18px;
   font-size: 10px;
   font-family: "Comfortaa";
-  color: #7c4dff;
+  color: var(--main-color);
   font-weight: 700;
 }
 
@@ -32,12 +32,12 @@
 .main-logo {
   font-size: 40px !important;
   font-weight: 500 !important;
-  text-shadow: 1px 1px 10px #7c4dff !important;
+  text-shadow: 1px 1px 10px var(--main-color) !important;
 }
 
 .main-logo:hover {
   color: rgba(124, 77, 255, 0.8) !important;
-  text-shadow: 1px 1px 5px #7c4dff !important;
+  text-shadow: 1px 1px 5px var(--main-color) !important;
 }
 
 .max-width-100 {
