@@ -1,0 +1,18 @@
+.main-container {
+  max-width: 100% !important;
+  height: 100vh;
+  max-height: -webkit-fill-available;
+  background-size: cover;
+  background-image: url("../../assets/img/auth-bg-image.jpg");
+}
+
+.login-form-container {
+  min-height: 100%;
+  min-height: 70vh;
+}
+
+@media (min-width: 768px) {
+  .login-form {
+    min-width: 600px;
+  }
+}
