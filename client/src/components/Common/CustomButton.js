@@ -9,6 +9,10 @@ const CustomButton = (props) => {
         style={props.style}
         onClick={props.onClick}
         type={props.type}
+        variant={props.variant}
+        as={props.as}
+        to={props.to}
+        target={props.target}
       >
         {props.loading ? (
           <Spinner animation="border" role="status" size="sm" />

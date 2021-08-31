@@ -7,6 +7,8 @@ import { getSubDomain } from "../helpers/RouteRedirection";
 import RolesPrefix from "../constants/RolesPrefix";
 import HomePage from "../views/Home/HomePage";
 import AdminHomePage from "../views/Admin/AdminHomePage";
+import PartiesPage from "../views/Admin/Barcode/Party/PartiesPage";
+import PartyDetailPage from "../views/Admin/Barcode/Party/PartyDetailPage";
 
 const isAdminSite = getSubDomain() === RolesPrefix.admin;
 
@@ -30,6 +32,30 @@ export default [
         {<Redirect to="/login" />}
       </div>
     ),
+  },
+  {
+    path: "/barcode/parties",
+    public: false,
+    exact: true,
+    roles: [RolesPrefix.admin],
+    allowedSubdomains: [RolesPrefix.admin],
+    component: () => <PartiesPage />,
+  },
+  {
+    path: "/barcode/parties/:id",
+    public: false,
+    exact: true,
+    roles: [RolesPrefix.admin],
+    allowedSubdomains: [RolesPrefix.admin],
+    component: () => <PartyDetailPage />,
+  },
+  {
+    path: "/barcode/templates",
+    public: false,
+    exact: true,
+    roles: [RolesPrefix.admin],
+    allowedSubdomains: [RolesPrefix.admin],
+    component: () => <PartiesPage />,
   },
   {
     path: "/",
