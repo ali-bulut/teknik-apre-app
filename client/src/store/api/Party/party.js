@@ -11,24 +11,77 @@ const endpoints = {
               name: "Black/White",
               net_weight_division_num: 1.75,
               gross_weight_addition_num: 0.6,
-              template_img:
-                "https://image.shutterstock.com/image-vector/barcode-meaning-this-template-stock-260nw-793867024.jpg",
+              template_img: "https://i.hizliresim.com/itfc8ab.png",
             },
             {
               id: 2,
               name: "Yellow",
               net_weight_division_num: 1.43,
               gross_weight_addition_num: 0.8,
-              template_img:
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Test-Logo.svg/783px-Test-Logo.svg.png",
+              template_img: "https://i.hizliresim.com/itfc8ab.png",
             },
             {
               id: 3,
               name: "Red",
               net_weight_division_num: 1.87,
               gross_weight_addition_num: 0.4,
-              template_img:
-                "https://friendofthesea.org/wp-content/uploads/the-test-fun-for-friends-screenshot.png",
+              template_img: "https://i.hizliresim.com/itfc8ab.png",
+            },
+          ],
+        });
+      }, 1000);
+    }),
+
+  fetchParty: (id) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(id);
+        resolve({
+          id: 1,
+          name: "Black/White",
+          net_weight_division_num: 1.75,
+          gross_weight_addition_num: 0.6,
+          template_img: "https://i.hizliresim.com/itfc8ab.png",
+          mainValues: [
+            {
+              id: 1,
+              columnName: "supp",
+              value: "FIRATEKS TEKSTİL KONF. SAN.TİC.LTD.ŞTİ",
+            },
+            {
+              id: 2,
+              columnName: "order",
+              value: "74355-D",
+            },
+            {
+              id: 3,
+              columnName: "ref ind",
+              value: "V 2021 9698",
+            },
+            {
+              id: 4,
+              columnName: "destination",
+              value: "105 - WOMAN C.S.",
+            },
+            {
+              id: 5,
+              columnName: "col",
+              value: "400-BLUE",
+            },
+            {
+              id: 6,
+              columnName: "description",
+              value: "40510 NEWC",
+            },
+            {
+              id: 7,
+              columnName: "comp",
+              value: "%34 ACR %34 PES %16 CO %16 VI",
+            },
+            {
+              id: 8,
+              columnName: "width",
+              value: "150CM",
             },
           ],
         });

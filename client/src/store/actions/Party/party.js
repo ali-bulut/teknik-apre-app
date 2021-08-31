@@ -2,6 +2,9 @@ import {
   PARTIES_FETCHING,
   PARTIES_FETCHED,
   PARTIES_FETCH_HAS_ERROR,
+  PARTY_FETCHING,
+  PARTY_FETCHED,
+  PARTY_FETCH_HAS_ERROR,
 } from "../../types";
 
 import api from "../../api/Party/party";
@@ -22,6 +25,22 @@ export const partiesFetchHasError = (data) => ({
   payload: data.message,
 });
 
+export const partyFetching = () => ({
+  type: PARTY_FETCHING,
+});
+
+export const partyFetched = (data) => ({
+  type: PARTY_FETCHED,
+  payload: {
+    partyData: data,
+  },
+});
+
+export const partyFetchHasError = (data) => ({
+  type: PARTY_FETCH_HAS_ERROR,
+  payload: data.message,
+});
+
 export const fetchParties = (data) => (dispatch) =>
   new Promise(function (resolve, reject) {
     dispatch(partiesFetching());
@@ -34,6 +53,22 @@ export const fetchParties = (data) => (dispatch) =>
       })
       .catch((err) => {
         dispatch(partiesFetchHasError(err));
+        reject(err);
+      });
+  });
+
+export const fetchParty = (id) => (dispatch) =>
+  new Promise(function (resolve, reject) {
+    dispatch(partyFetching());
+
+    api
+      .fetchParty(id)
+      .then((data) => {
+        dispatch(partyFetched(data));
+        resolve(data);
+      })
+      .catch((err) => {
+        dispatch(partyFetchHasError(err));
         reject(err);
       });
   });
