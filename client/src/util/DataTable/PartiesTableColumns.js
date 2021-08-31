@@ -70,38 +70,22 @@ export const columns = [
     ),
   },
   {
-    name: Texts.operations,
-    selector: "operations",
+    name: Texts.details,
+    selector: "detail",
     sortable: false,
-    cell: (row) => {
-      return (
-        <Row>
-          <Col md="6" style={{ marginBottom: 10, marginTop: 10 }}>
-            <Button
-              style={{
-                width: 100,
-                borderRadius: 5,
-              }}
-              variant="primary"
-              as={Link}
-              to={"/barcode/parties/" + row.id + "/update"}
-            >
-              {Texts.update}
-            </Button>
-          </Col>
-          <Col md="6" style={{ marginBottom: 10, marginTop: 10 }}>
-            <Button
-              variant="danger"
-              style={{
-                width: 100,
-                borderRadius: 5,
-              }}
-            >
-              {Texts.delete}
-            </Button>
-          </Col>
-        </Row>
-      );
-    },
+    cell: (row) => (
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div>
+          <Button
+            as={Link}
+            to={"/barcode/parties/" + row.id}
+            style={{ color: "#7c4dff" }}
+            variant={null}
+          >
+            {Texts.viewDetails}
+          </Button>
+        </div>
+      </div>
+    ),
   },
 ];

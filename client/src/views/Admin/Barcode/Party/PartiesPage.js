@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CustomTable from "../../../../components/Common/CustomTable";
@@ -10,10 +10,13 @@ import { fetchParties } from "../../../../store/actions/Party/party";
 import { columns } from "../../../../util/DataTable/PartiesTableColumns";
 
 const PartiesPage = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [refreshTable, setRefreshTable] = useState(false);
 
-  const onRowClick = (data) => {};
+  const onRowClick = (data) => {
+    history.push("/barcode/parties/" + data.id);
+  };
 
   const fetchData = async (data) => {
     try {
