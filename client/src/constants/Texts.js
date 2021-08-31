@@ -21,4 +21,5 @@ export default {
   operations: "İşlemler",
   update: "Güncelle",
   delete: "Sil",
+  createParty: "Parti Oluştur",
 };

@@ -80,7 +80,7 @@ export const columns = [
             <Button
               style={{
                 width: 100,
-                borderRadius: 10,
+                borderRadius: 5,
               }}
               variant="primary"
               as={Link}
@@ -94,7 +94,7 @@ export const columns = [
               variant="danger"
               style={{
                 width: 100,
-                borderRadius: 10,
+                borderRadius: 5,
               }}
             >
               {Texts.delete}

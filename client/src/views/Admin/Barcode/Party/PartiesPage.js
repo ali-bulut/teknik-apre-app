@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Button, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CustomTable from "../../../../components/Common/CustomTable";
@@ -25,6 +27,24 @@ const PartiesPage = () => {
 
   return (
     <React.Fragment>
+      <Row>
+        <Col md="12">
+          <Button
+            variant={null}
+            style={{
+              backgroundColor: "slateblue",
+              color: "white",
+              borderRadius: 5,
+            }}
+            className="float-left"
+            as={Link}
+            to="/barcode/parties/create"
+          >
+            {Texts.createParty}
+          </Button>
+        </Col>
+      </Row>
+
       <CustomTable
         onRowClick={onRowClick}
         columns={columns}
