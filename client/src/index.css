@@ -1,5 +1,7 @@
 :root {
   --main-color: #7c4dff;
+  --secondary-color: #170947;
+  --main-color-light: lavender;
 }
 
 @font-face {
