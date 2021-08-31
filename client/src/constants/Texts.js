@@ -34,4 +34,7 @@ export default {
   save: "Kaydet",
   cancel: "İptal Et",
   deleteParty: "Partiyi Sil",
+  partyLineItemsError: "Partinin itemleri yüklenemedi!",
+  openBarcode: "Barkodu Aç",
+  rollNo: "Roll No",
 };
