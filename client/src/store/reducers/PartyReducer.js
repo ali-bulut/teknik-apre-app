@@ -11,6 +11,9 @@ import {
   PARTY_DELETING,
   PARTY_DELETED,
   PARTY_DELETE_HAS_ERROR,
+  PARTY_LINE_ITEMS_FETCHING,
+  PARTY_LINE_ITEMS_FETCHED,
+  PARTY_LINE_ITEMS_FETCH_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -31,6 +34,11 @@ const INITIAL_STATE = {
   deleteError: null,
   deleteLoading: false,
   deleteData: {},
+
+  lineItemsError: null,
+  lineItemsLoading: false,
+  lineItemsLoaded: false,
+  lineItemsData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
@@ -130,6 +138,32 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         deleteLoading: false,
         deleteError: action.payload,
+      };
+    }
+
+    case PARTY_LINE_ITEMS_FETCHING: {
+      return {
+        ...state,
+        lineItemsLoading: true,
+        lineItemsLoaded: false,
+        lineItemsError: null,
+      };
+    }
+    case PARTY_LINE_ITEMS_FETCHED: {
+      return {
+        ...state,
+        lineItemsLoading: false,
+        lineItemsLoaded: true,
+        lineItemsError: null,
+        lineItemsData: action.payload.lineItemsData,
+      };
+    }
+    case PARTY_LINE_ITEMS_FETCH_HAS_ERROR: {
+      return {
+        ...state,
+        lineItemsLoading: false,
+        lineItemsLoaded: false,
+        lineItemsError: action.payload,
       };
     }
 
