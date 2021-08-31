@@ -97,6 +97,16 @@ const endpoints = {
         });
       }, 1000);
     }),
+
+  deleteParty: (id) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(id);
+        resolve({
+          message: "The party successfully deleted!",
+        });
+      }, 1000);
+    }),
 };
 
 export default endpoints;

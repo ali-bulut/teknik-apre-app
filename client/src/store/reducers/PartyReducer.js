@@ -8,6 +8,9 @@ import {
   PARTY_UPDATING,
   PARTY_UPDATED,
   PARTY_UPDATE_HAS_ERROR,
+  PARTY_DELETING,
+  PARTY_DELETED,
+  PARTY_DELETE_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -24,6 +27,10 @@ const INITIAL_STATE = {
   updateError: null,
   updateLoading: false,
   updateData: {},
+
+  deleteError: null,
+  deleteLoading: false,
+  deleteData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
@@ -100,6 +107,29 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         updateLoading: false,
         updateError: action.payload,
+      };
+    }
+
+    case PARTY_DELETING: {
+      return {
+        ...state,
+        deleteLoading: true,
+        deleteError: null,
+      };
+    }
+    case PARTY_DELETED: {
+      return {
+        ...state,
+        deleteLoading: false,
+        deleteError: null,
+        deleteData: action.payload.deleteData,
+      };
+    }
+    case PARTY_DELETE_HAS_ERROR: {
+      return {
+        ...state,
+        deleteLoading: false,
+        deleteError: action.payload,
       };
     }
 
