@@ -5,6 +5,9 @@ import {
   PARTY_FETCHING,
   PARTY_FETCHED,
   PARTY_FETCH_HAS_ERROR,
+  PARTY_UPDATING,
+  PARTY_UPDATED,
+  PARTY_UPDATE_HAS_ERROR,
 } from "../../types";
 
 import api from "../../api/Party/party";
@@ -41,6 +44,22 @@ export const partyFetchHasError = (data) => ({
   payload: data.message,
 });
 
+export const partyUpdating = () => ({
+  type: PARTY_UPDATING,
+});
+
+export const partyUpdated = (data) => ({
+  type: PARTY_UPDATED,
+  payload: {
+    updateData: data.message,
+  },
+});
+
+export const partyUpdateHasError = (data) => ({
+  type: PARTY_UPDATE_HAS_ERROR,
+  payload: data.message,
+});
+
 export const fetchParties = (data) => (dispatch) =>
   new Promise(function (resolve, reject) {
     dispatch(partiesFetching());
@@ -69,6 +88,22 @@ export const fetchParty = (id) => (dispatch) =>
       })
       .catch((err) => {
         dispatch(partyFetchHasError(err));
+        reject(err);
+      });
+  });
+
+export const updateParty = (data) => (dispatch) =>
+  new Promise(function (resolve, reject) {
+    dispatch(partyUpdating());
+
+    api
+      .updateParty(data)
+      .then((data) => {
+        dispatch(partyUpdated(data));
+        resolve(data);
+      })
+      .catch((err) => {
+        dispatch(partyUpdateHasError(err));
         reject(err);
       });
   });

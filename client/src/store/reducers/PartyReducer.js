@@ -5,6 +5,9 @@ import {
   PARTY_FETCHING,
   PARTY_FETCHED,
   PARTY_FETCH_HAS_ERROR,
+  PARTY_UPDATING,
+  PARTY_UPDATED,
+  PARTY_UPDATE_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -17,6 +20,10 @@ const INITIAL_STATE = {
   fetchLoading: false,
   fetchLoaded: false,
   fetchData: {},
+
+  updateError: null,
+  updateLoading: false,
+  updateData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
@@ -70,6 +77,29 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         fetchLoading: false,
         fetchLoaded: false,
         fetchError: action.payload,
+      };
+    }
+
+    case PARTY_UPDATING: {
+      return {
+        ...state,
+        updateLoading: true,
+        updateError: null,
+      };
+    }
+    case PARTY_UPDATED: {
+      return {
+        ...state,
+        updateLoading: false,
+        updateError: null,
+        updateData: action.payload.updateData,
+      };
+    }
+    case PARTY_UPDATE_HAS_ERROR: {
+      return {
+        ...state,
+        updateLoading: false,
+        updateError: action.payload,
       };
     }
 

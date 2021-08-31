@@ -87,6 +87,16 @@ const endpoints = {
         });
       }, 1000);
     }),
+
+  updateParty: (data) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(data);
+        resolve({
+          message: "The party successfully updated!",
+        });
+      }, 1000);
+    }),
 };
 
 export default endpoints;
