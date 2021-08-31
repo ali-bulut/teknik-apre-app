@@ -22,12 +22,12 @@ export const partiesFetchHasError = (data) => ({
   payload: data.message,
 });
 
-export const fetchParties = () => (dispatch) =>
+export const fetchParties = (data) => (dispatch) =>
   new Promise(function (resolve, reject) {
     dispatch(partiesFetching());
 
     api
-      .fetchParties()
+      .fetchParties(data)
       .then((data) => {
         dispatch(partiesFetched(data));
         resolve(data);

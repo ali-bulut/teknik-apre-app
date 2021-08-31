@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   fetchAllError: null,
   fetchAllLoading: false,
   fetchAllLoaded: false,
-  fetchAllData: [],
+  fetchAllData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
