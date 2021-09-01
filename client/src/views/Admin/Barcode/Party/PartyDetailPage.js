@@ -88,6 +88,11 @@ const PartyDetailPage = () => {
   };
 
   const updateSelectedParty = () => {
+    if (!divisionNum || !additionNum) {
+      toast.error(Texts.fillBlanks);
+      return;
+    }
+
     let newData = {
       mainValues: partyMainValues,
       id: partyData.id,
@@ -147,6 +152,24 @@ const PartyDetailPage = () => {
   };
 
   const createNewLineItem = () => {
+    let isEmpty = false;
+
+    if (!createdRollNo) {
+      isEmpty = true;
+    }
+
+    enteredLineItemValues.forEach((x) => {
+      if (!x.value) {
+        isEmpty = true;
+      }
+      return;
+    });
+
+    if (isEmpty) {
+      toast.error(Texts.fillBlanks);
+      return;
+    }
+
     let data = {
       partyId: id,
       rollNo: createdRollNo,

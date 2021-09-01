@@ -45,4 +45,5 @@ export default {
   createPartyLineItemSuccess: "Yeni parti item başarıyla oluşturuldu!",
   createExcelFile: "Excel Dosyası Oluştur",
   newRecord: "Yeni Kayıt",
+  fillBlanks: "Lütfen gerekli alanları doldurunuz",
 };
