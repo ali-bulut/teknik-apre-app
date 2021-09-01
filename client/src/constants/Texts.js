@@ -39,4 +39,5 @@ export default {
   rollNo: "Roll No",
   partyLineItemDeleteSuccess: "Parti item başarıyla silindi!",
   partyLineItemDeleteError: "Parti item silinirken bir hata oluştu!",
+  createExcelFileError: "Excel dosyası oluşturulurken bir hata meydana geldi!",
 };

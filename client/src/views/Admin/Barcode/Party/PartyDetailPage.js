@@ -12,6 +12,7 @@ import {
   updateParty,
 } from "../../../../store/actions/Party/party";
 import {
+  createExcelFile,
   deletePartyLineItem,
   fetchPartyLineItems,
 } from "../../../../store/actions/Party/partyLineItems";
@@ -131,6 +132,19 @@ const PartyDetailPage = () => {
       });
   };
 
+  const createPartyExcel = () => {
+    dispatch(createExcelFile(id))
+      .then((data) => {
+        var a = document.getElementById("excelDownload");
+        a.href = data.file;
+        a.target = "_blank";
+        a.click();
+      })
+      .catch((err) => {
+        toast.error(Texts.createExcelFileError);
+      });
+  };
+
   const partyLoading = useSelector((state) => state.party.fetchLoading);
   const partyLoaded = useSelector((state) => state.party.fetchLoaded);
   const partyData = useSelector((state) => state.party.fetchData);
@@ -150,6 +164,10 @@ const PartyDetailPage = () => {
     (state) => state.party.lineItemDeleteLoading
   );
 
+  const createExcelFileLoading = useSelector(
+    (state) => state.party.createExcelFileLoading
+  );
+
   useEffect(() => {
     fetchPartyDetails();
     fetchSelectedPartyLineItems();
@@ -157,6 +175,10 @@ const PartyDetailPage = () => {
 
   return (
     <React.Fragment>
+      <a href="/" style={{ display: "none" }} id="excelDownload" download>
+        excelDownload
+      </a>
+
       <Row>
         <Col md="12">
           <Button
@@ -168,13 +190,15 @@ const PartyDetailPage = () => {
             {Texts.backToParties}
           </Button>
 
-          <Button
+          <CustomButton
             variant={"link"}
             className="float-right"
             style={{ color: "#7c4dff" }}
+            onClick={createPartyExcel}
+            loading={createExcelFileLoading}
           >
             Excel Dosyası Oluştur
-          </Button>
+          </CustomButton>
         </Col>
       </Row>
 
