@@ -17,6 +17,9 @@ import {
   PARTY_LINE_ITEM_DELETING,
   PARTY_LINE_ITEM_DELETED,
   PARTY_LINE_ITEM_DELETE_HAS_ERROR,
+  EXCEL_FILE_CREATING,
+  EXCEL_FILE_CREATED,
+  EXCEL_FILE_CREATE_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -46,6 +49,10 @@ const INITIAL_STATE = {
   lineItemDeleteError: null,
   lineItemDeleteLoading: false,
   lineItemDeleteData: {},
+
+  createExcelFileError: null,
+  createExcelFileLoading: false,
+  createExcelFileData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
@@ -194,6 +201,29 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         lineItemDeleteLoading: false,
         lineItemDeleteError: action.payload,
+      };
+    }
+
+    case EXCEL_FILE_CREATING: {
+      return {
+        ...state,
+        createExcelFileLoading: true,
+        createExcelFileError: null,
+      };
+    }
+    case EXCEL_FILE_CREATED: {
+      return {
+        ...state,
+        createExcelFileLoading: false,
+        createExcelFileError: null,
+        createExcelFileData: action.payload.excelFileData,
+      };
+    }
+    case EXCEL_FILE_CREATE_HAS_ERROR: {
+      return {
+        ...state,
+        createExcelFileLoading: false,
+        createExcelFileError: action.payload,
       };
     }
 

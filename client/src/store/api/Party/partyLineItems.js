@@ -344,6 +344,16 @@ const endpoints = {
         });
       }, 1000);
     }),
+
+  createExcelFile: (id) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(id);
+        resolve({
+          file: "https://i.hizliresim.com/itfc8ab.png",
+        });
+      }, 1000);
+    }),
 };
 
 export default endpoints;
