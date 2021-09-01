@@ -37,4 +37,6 @@ export default {
   partyLineItemsError: "Partinin itemleri yüklenemedi!",
   openBarcode: "Barkodu Aç",
   rollNo: "Roll No",
+  partyLineItemDeleteSuccess: "Parti item başarıyla silindi!",
+  partyLineItemDeleteError: "Parti item silinirken bir hata oluştu!",
 };

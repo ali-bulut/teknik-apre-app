@@ -11,7 +11,10 @@ import {
   fetchParty,
   updateParty,
 } from "../../../../store/actions/Party/party";
-import { fetchPartyLineItems } from "../../../../store/actions/Party/partyLineItems";
+import {
+  deletePartyLineItem,
+  fetchPartyLineItems,
+} from "../../../../store/actions/Party/partyLineItems";
 
 const PartyDetailPage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -24,6 +27,8 @@ const PartyDetailPage = () => {
 
   const [isCreateMode, setIsCreateMode] = useState(false);
   const [enteredLineItemValues, setEnteredLineItemValues] = useState([]);
+
+  const [lastlyDeletedLineItemId, setLastlyDeletedLineItemId] = useState();
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -114,6 +119,18 @@ const PartyDetailPage = () => {
     }
   };
 
+  const deleteSelectedPartyLineItem = (id) => {
+    setLastlyDeletedLineItemId(id);
+    dispatch(deletePartyLineItem(id))
+      .then(() => {
+        toast.success(Texts.partyLineItemDeleteSuccess);
+        fetchSelectedPartyLineItems();
+      })
+      .catch((err) => {
+        toast.error(Texts.partyLineItemDeleteError);
+      });
+  };
+
   const partyLoading = useSelector((state) => state.party.fetchLoading);
   const partyLoaded = useSelector((state) => state.party.fetchLoaded);
   const partyData = useSelector((state) => state.party.fetchData);
@@ -128,6 +145,10 @@ const PartyDetailPage = () => {
     (state) => state.party.lineItemsLoaded
   );
   const partyLineItemsData = useSelector((state) => state.party.lineItemsData);
+
+  const partyLineItemDeleteLoading = useSelector(
+    (state) => state.party.lineItemDeleteLoading
+  );
 
   useEffect(() => {
     fetchPartyDetails();
@@ -418,7 +439,16 @@ const PartyDetailPage = () => {
                           >
                             {Texts.openBarcode}
                           </CustomButton>
-                          <CustomButton style={{ color: "red" }} variant="link">
+                          <CustomButton
+                            style={{ color: "red" }}
+                            variant="link"
+                            onClick={() => deleteSelectedPartyLineItem(item.id)}
+                            loading={
+                              lastlyDeletedLineItemId === item.id
+                                ? partyLineItemDeleteLoading
+                                : false
+                            }
+                          >
                             {Texts.delete}
                           </CustomButton>
                         </td>
