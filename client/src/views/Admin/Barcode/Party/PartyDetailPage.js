@@ -19,6 +19,11 @@ const PartyDetailPage = () => {
   const [divisionNum, setDivisionNum] = useState();
   const [additionNum, setAdditionNum] = useState();
   const [lineItemHeaders, setLineItemHeaders] = useState([]);
+  const [lastLineItemNum, setLastLineItemNum] = useState(0);
+  const [createdRollNo, setCreatedRollNo] = useState(0);
+
+  const [isCreateMode, setIsCreateMode] = useState(false);
+  const [enteredLineItemValues, setEnteredLineItemValues] = useState([]);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,6 +37,13 @@ const PartyDetailPage = () => {
           res.data[0].lineItemValues.forEach((p) => {
             newArr.push(p.columnName);
           });
+
+          let sortedArr = res.data.sort(function (a, b) {
+            return parseFloat(b.lineItemNum) - parseFloat(a.lineItemNum);
+          });
+
+          setLastLineItemNum(sortedArr[0].lineItemNum + 1);
+          setCreatedRollNo(sortedArr[0].lineItemNum + 1);
         }
         setLineItemHeaders(newArr);
       })
@@ -55,6 +67,13 @@ const PartyDetailPage = () => {
           });
         });
         setPartyMainValues([...copyMainValues]);
+
+        data?.enteredValues?.forEach((x) => {
+          setEnteredLineItemValues((oldState) => [
+            ...oldState,
+            { ...x, value: "" },
+          ]);
+        });
       })
       .catch((err) => {
         toast.error(Texts.partyDetailsError);
@@ -110,8 +129,6 @@ const PartyDetailPage = () => {
   );
   const partyLineItemsData = useSelector((state) => state.party.lineItemsData);
 
-  console.log(partyLineItemsData);
-
   useEffect(() => {
     fetchPartyDetails();
     fetchSelectedPartyLineItems();
@@ -128,6 +145,14 @@ const PartyDetailPage = () => {
             to="/barcode/parties"
           >
             {Texts.backToParties}
+          </Button>
+
+          <Button
+            variant={"link"}
+            className="float-right"
+            style={{ color: "#7c4dff" }}
+          >
+            Excel Dosyası Oluştur
           </Button>
         </Col>
       </Row>
@@ -286,13 +311,97 @@ const PartyDetailPage = () => {
                   <thead>
                     <tr>
                       <th>{Texts.rollNo}</th>
-                      {lineItemHeaders.map((p) => {
-                        return <th>{p.toUpperCase()}</th>;
+                      {lineItemHeaders.map((p, i) => {
+                        return <th key={i}>{p.toUpperCase()}</th>;
                       })}
-                      <th>{Texts.operations}</th>
+                      <th>
+                        {Texts.operations}
+                        <CustomButton
+                          className="float-right"
+                          style={{
+                            padding: 0,
+                            color: "#7c4dff",
+                            fontWeight: "bold",
+                            display: isCreateMode && "none",
+                          }}
+                          variant="link"
+                          onClick={() => setIsCreateMode(true)}
+                        >
+                          Yeni Kayıt
+                        </CustomButton>
+                        <div className="clearfix"></div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
+                    {isCreateMode && (
+                      <tr>
+                        <td>
+                          <Form.Control
+                            type="number"
+                            value={createdRollNo}
+                            onChange={(e) => {
+                              setCreatedRollNo(e.target.value);
+                            }}
+                          />
+                        </td>
+                        {lineItemHeaders.map((p, i) => {
+                          let enteredValue = partyData.enteredValues.find(
+                            (x) => x.columnName === p
+                          );
+
+                          if (enteredValue) {
+                            return (
+                              <td key={i}>
+                                <Form.Control
+                                  placeholder={p.toUpperCase()}
+                                  type="number"
+                                  value={
+                                    enteredLineItemValues.find(
+                                      (x) => x.id === enteredValue.id
+                                    ).value
+                                  }
+                                  onChange={(e) => {
+                                    let newArr = [...enteredLineItemValues];
+                                    newArr.find(
+                                      (x) => x.id === enteredValue.id
+                                    ).value = e.target.value;
+                                    setEnteredLineItemValues([...newArr]);
+                                  }}
+                                />
+                              </td>
+                            );
+                          } else {
+                            return (
+                              <td key={i}>
+                                <Form.Control
+                                  placeholder={p.toUpperCase()}
+                                  type="number"
+                                  disabled
+                                />
+                              </td>
+                            );
+                          }
+                        })}
+
+                        <td style={{ textAlign: "center" }}>
+                          <CustomButton variant="link">Kaydet</CustomButton>
+                          <CustomButton
+                            variant="link"
+                            style={{ color: "red" }}
+                            onClick={() => {
+                              setIsCreateMode(false);
+                              setCreatedRollNo(lastLineItemNum);
+                              enteredLineItemValues.forEach((x) => {
+                                x.value = "";
+                              });
+                            }}
+                          >
+                            İptal
+                          </CustomButton>
+                        </td>
+                      </tr>
+                    )}
                     {partyLineItemsData?.data?.map((item, index) => (
                       <tr key={index}>
                         <td>{item.lineItemNum}</td>
@@ -300,10 +409,6 @@ const PartyDetailPage = () => {
                           <td key={i}>{p.value}</td>
                         ))}
                         <td style={{ textAlign: "center" }}>
-                          <CustomButton style={{ color: "red" }} variant="link">
-                            {Texts.delete}
-                          </CustomButton>
-
                           <CustomButton
                             as={Link}
                             variant="link"
@@ -312,6 +417,9 @@ const PartyDetailPage = () => {
                             target="_blank"
                           >
                             {Texts.openBarcode}
+                          </CustomButton>
+                          <CustomButton style={{ color: "red" }} variant="link">
+                            {Texts.delete}
                           </CustomButton>
                         </td>
                       </tr>

@@ -44,7 +44,7 @@ const endpoints = {
           template_img: "https://i.hizliresim.com/itfc8ab.png",
           mainValues: [
             {
-              id: 1,
+              id: 1, // id in PartyMainValues table
               columnName: "supp",
               value: "FIRATEKS TEKSTİL KONF. SAN.TİC.LTD.ŞTİ",
             },
@@ -82,6 +82,12 @@ const endpoints = {
               id: 8,
               columnName: "width",
               value: "150CM",
+            },
+          ],
+          enteredValues: [
+            {
+              id: 1, // id in TemplateValues table
+              columnName: "net mt",
             },
           ],
         });

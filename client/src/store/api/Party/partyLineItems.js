@@ -4,7 +4,7 @@ const endpoints = {
       setTimeout(() => {
         console.log(partyId);
         resolve({
-          total: 3,
+          total: 12,
           data: [
             {
               id: 1,
