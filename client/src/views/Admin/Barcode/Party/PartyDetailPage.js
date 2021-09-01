@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, Pagination, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,7 +11,12 @@ import {
   fetchParty,
   updateParty,
 } from "../../../../store/actions/Party/party";
-import { fetchPartyLineItems } from "../../../../store/actions/Party/partyLineItems";
+import {
+  createExcelFile,
+  createPartyLineItem,
+  deletePartyLineItem,
+  fetchPartyLineItems,
+} from "../../../../store/actions/Party/partyLineItems";
 
 const PartyDetailPage = () => {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -19,6 +24,20 @@ const PartyDetailPage = () => {
   const [divisionNum, setDivisionNum] = useState();
   const [additionNum, setAdditionNum] = useState();
   const [lineItemHeaders, setLineItemHeaders] = useState([]);
+  const [lastLineItemNum, setLastLineItemNum] = useState(0);
+  const [createdRollNo, setCreatedRollNo] = useState(0);
+
+  const [isCreateMode, setIsCreateMode] = useState(false);
+  const [enteredLineItemValues, setEnteredLineItemValues] = useState([]);
+
+  const [lastlyDeletedLineItemId, setLastlyDeletedLineItemId] = useState();
+
+  const [activePage, setActivePage] = useState(1);
+  const [paginationItems, setPaginationItems] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [partyLineItemsDataPagination, setPartyLineItemsDataPagination] =
+    useState();
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,8 +51,39 @@ const PartyDetailPage = () => {
           res.data[0].lineItemValues.forEach((p) => {
             newArr.push(p.columnName);
           });
+
+          let sortedArr = res.data.sort(function (a, b) {
+            return parseFloat(b.lineItemNum) - parseFloat(a.lineItemNum);
+          });
+
+          setLastLineItemNum(sortedArr[0].lineItemNum + 1);
+          setCreatedRollNo(sortedArr[0].lineItemNum + 1);
         }
         setLineItemHeaders(newArr);
+
+        let itemCount = res.data.length;
+        let pageCount = 1;
+        if (itemCount % perPage !== 0) {
+          pageCount = parseInt(itemCount / perPage) + 1;
+        } else {
+          pageCount = parseInt(itemCount / perPage);
+        }
+
+        setPageCount(pageCount);
+
+        let items = [];
+        for (let number = 1; number <= pageCount; number++) {
+          items.push(
+            <Pagination.Item
+              id={number + "-page"}
+              key={number}
+              onClick={() => setActivePage(number)}
+            >
+              {number}
+            </Pagination.Item>
+          );
+        }
+        setPaginationItems([...items]);
       })
       .catch((err) => {
         toast.error(Texts.partyLineItemsError);
@@ -55,6 +105,13 @@ const PartyDetailPage = () => {
           });
         });
         setPartyMainValues([...copyMainValues]);
+
+        data?.enteredValues?.forEach((x) => {
+          setEnteredLineItemValues((oldState) => [
+            ...oldState,
+            { ...x, value: "" },
+          ]);
+        });
       })
       .catch((err) => {
         toast.error(Texts.partyDetailsError);
@@ -62,6 +119,11 @@ const PartyDetailPage = () => {
   };
 
   const updateSelectedParty = () => {
+    if (!divisionNum || !additionNum) {
+      toast.error(Texts.fillBlanks);
+      return;
+    }
+
     let newData = {
       mainValues: partyMainValues,
       id: partyData.id,
@@ -74,6 +136,7 @@ const PartyDetailPage = () => {
         toast.success(Texts.partyUpdateSuccess);
         setIsEditMode(false);
         fetchPartyDetails();
+        fetchSelectedPartyLineItems();
       })
       .catch((err) => {
         toast.error(Texts.partyUpdateError);
@@ -94,6 +157,77 @@ const PartyDetailPage = () => {
     }
   };
 
+  const deleteSelectedPartyLineItem = (id) => {
+    setLastlyDeletedLineItemId(id);
+    dispatch(deletePartyLineItem(id))
+      .then(() => {
+        toast.success(Texts.partyLineItemDeleteSuccess);
+        fetchSelectedPartyLineItems();
+        setActivePage(1);
+      })
+      .catch((err) => {
+        toast.error(Texts.partyLineItemDeleteError);
+      });
+  };
+
+  const createPartyExcel = () => {
+    dispatch(createExcelFile(id))
+      .then((data) => {
+        var a = document.getElementById("excelDownload");
+        a.href = data.file;
+        a.target = "_blank";
+        a.click();
+      })
+      .catch((err) => {
+        toast.error(Texts.createExcelFileError);
+      });
+  };
+
+  const createNewLineItem = () => {
+    let isEmpty = false;
+
+    if (!createdRollNo) {
+      isEmpty = true;
+    }
+
+    enteredLineItemValues.forEach((x) => {
+      if (!x.value) {
+        isEmpty = true;
+      }
+      return;
+    });
+
+    if (isEmpty) {
+      toast.error(Texts.fillBlanks);
+      return;
+    }
+
+    let data = {
+      partyId: id,
+      rollNo: createdRollNo,
+      enteredLineItemValues,
+    };
+
+    dispatch(createPartyLineItem(data))
+      .then(() => {
+        toast.success(Texts.createPartyLineItemSuccess);
+        fetchSelectedPartyLineItems();
+        setIsCreateMode(false);
+        setEnteredLineItemValues([]);
+
+        partyData?.enteredValues?.forEach((x) => {
+          setEnteredLineItemValues((oldState) => [
+            ...oldState,
+            { ...x, value: "" },
+          ]);
+        });
+        setActivePage(1);
+      })
+      .catch((err) => {
+        toast.error(Texts.createPartyLineItemError);
+      });
+  };
+
   const partyLoading = useSelector((state) => state.party.fetchLoading);
   const partyLoaded = useSelector((state) => state.party.fetchLoaded);
   const partyData = useSelector((state) => state.party.fetchData);
@@ -109,15 +243,57 @@ const PartyDetailPage = () => {
   );
   const partyLineItemsData = useSelector((state) => state.party.lineItemsData);
 
-  console.log(partyLineItemsData);
+  const partyLineItemDeleteLoading = useSelector(
+    (state) => state.party.lineItemDeleteLoading
+  );
+
+  const createExcelFileLoading = useSelector(
+    (state) => state.party.createExcelFileLoading
+  );
+
+  const partyLineItemCreateLoading = useSelector(
+    (state) => state.party.lineItemCreateLoading
+  );
 
   useEffect(() => {
     fetchPartyDetails();
     fetchSelectedPartyLineItems();
   }, []);
 
+  useEffect(() => {
+    paginationItems.forEach((x) => {
+      var element = document.getElementById(x.key + "-page")?.parentElement;
+      element?.classList.remove("active");
+
+      if (parseInt(x.key) === parseInt(activePage)) {
+        var parent = document.getElementById(x.key + "-page")?.parentElement;
+        parent?.classList.add("active");
+      }
+    });
+
+    if (partyLineItemsData?.data) {
+      let mainValues = [...partyLineItemsData?.data];
+      let copyMainValues = [];
+
+      mainValues.forEach((p) => {
+        copyMainValues.push({
+          ...p,
+        });
+      });
+      var rangeValues = copyMainValues.slice(
+        (activePage - 1) * perPage,
+        activePage * perPage
+      );
+      setPartyLineItemsDataPagination([...rangeValues]);
+    }
+  }, [activePage, paginationItems, partyLineItemsData, perPage]);
+
   return (
     <React.Fragment>
+      <a href="/" style={{ display: "none" }} id="excelDownload" download>
+        excelDownload
+      </a>
+
       <Row>
         <Col md="12">
           <Button
@@ -128,24 +304,33 @@ const PartyDetailPage = () => {
           >
             {Texts.backToParties}
           </Button>
+
+          <CustomButton
+            variant={"link"}
+            className="float-right"
+            style={{ color: "#7c4dff" }}
+            onClick={createPartyExcel}
+            loading={createExcelFileLoading}
+          >
+            {Texts.createExcelFile}
+          </CustomButton>
         </Col>
       </Row>
 
       <div style={{ height: 20 }}></div>
 
       <div>
-        <Row>
-          <Col md="12" lg="6">
-            {partyLoading && !partyLoaded ? (
-              <CustomSpinner />
-            ) : (
-              <div className="card">
-                <img
-                  src={partyData?.template_img}
-                  className="card-img-top"
-                  alt="template_img"
-                  style={{ borderBottom: "1px dashed black" }}
-                />
+        {partyLoading && !partyLoaded ? (
+          <CustomSpinner />
+        ) : (
+          <Row>
+            <Col lg="9">
+              <div
+                className="card"
+                style={{
+                  height: "100%",
+                }}
+              >
                 <div className="card-body">
                   <div>
                     <h4 style={{ display: "inline" }} className="card-title">
@@ -260,36 +445,136 @@ const PartyDetailPage = () => {
                   </CustomButton>
                 </div>
               </div>
-            )}
-          </Col>
+            </Col>
 
-          <Col md="12" lg="6">
+            <Col lg="3">
+              <img
+                src={partyData?.template_img}
+                className="card-img-top"
+                alt="template_img"
+                style={{
+                  borderBottom: "1px dashed black",
+                  maxHeight: "100%",
+                }}
+              />
+            </Col>
+          </Row>
+        )}
+
+        <Row>
+          <Col md="12">
             {partyLineItemsLoading && !partyLineItemsLoaded ? (
               <CustomSpinner />
             ) : (
-              <div style={{ height: 670, overflowY: "scroll" }}>
+              <div style={{ marginTop: 20 }}>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>{Texts.rollNo}</th>
-                      {lineItemHeaders.map((p) => {
-                        return <th>{p.toUpperCase()}</th>;
+                      {lineItemHeaders.map((p, i) => {
+                        return <th key={i}>{p.toUpperCase()}</th>;
                       })}
-                      <th>{Texts.operations}</th>
+                      <th>
+                        {Texts.operations}
+                        <CustomButton
+                          className="float-right"
+                          style={{
+                            padding: 0,
+                            color: "#7c4dff",
+                            fontWeight: "bold",
+                            display: isCreateMode && "none",
+                          }}
+                          variant="link"
+                          onClick={() => setIsCreateMode(true)}
+                        >
+                          {Texts.newRecord}
+                        </CustomButton>
+                        <div className="clearfix"></div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {partyLineItemsData?.data?.map((item, index) => (
+                    {isCreateMode && (
+                      <tr>
+                        <td>
+                          <Form.Control
+                            type="number"
+                            value={createdRollNo}
+                            onChange={(e) => {
+                              setCreatedRollNo(e.target.value);
+                            }}
+                          />
+                        </td>
+                        {lineItemHeaders.map((p, i) => {
+                          let enteredValue = partyData.enteredValues.find(
+                            (x) => x.columnName === p
+                          );
+
+                          if (enteredValue) {
+                            return (
+                              <td key={i}>
+                                <Form.Control
+                                  placeholder={p.toUpperCase()}
+                                  type="number"
+                                  value={
+                                    enteredLineItemValues.find(
+                                      (x) => x.id === enteredValue.id
+                                    ).value
+                                  }
+                                  onChange={(e) => {
+                                    let newArr = [...enteredLineItemValues];
+                                    newArr.find(
+                                      (x) => x.id === enteredValue.id
+                                    ).value = e.target.value;
+                                    setEnteredLineItemValues([...newArr]);
+                                  }}
+                                />
+                              </td>
+                            );
+                          } else {
+                            return (
+                              <td key={i}>
+                                <Form.Control
+                                  placeholder={p.toUpperCase()}
+                                  type="number"
+                                  disabled
+                                />
+                              </td>
+                            );
+                          }
+                        })}
+
+                        <td style={{ textAlign: "center" }}>
+                          <CustomButton
+                            variant="link"
+                            onClick={createNewLineItem}
+                            loading={partyLineItemCreateLoading}
+                          >
+                            {Texts.save}
+                          </CustomButton>
+                          <CustomButton
+                            variant="link"
+                            style={{ color: "red" }}
+                            onClick={() => {
+                              setIsCreateMode(false);
+                              setCreatedRollNo(lastLineItemNum);
+                              enteredLineItemValues.forEach((x) => {
+                                x.value = "";
+                              });
+                            }}
+                          >
+                            {Texts.cancel}
+                          </CustomButton>
+                        </td>
+                      </tr>
+                    )}
+                    {partyLineItemsDataPagination?.map((item, index) => (
                       <tr key={index}>
                         <td>{item.lineItemNum}</td>
                         {item.lineItemValues.map((p, i) => (
                           <td key={i}>{p.value}</td>
                         ))}
-                        <td>
-                          <CustomButton style={{ color: "red" }} variant="link">
-                            {Texts.delete}
-                          </CustomButton>
-
+                        <td style={{ textAlign: "center" }}>
                           <CustomButton
                             as={Link}
                             variant="link"
@@ -299,11 +584,40 @@ const PartyDetailPage = () => {
                           >
                             {Texts.openBarcode}
                           </CustomButton>
+                          <CustomButton
+                            style={{ color: "red" }}
+                            variant="link"
+                            onClick={() => deleteSelectedPartyLineItem(item.id)}
+                            loading={
+                              lastlyDeletedLineItemId === item.id
+                                ? partyLineItemDeleteLoading
+                                : false
+                            }
+                          >
+                            {Texts.delete}
+                          </CustomButton>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
+
+                <Pagination className="float-right">
+                  <Pagination.First onClick={() => setActivePage(1)} />
+                  <Pagination.Prev
+                    onClick={() =>
+                      activePage > 1 && setActivePage(activePage - 1)
+                    }
+                  />
+                  {paginationItems}
+                  <Pagination.Next
+                    onClick={() =>
+                      activePage < pageCount && setActivePage(activePage + 1)
+                    }
+                  />
+                  <Pagination.Last onClick={() => setActivePage(pageCount)} />
+                </Pagination>
+                <div className="clearfix"></div>
               </div>
             )}
           </Col>

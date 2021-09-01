@@ -4,7 +4,7 @@ const endpoints = {
       setTimeout(() => {
         console.log(partyId);
         resolve({
-          total: 3,
+          total: 12,
           data: [
             {
               id: 1,
@@ -331,6 +331,36 @@ const endpoints = {
               ],
             },
           ],
+        });
+      }, 1000);
+    }),
+
+  deletePartyLineItem: (id) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(id);
+        resolve({
+          message: "The party item successfully deleted!",
+        });
+      }, 1000);
+    }),
+
+  createExcelFile: (id) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(id);
+        resolve({
+          file: "https://i.hizliresim.com/itfc8ab.png",
+        });
+      }, 1000);
+    }),
+
+  createPartyLineItem: (data) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(data);
+        resolve({
+          message: "Party Item successfully created!",
         });
       }, 1000);
     }),

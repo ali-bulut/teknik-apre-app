@@ -37,4 +37,13 @@ export default {
   partyLineItemsError: "Partinin itemleri yüklenemedi!",
   openBarcode: "Barkodu Aç",
   rollNo: "Roll No",
+  partyLineItemDeleteSuccess: "Parti item başarıyla silindi!",
+  partyLineItemDeleteError: "Parti item silinirken bir hata oluştu!",
+  createExcelFileError: "Excel dosyası oluşturulurken bir hata meydana geldi!",
+  createPartyLineItemError:
+    "Yeni parti item oluşturulurken bir hata meydana geldi!",
+  createPartyLineItemSuccess: "Yeni parti item başarıyla oluşturuldu!",
+  createExcelFile: "Excel Dosyası Oluştur",
+  newRecord: "Yeni Kayıt",
+  fillBlanks: "Lütfen gerekli alanları doldurunuz",
 };

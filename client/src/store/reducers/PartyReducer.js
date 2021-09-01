@@ -14,6 +14,15 @@ import {
   PARTY_LINE_ITEMS_FETCHING,
   PARTY_LINE_ITEMS_FETCHED,
   PARTY_LINE_ITEMS_FETCH_HAS_ERROR,
+  PARTY_LINE_ITEM_DELETING,
+  PARTY_LINE_ITEM_DELETED,
+  PARTY_LINE_ITEM_DELETE_HAS_ERROR,
+  EXCEL_FILE_CREATING,
+  EXCEL_FILE_CREATED,
+  EXCEL_FILE_CREATE_HAS_ERROR,
+  PARTY_LINE_ITEM_CREATING,
+  PARTY_LINE_ITEM_CREATED,
+  PARTY_LINE_ITEM_CREATE_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -39,6 +48,18 @@ const INITIAL_STATE = {
   lineItemsLoading: false,
   lineItemsLoaded: false,
   lineItemsData: {},
+
+  lineItemDeleteError: null,
+  lineItemDeleteLoading: false,
+  lineItemDeleteData: {},
+
+  createExcelFileError: null,
+  createExcelFileLoading: false,
+  createExcelFileData: {},
+
+  lineItemCreateError: null,
+  lineItemCreateLoading: false,
+  lineItemCreateData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
@@ -164,6 +185,75 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         lineItemsLoading: false,
         lineItemsLoaded: false,
         lineItemsError: action.payload,
+      };
+    }
+
+    case PARTY_LINE_ITEM_DELETING: {
+      return {
+        ...state,
+        lineItemDeleteLoading: true,
+        lineItemDeleteError: null,
+      };
+    }
+    case PARTY_LINE_ITEM_DELETED: {
+      return {
+        ...state,
+        lineItemDeleteLoading: false,
+        lineItemDeleteError: null,
+        lineItemDeleteData: action.payload.deleteData,
+      };
+    }
+    case PARTY_LINE_ITEM_DELETE_HAS_ERROR: {
+      return {
+        ...state,
+        lineItemDeleteLoading: false,
+        lineItemDeleteError: action.payload,
+      };
+    }
+
+    case EXCEL_FILE_CREATING: {
+      return {
+        ...state,
+        createExcelFileLoading: true,
+        createExcelFileError: null,
+      };
+    }
+    case EXCEL_FILE_CREATED: {
+      return {
+        ...state,
+        createExcelFileLoading: false,
+        createExcelFileError: null,
+        createExcelFileData: action.payload.excelFileData,
+      };
+    }
+    case EXCEL_FILE_CREATE_HAS_ERROR: {
+      return {
+        ...state,
+        createExcelFileLoading: false,
+        createExcelFileError: action.payload,
+      };
+    }
+
+    case PARTY_LINE_ITEM_CREATING: {
+      return {
+        ...state,
+        lineItemCreateLoading: true,
+        lineItemCreateError: null,
+      };
+    }
+    case PARTY_LINE_ITEM_CREATED: {
+      return {
+        ...state,
+        lineItemCreateLoading: false,
+        lineItemCreateError: null,
+        lineItemCreateData: action.payload.createData,
+      };
+    }
+    case PARTY_LINE_ITEM_CREATE_HAS_ERROR: {
+      return {
+        ...state,
+        lineItemCreateLoading: false,
+        lineItemCreateError: action.payload,
       };
     }
 
