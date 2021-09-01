@@ -40,4 +40,7 @@ export default {
   partyLineItemDeleteSuccess: "Parti item başarıyla silindi!",
   partyLineItemDeleteError: "Parti item silinirken bir hata oluştu!",
   createExcelFileError: "Excel dosyası oluşturulurken bir hata meydana geldi!",
+  createPartyLineItemError:
+    "Yeni parti item oluşturulurken bir hata meydana geldi!",
+  createPartyLineItemSuccess: "Yeni parti item başarıyla oluşturuldu!",
 };

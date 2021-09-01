@@ -13,6 +13,7 @@ import {
 } from "../../../../store/actions/Party/party";
 import {
   createExcelFile,
+  createPartyLineItem,
   deletePartyLineItem,
   fetchPartyLineItems,
 } from "../../../../store/actions/Party/partyLineItems";
@@ -145,6 +146,32 @@ const PartyDetailPage = () => {
       });
   };
 
+  const createNewLineItem = () => {
+    let data = {
+      partyId: id,
+      rollNo: createdRollNo,
+      enteredLineItemValues,
+    };
+
+    dispatch(createPartyLineItem(data))
+      .then(() => {
+        toast.success(Texts.createPartyLineItemSuccess);
+        fetchSelectedPartyLineItems();
+        setIsCreateMode(false);
+        setEnteredLineItemValues([]);
+
+        partyData?.enteredValues?.forEach((x) => {
+          setEnteredLineItemValues((oldState) => [
+            ...oldState,
+            { ...x, value: "" },
+          ]);
+        });
+      })
+      .catch((err) => {
+        toast.error(Texts.createPartyLineItemError);
+      });
+  };
+
   const partyLoading = useSelector((state) => state.party.fetchLoading);
   const partyLoaded = useSelector((state) => state.party.fetchLoaded);
   const partyData = useSelector((state) => state.party.fetchData);
@@ -166,6 +193,10 @@ const PartyDetailPage = () => {
 
   const createExcelFileLoading = useSelector(
     (state) => state.party.createExcelFileLoading
+  );
+
+  const partyLineItemCreateLoading = useSelector(
+    (state) => state.party.lineItemCreateLoading
   );
 
   useEffect(() => {
@@ -430,7 +461,13 @@ const PartyDetailPage = () => {
                         })}
 
                         <td style={{ textAlign: "center" }}>
-                          <CustomButton variant="link">Kaydet</CustomButton>
+                          <CustomButton
+                            variant="link"
+                            onClick={createNewLineItem}
+                            loading={partyLineItemCreateLoading}
+                          >
+                            Kaydet
+                          </CustomButton>
                           <CustomButton
                             variant="link"
                             style={{ color: "red" }}
