@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, Pagination, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -32,6 +32,13 @@ const PartyDetailPage = () => {
 
   const [lastlyDeletedLineItemId, setLastlyDeletedLineItemId] = useState();
 
+  const [activePage, setActivePage] = useState(1);
+  const [paginationItems, setPaginationItems] = useState([]);
+  const [pageCount, setPageCount] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [partyLineItemsDataPagination, setPartyLineItemsDataPagination] =
+    useState();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -53,6 +60,30 @@ const PartyDetailPage = () => {
           setCreatedRollNo(sortedArr[0].lineItemNum + 1);
         }
         setLineItemHeaders(newArr);
+
+        let itemCount = res.data.length;
+        let pageCount = 1;
+        if (itemCount % perPage !== 0) {
+          pageCount = parseInt(itemCount / perPage) + 1;
+        } else {
+          pageCount = parseInt(itemCount / perPage);
+        }
+
+        setPageCount(pageCount);
+
+        let items = [];
+        for (let number = 1; number <= pageCount; number++) {
+          items.push(
+            <Pagination.Item
+              id={number + "-page"}
+              key={number}
+              onClick={() => setActivePage(number)}
+            >
+              {number}
+            </Pagination.Item>
+          );
+        }
+        setPaginationItems([...items]);
       })
       .catch((err) => {
         toast.error(Texts.partyLineItemsError);
@@ -132,6 +163,7 @@ const PartyDetailPage = () => {
       .then(() => {
         toast.success(Texts.partyLineItemDeleteSuccess);
         fetchSelectedPartyLineItems();
+        setActivePage(1);
       })
       .catch((err) => {
         toast.error(Texts.partyLineItemDeleteError);
@@ -189,6 +221,7 @@ const PartyDetailPage = () => {
             { ...x, value: "" },
           ]);
         });
+        setActivePage(1);
       })
       .catch((err) => {
         toast.error(Texts.createPartyLineItemError);
@@ -226,6 +259,34 @@ const PartyDetailPage = () => {
     fetchPartyDetails();
     fetchSelectedPartyLineItems();
   }, []);
+
+  useEffect(() => {
+    paginationItems.forEach((x) => {
+      var element = document.getElementById(x.key + "-page")?.parentElement;
+      element?.classList.remove("active");
+
+      if (parseInt(x.key) === parseInt(activePage)) {
+        var parent = document.getElementById(x.key + "-page")?.parentElement;
+        parent?.classList.add("active");
+      }
+    });
+
+    if (partyLineItemsData?.data) {
+      let mainValues = [...partyLineItemsData?.data];
+      let copyMainValues = [];
+
+      mainValues.forEach((p) => {
+        copyMainValues.push({
+          ...p,
+        });
+      });
+      var rangeValues = copyMainValues.slice(
+        (activePage - 1) * perPage,
+        activePage * perPage
+      );
+      setPartyLineItemsDataPagination([...rangeValues]);
+    }
+  }, [activePage, paginationItems, partyLineItemsData, perPage]);
 
   return (
     <React.Fragment>
@@ -507,7 +568,7 @@ const PartyDetailPage = () => {
                         </td>
                       </tr>
                     )}
-                    {partyLineItemsData?.data?.map((item, index) => (
+                    {partyLineItemsDataPagination?.map((item, index) => (
                       <tr key={index}>
                         <td>{item.lineItemNum}</td>
                         {item.lineItemValues.map((p, i) => (
@@ -540,6 +601,23 @@ const PartyDetailPage = () => {
                     ))}
                   </tbody>
                 </Table>
+
+                <Pagination className="float-right">
+                  <Pagination.First onClick={() => setActivePage(1)} />
+                  <Pagination.Prev
+                    onClick={() =>
+                      activePage > 1 && setActivePage(activePage - 1)
+                    }
+                  />
+                  {paginationItems}
+                  <Pagination.Next
+                    onClick={() =>
+                      activePage < pageCount && setActivePage(activePage + 1)
+                    }
+                  />
+                  <Pagination.Last onClick={() => setActivePage(pageCount)} />
+                </Pagination>
+                <div className="clearfix"></div>
               </div>
             )}
           </Col>
