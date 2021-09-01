@@ -74,6 +74,7 @@ const PartyDetailPage = () => {
         toast.success(Texts.partyUpdateSuccess);
         setIsEditMode(false);
         fetchPartyDetails();
+        fetchSelectedPartyLineItems();
       })
       .catch((err) => {
         toast.error(Texts.partyUpdateError);
@@ -134,18 +135,17 @@ const PartyDetailPage = () => {
       <div style={{ height: 20 }}></div>
 
       <div>
-        <Row>
-          <Col md="12" lg="6">
-            {partyLoading && !partyLoaded ? (
-              <CustomSpinner />
-            ) : (
-              <div className="card">
-                <img
-                  src={partyData?.template_img}
-                  className="card-img-top"
-                  alt="template_img"
-                  style={{ borderBottom: "1px dashed black" }}
-                />
+        {partyLoading && !partyLoaded ? (
+          <CustomSpinner />
+        ) : (
+          <Row style={{ border: "1px dashed grey", padding: 10, margin: 0 }}>
+            <Col lg="9">
+              <div
+                className="card"
+                style={{
+                  height: "100%",
+                }}
+              >
                 <div className="card-body">
                   <div>
                     <h4 style={{ display: "inline" }} className="card-title">
@@ -260,14 +260,28 @@ const PartyDetailPage = () => {
                   </CustomButton>
                 </div>
               </div>
-            )}
-          </Col>
+            </Col>
 
-          <Col md="12" lg="6">
+            <Col lg="3">
+              <img
+                src={partyData?.template_img}
+                className="card-img-top"
+                alt="template_img"
+                style={{
+                  borderBottom: "1px dashed black",
+                  maxHeight: "100%",
+                }}
+              />
+            </Col>
+          </Row>
+        )}
+
+        <Row>
+          <Col md="12">
             {partyLineItemsLoading && !partyLineItemsLoaded ? (
               <CustomSpinner />
             ) : (
-              <div style={{ height: 670, overflowY: "scroll" }}>
+              <div style={{ marginTop: 20 }}>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -285,7 +299,7 @@ const PartyDetailPage = () => {
                         {item.lineItemValues.map((p, i) => (
                           <td key={i}>{p.value}</td>
                         ))}
-                        <td>
+                        <td style={{ textAlign: "center" }}>
                           <CustomButton style={{ color: "red" }} variant="link">
                             {Texts.delete}
                           </CustomButton>
