@@ -43,4 +43,6 @@ export default {
   createPartyLineItemError:
     "Yeni parti item oluşturulurken bir hata meydana geldi!",
   createPartyLineItemSuccess: "Yeni parti item başarıyla oluşturuldu!",
+  createExcelFile: "Excel Dosyası Oluştur",
+  newRecord: "Yeni Kayıt",
 };

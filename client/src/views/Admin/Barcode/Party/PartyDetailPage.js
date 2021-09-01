@@ -228,7 +228,7 @@ const PartyDetailPage = () => {
             onClick={createPartyExcel}
             loading={createExcelFileLoading}
           >
-            Excel Dosyası Oluştur
+            {Texts.createExcelFile}
           </CustomButton>
         </Col>
       </Row>
@@ -403,7 +403,7 @@ const PartyDetailPage = () => {
                           variant="link"
                           onClick={() => setIsCreateMode(true)}
                         >
-                          Yeni Kayıt
+                          {Texts.newRecord}
                         </CustomButton>
                         <div className="clearfix"></div>
                       </th>
@@ -466,7 +466,7 @@ const PartyDetailPage = () => {
                             onClick={createNewLineItem}
                             loading={partyLineItemCreateLoading}
                           >
-                            Kaydet
+                            {Texts.save}
                           </CustomButton>
                           <CustomButton
                             variant="link"
@@ -479,7 +479,7 @@ const PartyDetailPage = () => {
                               });
                             }}
                           >
-                            İptal
+                            {Texts.cancel}
                           </CustomButton>
                         </td>
                       </tr>
