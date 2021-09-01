@@ -354,6 +354,16 @@ const endpoints = {
         });
       }, 1000);
     }),
+
+  createPartyLineItem: (data) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(data);
+        resolve({
+          message: "Party Item successfully created!",
+        });
+      }, 1000);
+    }),
 };
 
 export default endpoints;

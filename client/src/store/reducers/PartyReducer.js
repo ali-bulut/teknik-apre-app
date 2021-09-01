@@ -20,6 +20,9 @@ import {
   EXCEL_FILE_CREATING,
   EXCEL_FILE_CREATED,
   EXCEL_FILE_CREATE_HAS_ERROR,
+  PARTY_LINE_ITEM_CREATING,
+  PARTY_LINE_ITEM_CREATED,
+  PARTY_LINE_ITEM_CREATE_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -53,6 +56,10 @@ const INITIAL_STATE = {
   createExcelFileError: null,
   createExcelFileLoading: false,
   createExcelFileData: {},
+
+  lineItemCreateError: null,
+  lineItemCreateLoading: false,
+  lineItemCreateData: {},
 };
 
 const reducer = (state = INITIAL_STATE, action = {}) => {
@@ -224,6 +231,29 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         createExcelFileLoading: false,
         createExcelFileError: action.payload,
+      };
+    }
+
+    case PARTY_LINE_ITEM_CREATING: {
+      return {
+        ...state,
+        lineItemCreateLoading: true,
+        lineItemCreateError: null,
+      };
+    }
+    case PARTY_LINE_ITEM_CREATED: {
+      return {
+        ...state,
+        lineItemCreateLoading: false,
+        lineItemCreateError: null,
+        lineItemCreateData: action.payload.createData,
+      };
+    }
+    case PARTY_LINE_ITEM_CREATE_HAS_ERROR: {
+      return {
+        ...state,
+        lineItemCreateLoading: false,
+        lineItemCreateError: action.payload,
       };
     }
 

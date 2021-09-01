@@ -8,6 +8,9 @@ import {
   EXCEL_FILE_CREATING,
   EXCEL_FILE_CREATED,
   EXCEL_FILE_CREATE_HAS_ERROR,
+  PARTY_LINE_ITEM_CREATING,
+  PARTY_LINE_ITEM_CREATED,
+  PARTY_LINE_ITEM_CREATE_HAS_ERROR,
 } from "../../types";
 
 import api from "../../api/Party/partyLineItems";
@@ -60,6 +63,22 @@ const excelFileCreateHasError = (data) => ({
   payload: data.message,
 });
 
+const partyLineItemCreating = () => ({
+  type: PARTY_LINE_ITEM_CREATING,
+});
+
+const partyLineItemCreated = (data) => ({
+  type: PARTY_LINE_ITEM_CREATED,
+  payload: {
+    createData: data.message,
+  },
+});
+
+const partyLineItemCreateHasError = (data) => ({
+  type: PARTY_LINE_ITEM_CREATE_HAS_ERROR,
+  payload: data.message,
+});
+
 export const fetchPartyLineItems = (partyId) => (dispatch) =>
   new Promise(function (resolve, reject) {
     dispatch(partyLineItemsFetching());
@@ -104,6 +123,22 @@ export const createExcelFile = (id) => (dispatch) =>
       })
       .catch((err) => {
         dispatch(excelFileCreateHasError(err));
+        reject(err);
+      });
+  });
+
+export const createPartyLineItem = (data) => (dispatch) =>
+  new Promise(function (resolve, reject) {
+    dispatch(partyLineItemCreating());
+
+    api
+      .createPartyLineItem(data)
+      .then((data) => {
+        dispatch(partyLineItemCreated(data));
+        resolve(data);
+      })
+      .catch((err) => {
+        dispatch(partyLineItemCreateHasError(err));
         reject(err);
       });
   });
