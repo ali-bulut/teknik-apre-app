@@ -323,7 +323,7 @@ const PartyDetailPage = () => {
         {partyLoading && !partyLoaded ? (
           <CustomSpinner />
         ) : (
-          <Row style={{ border: "1px dashed grey", padding: 10, margin: 0 }}>
+          <Row>
             <Col lg="9">
               <div
                 className="card"
