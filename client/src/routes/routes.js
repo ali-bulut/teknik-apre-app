@@ -9,6 +9,7 @@ import HomePage from "../views/Home/HomePage";
 import AdminHomePage from "../views/Admin/AdminHomePage";
 import PartiesPage from "../views/Admin/Barcode/Party/PartiesPage";
 import PartyDetailPage from "../views/Admin/Barcode/Party/PartyDetailPage";
+import CreatePartyPage from "../views/Admin/Barcode/Party/CreatePartyPage";
 
 const isAdminSite = getSubDomain() === RolesPrefix.admin;
 
@@ -40,6 +41,14 @@ export default [
     roles: [RolesPrefix.admin],
     allowedSubdomains: [RolesPrefix.admin],
     component: () => <PartiesPage />,
+  },
+  {
+    path: "/barcode/parties/create",
+    public: false,
+    exact: true,
+    roles: [RolesPrefix.admin],
+    allowedSubdomains: [RolesPrefix.admin],
+    component: () => <CreatePartyPage />,
   },
   {
     path: "/barcode/parties/:id",

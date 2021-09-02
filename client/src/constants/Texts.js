@@ -46,4 +46,5 @@ export default {
   createExcelFile: "Excel Dosyası Oluştur",
   newRecord: "Yeni Kayıt",
   fillBlanks: "Lütfen gerekli alanları doldurunuz",
+  fetchBarcodeTemplatesError: "Barkod şablonları yüklenemedi!",
 };
