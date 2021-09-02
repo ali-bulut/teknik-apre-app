@@ -209,7 +209,7 @@ const PartyDetailPage = () => {
     };
 
     dispatch(createPartyLineItem(data))
-      .then(() => {
+      .then((res) => {
         toast.success(Texts.createPartyLineItemSuccess);
         fetchSelectedPartyLineItems();
         setIsCreateMode(false);
@@ -222,6 +222,8 @@ const PartyDetailPage = () => {
           ]);
         });
         setActivePage(1);
+
+        window.open(res.htmlPath, "_blank");
       })
       .catch((err) => {
         toast.error(Texts.createPartyLineItemError);

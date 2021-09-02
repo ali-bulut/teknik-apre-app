@@ -361,6 +361,7 @@ const endpoints = {
         console.log(data);
         resolve({
           message: "Party Item successfully created!",
+          htmlPath: "https://i.hizliresim.com/itfc8ab.png",
         });
       }, 1000);
     }),
