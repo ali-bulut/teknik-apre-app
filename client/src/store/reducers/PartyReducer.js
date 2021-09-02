@@ -23,6 +23,9 @@ import {
   PARTY_LINE_ITEM_CREATING,
   PARTY_LINE_ITEM_CREATED,
   PARTY_LINE_ITEM_CREATE_HAS_ERROR,
+  PARTY_CREATING,
+  PARTY_CREATED,
+  PARTY_CREATE_HAS_ERROR,
 } from "../types";
 
 const INITIAL_STATE = {
@@ -43,6 +46,10 @@ const INITIAL_STATE = {
   deleteError: null,
   deleteLoading: false,
   deleteData: {},
+
+  createError: null,
+  createLoading: false,
+  createData: {},
 
   lineItemsError: null,
   lineItemsLoading: false,
@@ -159,6 +166,29 @@ const reducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         deleteLoading: false,
         deleteError: action.payload,
+      };
+    }
+
+    case PARTY_CREATING: {
+      return {
+        ...state,
+        createLoading: true,
+        createError: null,
+      };
+    }
+    case PARTY_CREATED: {
+      return {
+        ...state,
+        createLoading: false,
+        createError: null,
+        createData: action.payload.createData,
+      };
+    }
+    case PARTY_CREATE_HAS_ERROR: {
+      return {
+        ...state,
+        createLoading: false,
+        createError: action.payload,
       };
     }
 

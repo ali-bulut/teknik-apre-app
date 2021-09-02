@@ -113,6 +113,16 @@ const endpoints = {
         });
       }, 1000);
     }),
+
+  createParty: (data) =>
+    new Promise(async function (resolve, reject) {
+      setTimeout(() => {
+        console.log(data);
+        resolve({
+          message: "The party successfully created!",
+        });
+      }, 1000);
+    }),
 };
 
 export default endpoints;

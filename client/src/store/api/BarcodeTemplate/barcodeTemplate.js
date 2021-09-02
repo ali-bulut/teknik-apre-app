@@ -5,8 +5,8 @@ const endpoints = {
         resolve([
           {
             templateId: 1,
-            templateName: "DefaultTemplate",
-            templateDesc: "Barkod için varsayılan şablon",
+            templateName: "Şablon-1",
+            templateDesc: "Varsayılan şablon",
             templateImage: "https://i.hizliresim.com/itfc8ab.png",
             staticTemplateValues: [
               {
@@ -45,8 +45,8 @@ const endpoints = {
           },
           {
             templateId: 2,
-            templateName: "TemplateWithWidth",
-            templateDesc: "Barkod için el ile en girilebilen şablon",
+            templateName: "Şablon-2",
+            templateDesc: "El ile en girilebilen şablon",
             templateImage: "https://i.hizliresim.com/qxbvncs.png",
             staticTemplateValues: [
               {

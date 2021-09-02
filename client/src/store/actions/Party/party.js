@@ -11,6 +11,9 @@ import {
   PARTY_DELETING,
   PARTY_DELETED,
   PARTY_DELETE_HAS_ERROR,
+  PARTY_CREATING,
+  PARTY_CREATED,
+  PARTY_CREATE_HAS_ERROR,
 } from "../../types";
 
 import api from "../../api/Party/party";
@@ -79,6 +82,22 @@ export const partyDeleteHasError = (data) => ({
   payload: data.message,
 });
 
+export const partyCreating = () => ({
+  type: PARTY_CREATING,
+});
+
+export const partyCreated = (data) => ({
+  type: PARTY_CREATED,
+  payload: {
+    createData: data.message,
+  },
+});
+
+export const partyCreateHasError = (data) => ({
+  type: PARTY_CREATE_HAS_ERROR,
+  payload: data.message,
+});
+
 export const fetchParties = (data) => (dispatch) =>
   new Promise(function (resolve, reject) {
     dispatch(partiesFetching());
@@ -139,6 +158,22 @@ export const deleteParty = (id) => (dispatch) =>
       })
       .catch((err) => {
         dispatch(partyDeleteHasError(err));
+        reject(err);
+      });
+  });
+
+export const createParty = (data) => (dispatch) =>
+  new Promise(function (resolve, reject) {
+    dispatch(partyCreating());
+
+    api
+      .createParty(data)
+      .then((data) => {
+        dispatch(partyCreated(data));
+        resolve(data);
+      })
+      .catch((err) => {
+        dispatch(partyCreateHasError(err));
         reject(err);
       });
   });
