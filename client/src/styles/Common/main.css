@@ -111,6 +111,10 @@
   padding-right: 15px;
 }
 
+.nav-item.dropdown.navbar-link-container-active {
+  border-radius: 7px;
+}
+
 .max-width-100 {
   max-width: 100% !important;
 }
