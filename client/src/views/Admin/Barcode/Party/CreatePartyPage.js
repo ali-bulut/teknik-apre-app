@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Texts from "../../../../constants/Texts";
@@ -9,11 +9,11 @@ import { fetchTemplatesData } from "../../../../store/actions/BarcodeTemplate/ba
 const CreatePartyPage = () => {
   const dispatch = useDispatch();
 
-  const fetchAllBarcodeTemplates = () => {
+  const fetchAllBarcodeTemplates = useCallback(() => {
     dispatch(fetchTemplatesData()).catch((err) => {
       toast.error(Texts.fetchBarcodeTemplatesError);
     });
-  };
+  }, [dispatch]);
 
   const barcodeTemplatesLoading = useSelector(
     (state) => state.barcodeTemplate.fetchAllLoading
@@ -25,7 +25,7 @@ const CreatePartyPage = () => {
 
   useEffect(() => {
     fetchAllBarcodeTemplates();
-  }, []);
+  }, [fetchAllBarcodeTemplates]);
 
   if (barcodeTemplatesLoading && !barcodeTemplatesLoaded) {
     return <CustomSpinner />;
