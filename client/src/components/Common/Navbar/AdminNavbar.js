@@ -1,6 +1,7 @@
 import React from "react";
-import { Nav, NavDropdown } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Texts from "../../../constants/Texts";
 
 const AdminNavbar = (props) => {
   return (
@@ -14,7 +15,7 @@ const AdminNavbar = (props) => {
         title={
           <div className="navbar-link-container">
             <i className="material-icons navbar-icon">qr_code_scanner</i>
-            <span className="main-navbar-link">Barkod</span>
+            <span className="main-navbar-link">{Texts.barcode}</span>
           </div>
         }
         id="collasible-nav-dropdown"
@@ -29,7 +30,7 @@ const AdminNavbar = (props) => {
         >
           <div className="navbar-link-container">
             <i className="material-icons navbar-icon">article</i>
-            <span className="main-navbar-link">Partiler</span>
+            <span className="main-navbar-link">{Texts.parties}</span>
           </div>
         </NavDropdown.Item>
         <NavDropdown.Item
@@ -39,10 +40,11 @@ const AdminNavbar = (props) => {
           }
           as={Link}
           to="/barcode/templates"
+          disabled
         >
           <div className="navbar-link-container">
             <i className="material-icons navbar-icon">view_compact</i>
-            <span className="main-navbar-link">Şablonlar</span>
+            <span className="main-navbar-link">{Texts.templates}</span>
           </div>
         </NavDropdown.Item>
       </NavDropdown>

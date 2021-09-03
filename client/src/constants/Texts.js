@@ -65,4 +65,6 @@ export default {
     "Seçeceğiniz şablonda gross kg yoksa boş bırakabilirsiniz.",
   chooseTemplate: "Şablon Seçimi",
   enter: "giriniz...",
+  barcode: "Barkod",
+  templates: "Şablonlar",
 };

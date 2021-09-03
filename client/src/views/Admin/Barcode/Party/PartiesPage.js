@@ -1,52 +1,22 @@
-import React, { useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import React from "react";
 
 import CustomTable from "../../../../components/Common/CustomTable";
+import HeaderContent from "../../../../components/Common/HeaderContent";
 import Texts from "../../../../constants/Texts";
-import { fetchParties } from "../../../../store/actions/Party/party";
 import { columns } from "../../../../util/DataTable/PartiesTableColumns";
 
+import { useFetchParties } from "../../../../hooks/Admin/Barcode/Party/PartiesPageHooks";
+
 const PartiesPage = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [refreshTable, setRefreshTable] = useState(false);
-
-  const onRowClick = (data) => {
-    history.push("/barcode/parties/" + data.id);
-  };
-
-  const fetchData = async (data) => {
-    try {
-      const responseData = await dispatch(fetchParties(data));
-      return responseData;
-    } catch (err) {
-      toast.error(Texts.partiesFetchError);
-    }
-    return null;
-  };
+  const { refreshTable, setRefreshTable, onRowClick, fetchData } =
+    useFetchParties();
 
   return (
     <React.Fragment>
-      <Row>
-        <Col md="12">
-          <Button
-            variant={null}
-            style={{
-              backgroundColor: "slateblue",
-              color: "white",
-              borderRadius: 5,
-            }}
-            className="float-left"
-            as={Link}
-            to="/barcode/parties/create"
-          >
-            {Texts.createParty}
-          </Button>
-        </Col>
-      </Row>
+      <HeaderContent
+        buttonText={Texts.createParty}
+        to="/barcode/parties/create"
+      />
 
       <CustomTable
         onRowClick={onRowClick}
