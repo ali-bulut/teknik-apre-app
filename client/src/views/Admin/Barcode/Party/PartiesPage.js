@@ -1,32 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 import CustomTable from "../../../../components/Common/CustomTable";
 import Texts from "../../../../constants/Texts";
-import { fetchParties } from "../../../../store/actions/Party/party";
+import { useFetchParties } from "../../../../hooks/Admin/Barcode/Party/PartiesPageHooks";
 import { columns } from "../../../../util/DataTable/PartiesTableColumns";
 
 const PartiesPage = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [refreshTable, setRefreshTable] = useState(false);
-
-  const onRowClick = (data) => {
-    history.push("/barcode/parties/" + data.id);
-  };
-
-  const fetchData = async (data) => {
-    try {
-      const responseData = await dispatch(fetchParties(data));
-      return responseData;
-    } catch (err) {
-      toast.error(Texts.partiesFetchError);
-    }
-    return null;
-  };
+  const { refreshTable, setRefreshTable, onRowClick, fetchData } =
+    useFetchParties();
 
   return (
     <React.Fragment>

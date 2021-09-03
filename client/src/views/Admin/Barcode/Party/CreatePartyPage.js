@@ -8,7 +8,7 @@ import CustomButton from "../../../../components/Common/CustomButton";
 import {
   useCreateNewParty,
   useFetchBarcodeTemplatesData,
-} from "../../../../hooks/CreatePartyPageHooks";
+} from "../../../../hooks/Admin/Barcode/Party/CreatePartyPageHooks";
 
 const CreatePartyPage = () => {
   const {

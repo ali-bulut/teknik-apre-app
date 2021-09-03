@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
-import { fetchTemplatesData } from "../store/actions/BarcodeTemplate/barcodeTemplate";
-import { createParty } from "../store/actions/Party/party";
-import Texts from "../constants/Texts";
+import { fetchTemplatesData } from "../../../../store/actions/BarcodeTemplate/barcodeTemplate";
+import { createParty } from "../../../../store/actions/Party/party";
+import Texts from "../../../../constants/Texts";
 
 export function useFetchBarcodeTemplatesData() {
   const [createdTemplateValuesData, setCreatedTemplateValuesData] = useState(
