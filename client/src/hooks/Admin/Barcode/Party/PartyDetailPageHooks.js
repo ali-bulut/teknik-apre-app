@@ -245,10 +245,7 @@ export function usePartyOperations({
   const createPartyExcel = () => {
     dispatch(createExcelFile(id))
       .then((data) => {
-        var a = document.getElementById("excelDownload");
-        a.href = data.file;
-        a.target = "_blank";
-        a.click();
+        window.open(data.file, "_blank");
       })
       .catch((err) => {
         toast.error(Texts.createExcelFileError);

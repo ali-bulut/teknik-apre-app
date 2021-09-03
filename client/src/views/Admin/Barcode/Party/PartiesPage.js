@@ -1,11 +1,11 @@
 import React from "react";
-import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 import CustomTable from "../../../../components/Common/CustomTable";
+import HeaderContent from "../../../../components/Common/HeaderContent";
 import Texts from "../../../../constants/Texts";
-import { useFetchParties } from "../../../../hooks/Admin/Barcode/Party/PartiesPageHooks";
 import { columns } from "../../../../util/DataTable/PartiesTableColumns";
+
+import { useFetchParties } from "../../../../hooks/Admin/Barcode/Party/PartiesPageHooks";
 
 const PartiesPage = () => {
   const { refreshTable, setRefreshTable, onRowClick, fetchData } =
@@ -13,23 +13,10 @@ const PartiesPage = () => {
 
   return (
     <React.Fragment>
-      <Row>
-        <Col md="12">
-          <Button
-            variant={null}
-            style={{
-              backgroundColor: "slateblue",
-              color: "white",
-              borderRadius: 5,
-            }}
-            className="float-left"
-            as={Link}
-            to="/barcode/parties/create"
-          >
-            {Texts.createParty}
-          </Button>
-        </Col>
-      </Row>
+      <HeaderContent
+        buttonText={Texts.createParty}
+        to="/barcode/parties/create"
+      />
 
       <CustomTable
         onRowClick={onRowClick}
