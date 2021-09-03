@@ -1,90 +1,30 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Card, Col, Form, Row } from "react-bootstrap";
+
 import Texts from "../../../../constants/Texts";
 import CustomSpinner from "../../../../components/Common/CustomSpinner";
-
-import { fetchTemplatesData } from "../../../../store/actions/BarcodeTemplate/barcodeTemplate";
-import { Card, Col, Form, Row } from "react-bootstrap";
 import CustomButton from "../../../../components/Common/CustomButton";
-import { Link, useHistory } from "react-router-dom";
-import { createParty } from "../../../../store/actions/Party/party";
+import {
+  useCreateNewParty,
+  useFetchBarcodeTemplatesData,
+} from "../../../../hooks/CreatePartyPageHooks";
 
 const CreatePartyPage = () => {
-  const [createdPartyData, setCreatedPartyData] = useState({
-    partyName: "",
-    partyCode: "",
-    netWeightDivisonNum: "",
-    grossWeightAdditionNum: 0,
-    templateId: "",
-  });
+  const {
+    createdTemplateValuesData,
+    setCreatedTemplateValuesData,
+    barcodeTemplatesLoading,
+    barcodeTemplatesLoaded,
+    barcodeTemplatesData,
+  } = useFetchBarcodeTemplatesData();
 
-  const [createdTemplateValuesData, setCreatedTemplateValuesData] = useState(
-    []
-  );
-
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  const fetchAllBarcodeTemplates = useCallback(() => {
-    dispatch(fetchTemplatesData()).catch((err) => {
-      toast.error(Texts.fetchBarcodeTemplatesError);
-    });
-  }, [dispatch]);
-
-  const barcodeTemplatesLoading = useSelector(
-    (state) => state.barcodeTemplate.fetchAllLoading
-  );
-
-  const barcodeTemplatesLoaded = useSelector(
-    (state) => state.barcodeTemplate.fetchAllLoaded
-  );
-
-  const barcodeTemplatesData = useSelector(
-    (state) => state.barcodeTemplate.fetchAllData
-  );
-
-  const createPartyLoading = useSelector((state) => state.party.createLoading);
-
-  const addNewParty = () => {
-    const data = {
-      ...createdPartyData,
-      staticTemplateValues: [...createdTemplateValuesData],
-    };
-
-    let isValid = true;
-
-    for (var key in data) {
-      if (data[key] === null || data[key] === "") {
-        isValid = false;
-        break;
-      }
-    }
-
-    data.staticTemplateValues?.forEach((x) => {
-      if (x.value === null || x.value === "") {
-        isValid = false;
-      }
-    });
-
-    if (!isValid) {
-      toast.error(Texts.fillBlanks);
-      return false;
-    }
-
-    dispatch(createParty(data))
-      .then(() => {
-        toast.success(Texts.partyCreateSuccess);
-        history.push("/barcode/parties");
-      })
-      .catch((err) => {
-        toast.error(Texts.partyCreateError);
-      });
-  };
-
-  useEffect(() => {
-    fetchAllBarcodeTemplates();
-  }, [fetchAllBarcodeTemplates]);
+  const {
+    createdPartyData,
+    setCreatedPartyData,
+    createPartyLoading,
+    addNewParty,
+  } = useCreateNewParty(createdTemplateValuesData);
 
   if (barcodeTemplatesLoading && !barcodeTemplatesLoaded) {
     return <CustomSpinner />;
