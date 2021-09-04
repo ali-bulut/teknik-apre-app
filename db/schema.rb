@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_04_154414) do
+ActiveRecord::Schema.define(version: 2021_09_04_154923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,25 @@ ActiveRecord::Schema.define(version: 2021_09_04_154414) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["template_id"], name: "index_parties_on_template_id"
+  end
+
+  create_table "party_line_item_values", force: :cascade do |t|
+    t.string "value"
+    t.bigint "template_value_id", null: false
+    t.bigint "party_line_item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["party_line_item_id"], name: "index_party_line_item_values_on_party_line_item_id"
+    t.index ["template_value_id"], name: "index_party_line_item_values_on_template_value_id"
+  end
+
+  create_table "party_line_items", force: :cascade do |t|
+    t.integer "line_item_num"
+    t.text "html_path"
+    t.bigint "party_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["party_id"], name: "index_party_line_items_on_party_id"
   end
 
   create_table "party_main_values", force: :cascade do |t|
@@ -88,6 +107,9 @@ ActiveRecord::Schema.define(version: 2021_09_04_154414) do
   end
 
   add_foreign_key "parties", "templates"
+  add_foreign_key "party_line_item_values", "party_line_items"
+  add_foreign_key "party_line_item_values", "template_values"
+  add_foreign_key "party_line_items", "parties"
   add_foreign_key "party_main_values", "parties"
   add_foreign_key "party_main_values", "template_values"
   add_foreign_key "template_values", "templates"
