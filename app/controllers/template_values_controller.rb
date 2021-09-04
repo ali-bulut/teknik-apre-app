@@ -1,5 +1,6 @@
 class TemplateValuesController < ApplicationController
   before_action :set_template_value, only: [:show, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /template_values
   def index
