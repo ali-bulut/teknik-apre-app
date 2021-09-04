@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_04_151451) do
+ActiveRecord::Schema.define(version: 2021_09_04_153254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,25 @@ ActiveRecord::Schema.define(version: 2021_09_04_151451) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
+  end
+
+  create_table "template_values", force: :cascade do |t|
+    t.string "column_name"
+    t.boolean "is_calculated"
+    t.boolean "is_entered"
+    t.bigint "template_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["template_id"], name: "index_template_values_on_template_id"
+  end
+
+  create_table "templates", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "html_path"
+    t.text "image_path"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,4 +66,5 @@ ActiveRecord::Schema.define(version: 2021_09_04_151451) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "template_values", "templates"
 end
