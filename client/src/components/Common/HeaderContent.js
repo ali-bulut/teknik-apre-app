@@ -7,9 +7,15 @@ const HeaderContent = (props) => {
   return (
     <Row>
       <Col md="12">
+        {props.headerTitle && (
+          <span style={{ fontSize: 24, fontWeight: "500" }}>
+            {props.headerTitle}
+          </span>
+        )}
+
         <CustomButton
           variant="link"
-          className="float-left"
+          className={props.className || "float-left"}
           style={{
             color: "#7c4dff",
             borderRadius: 5,

@@ -1,37 +1,33 @@
 const endpoints = {
-  fetchParties: (data) =>
+  fetchParties: () =>
     new Promise(async function (resolve, reject) {
       setTimeout(() => {
-        console.log(data);
-        resolve({
-          total: 3,
-          data: [
-            {
-              id: 1,
-              name: "Black/White",
-              code: "BAW",
-              netWeightDivisionNum: 1.75,
-              grossWeightAdditionNum: 0.6,
-              templateImage: "https://i.hizliresim.com/itfc8ab.png",
-            },
-            {
-              id: 2,
-              name: "Yellow",
-              code: "YLW",
-              netWeightDivisionNum: 1.43,
-              grossWeightAdditionNum: 0.8,
-              templateImage: "https://i.hizliresim.com/itfc8ab.png",
-            },
-            {
-              id: 3,
-              name: "Red",
-              code: "RED",
-              netWeightDivisionNum: 1.87,
-              grossWeightAdditionNum: 0.4,
-              templateImage: "https://i.hizliresim.com/itfc8ab.png",
-            },
-          ],
-        });
+        resolve([
+          {
+            id: 1,
+            name: "Black/White",
+            createdTime: "2021-09-04T16:58:18.353Z",
+            netWeightDivisionNum: 1.75,
+            grossWeightAdditionNum: 0.6,
+            templateImage: "https://i.hizliresim.com/itfc8ab.png",
+          },
+          {
+            id: 2,
+            name: "Yellow",
+            createdTime: "2021-09-04T16:58:18.353Z",
+            netWeightDivisionNum: 1.43,
+            grossWeightAdditionNum: 0.8,
+            templateImage: "https://i.hizliresim.com/itfc8ab.png",
+          },
+          {
+            id: 3,
+            name: "Red",
+            createdTime: "2021-09-04T16:58:18.353Z",
+            netWeightDivisionNum: 1.87,
+            grossWeightAdditionNum: 0.4,
+            templateImage: "https://i.hizliresim.com/itfc8ab.png",
+          },
+        ]);
       }, 1000);
     }),
 

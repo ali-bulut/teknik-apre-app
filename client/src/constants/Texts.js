@@ -51,7 +51,8 @@ export default {
   partyCreateError: "Parti oluşturulurken hata meydana geldi!",
   partyName: "Parti Adı",
   enterPartyName: "Parti adını giriniz...",
-  partyCode: "Parti Kodu (Maks. 5 karakter)",
+  partyCode: "Parti Kodu",
+  maxFiveCharacter: "(Maks. 5 karakter)",
   enterPartyCode: "Parti kodunu giriniz...",
   partyCodeDesc: "Barkod ve excel dosyasında kullanılır.",
   partyCodeExm: "Örn: Kırmızı için KRM",
@@ -67,4 +68,6 @@ export default {
   enter: "giriniz...",
   barcode: "Barkod",
   templates: "Şablonlar",
+  partyList: "Parti Listesi",
+  createdDate: "Oluşturulma Zamanı",
 };

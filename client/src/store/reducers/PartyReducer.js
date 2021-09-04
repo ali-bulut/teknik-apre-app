@@ -32,7 +32,7 @@ const INITIAL_STATE = {
   fetchAllError: null,
   fetchAllLoading: false,
   fetchAllLoaded: false,
-  fetchAllData: {},
+  fetchAllData: [],
 
   fetchError: null,
   fetchLoading: false,

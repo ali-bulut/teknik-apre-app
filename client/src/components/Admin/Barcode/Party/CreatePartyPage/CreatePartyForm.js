@@ -33,7 +33,9 @@ const CreatePartyForm = ({
         </Col>
         <Col md="6">
           <Form.Group className="mb-3">
-            <Form.Label>{Texts.partyCode}</Form.Label>
+            <Form.Label>
+              {Texts.partyCode} {Texts.maxFiveCharacter}
+            </Form.Label>
             <Form.Control
               type="text"
               maxLength="5"
