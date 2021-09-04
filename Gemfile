@@ -44,8 +44,3 @@ gem 'devise_token_auth'
 gem 'rolify'
 
 gem 'active_model_serializers'
-
-gem 'grape'
-gem 'grape_on_rails_routes'
-gem 'grape_devise_token_auth'
-gem 'grape-active_model_serializers'
