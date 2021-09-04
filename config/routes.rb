@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :party_line_items
   resources :party_main_values
   resources :parties
   resources :template_values
