@@ -67,8 +67,8 @@ const PartyDetailCard = ({
                     });
                   });
                   setPartyMainValues([...copyMainValues]);
-                  setAdditionNum(partyData.gross_weight_addition_num);
-                  setDivisionNum(partyData.net_weight_division_num);
+                  setAdditionNum(partyData.grossWeightAdditionNum);
+                  setDivisionNum(partyData.netWeightDivisionNum);
 
                   setIsEditMode(false);
                 }}
@@ -113,7 +113,7 @@ const PartyDetailCard = ({
                   type="number"
                 />
               ) : (
-                <b>{partyData?.net_weight_division_num}</b>
+                <b>{partyData?.netWeightDivisionNum}</b>
               )}
               {"'e "} Bölünecek. Net Kiloya{" "}
               {isEditMode ? (
@@ -123,7 +123,7 @@ const PartyDetailCard = ({
                   type="number"
                 />
               ) : (
-                <b>{partyData?.gross_weight_addition_num}</b>
+                <b>{partyData?.grossWeightAdditionNum}</b>
               )}{" "}
               Eklenecek.
             </small>
@@ -145,9 +145,9 @@ const PartyDetailCard = ({
 
       <Col lg="3">
         <img
-          src={partyData?.template_img}
+          src={partyData?.templateImage}
           className="card-img-top"
-          alt="template_img"
+          alt="templateImage"
           style={{
             borderBottom: "1px dashed black",
             maxHeight: "100%",

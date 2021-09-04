@@ -48,8 +48,8 @@ export function useFetchPartyDetails(id) {
   const fetchPartyDetails = useCallback(() => {
     dispatch(fetchParty(id))
       .then((data) => {
-        setDivisionNum(data.net_weight_division_num);
-        setAdditionNum(data.gross_weight_addition_num);
+        setDivisionNum(data.netWeightDivisionNum);
+        setAdditionNum(data.grossWeightAdditionNum);
         let mainValues = [...data.mainValues];
         let copyMainValues = [];
         mainValues.forEach((p) => {
@@ -213,8 +213,8 @@ export function usePartyOperations({
     let newData = {
       mainValues: partyMainValues,
       id: partyData.id,
-      net_weight_division_num: parseFloat(divisionNum),
-      gross_weight_addition_num: parseFloat(additionNum),
+      netWeightDivisionNum: parseFloat(divisionNum),
+      grossWeightAdditionNum: parseFloat(additionNum),
     };
 
     dispatch(updateParty(newData))

@@ -9,23 +9,26 @@ const endpoints = {
             {
               id: 1,
               name: "Black/White",
-              net_weight_division_num: 1.75,
-              gross_weight_addition_num: 0.6,
-              template_img: "https://i.hizliresim.com/itfc8ab.png",
+              code: "BAW",
+              netWeightDivisionNum: 1.75,
+              grossWeightAdditionNum: 0.6,
+              templateImage: "https://i.hizliresim.com/itfc8ab.png",
             },
             {
               id: 2,
               name: "Yellow",
-              net_weight_division_num: 1.43,
-              gross_weight_addition_num: 0.8,
-              template_img: "https://i.hizliresim.com/itfc8ab.png",
+              code: "YLW",
+              netWeightDivisionNum: 1.43,
+              grossWeightAdditionNum: 0.8,
+              templateImage: "https://i.hizliresim.com/itfc8ab.png",
             },
             {
               id: 3,
               name: "Red",
-              net_weight_division_num: 1.87,
-              gross_weight_addition_num: 0.4,
-              template_img: "https://i.hizliresim.com/itfc8ab.png",
+              code: "RED",
+              netWeightDivisionNum: 1.87,
+              grossWeightAdditionNum: 0.4,
+              templateImage: "https://i.hizliresim.com/itfc8ab.png",
             },
           ],
         });
@@ -39,9 +42,9 @@ const endpoints = {
         resolve({
           id: 1,
           name: "Black/White",
-          net_weight_division_num: 1.75,
-          gross_weight_addition_num: 0.6,
-          template_img: "https://i.hizliresim.com/itfc8ab.png",
+          netWeightDivisionNum: 1.75,
+          grossWeightAdditionNum: 0.6,
+          templateImage: "https://i.hizliresim.com/itfc8ab.png",
           mainValues: [
             {
               id: 1, // id in PartyMainValues table

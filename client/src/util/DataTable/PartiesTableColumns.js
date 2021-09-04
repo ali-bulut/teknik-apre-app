@@ -16,38 +16,36 @@ export const columns = [
     ),
   },
   {
-    name: Texts.net_weight_division_num,
-    selector: "net_weight_division_num",
+    name: Texts.netWeightDivisionNum,
+    selector: "netWeightDivisionNum",
     sortable: true,
     cell: (row) => (
       <div>
         <div>
           <p style={{ margin: 0, fontWeight: "bold" }}>
-            {row.net_weight_division_num ? row.net_weight_division_num : "-"}
+            {row.netWeightDivisionNum ? row.netWeightDivisionNum : "-"}
           </p>
         </div>
       </div>
     ),
   },
   {
-    name: Texts.gross_weight_addition_num,
-    selector: "gross_weight_addition_num",
+    name: Texts.grossWeightAdditionNum,
+    selector: "grossWeightAdditionNum",
     sortable: true,
     cell: (row) => (
       <div>
         <div>
           <p style={{ margin: 0, fontWeight: "bold" }}>
-            {row.gross_weight_addition_num
-              ? row.gross_weight_addition_num
-              : "-"}
+            {row.grossWeightAdditionNum ? row.grossWeightAdditionNum : "-"}
           </p>
         </div>
       </div>
     ),
   },
   {
-    name: Texts.template_img,
-    selector: "template_img",
+    name: Texts.templateImage,
+    selector: "templateImage",
     sortable: true,
     cell: (row) => (
       <div
@@ -62,8 +60,8 @@ export const columns = [
         <div>
           <img
             style={{ width: 200, height: 100 }}
-            src={row.template_img}
-            alt="template_img"
+            src={row.templateImage}
+            alt="templateImage"
           />
         </div>
       </div>
