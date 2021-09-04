@@ -4,12 +4,9 @@ class WebApi::Parties < Grape::API
     # GET /parties
     # ----------------------------------------------------
     desc 'Fetches all parties'
-    get '/' do
+    get '/', each_serializer: WebApi::PartySerializer do
       authenticate_api_web_user!
-      status(200)
-      {
-        'message': 'It is working!'
-      }
+      Party.all
     end
   end
 end

@@ -220,6 +220,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   bootsnap (>= 1.4.2)
   byebug
   devise_token_auth
