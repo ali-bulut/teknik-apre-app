@@ -1,6 +1,6 @@
 class TemplatesController < ApplicationController
   before_action :set_template, only: [:show, :update, :destroy]
-  before_action :authenticate_api_web_user!
+  before_action :authenticate_user!
 
   # GET /templates
   def index

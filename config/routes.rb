@@ -6,12 +6,12 @@ Rails.application.routes.draw do
   resources :template_values
   resources :templates
 
+  mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+    registrations: 'devise_auth/registrations',
+    sessions: 'devise_auth/sessions',
+  }
+
   namespace :api do
-    namespace :web do
-      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-        registrations: 'api/web/users/registrations',
-      }
-    end
     mount ApiRoot => '/'
   end
 end

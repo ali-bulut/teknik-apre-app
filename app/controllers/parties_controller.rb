@@ -1,6 +1,6 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:show, :update, :destroy]
-  before_action :authenticate_api_web_user!
+  before_action :authenticate_user!
 
   # GET /parties
   def index
@@ -40,13 +40,14 @@ class PartiesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_party
-      @party = Party.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def party_params
-      params.require(:party).permit(:name, :code, :net_weight_division_num, :gross_weight_addition_num, :template_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_party
+    @party = Party.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def party_params
+    params.require(:party).permit(:name, :code, :net_weight_division_num, :gross_weight_addition_num, :template_id)
+  end
 end
