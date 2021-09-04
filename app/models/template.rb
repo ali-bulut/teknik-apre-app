@@ -1,4 +1,4 @@
 class Template < ApplicationRecord
-  has_many :template_value
-  has_many :party
+  has_many :template_values
+  has_many :parties
 end
