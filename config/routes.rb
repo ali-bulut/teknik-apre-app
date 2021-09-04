@@ -10,8 +10,4 @@ Rails.application.routes.draw do
     registrations: 'devise_auth/registrations',
     sessions: 'devise_auth/sessions',
   }
-
-  namespace :api do
-    mount ApiRoot => '/'
-  end
 end
