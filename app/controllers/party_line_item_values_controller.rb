@@ -1,5 +1,6 @@
 class PartyLineItemValuesController < ApplicationController
   before_action :set_party_line_item_value, only: [:show, :update, :destroy]
+  before_action :authenticate_api_web_user!
 
   # GET /party_line_item_values
   def index

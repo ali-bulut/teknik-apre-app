@@ -1,5 +1,6 @@
 class PartyMainValuesController < ApplicationController
   before_action :set_party_main_value, only: [:show, :update, :destroy]
+  before_action :authenticate_api_web_user!
 
   # GET /party_main_values
   def index
