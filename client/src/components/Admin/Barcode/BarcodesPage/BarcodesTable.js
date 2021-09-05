@@ -1,11 +1,11 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import Texts from "../../../../../constants/Texts";
-import CustomButton from "../../../../Common/CustomButton";
-import CustomPagination from "../../../../Common/CustomPagination";
+import Texts from "../../../../constants/Texts";
+import CustomButton from "../../../Common/CustomButton";
+import CustomPagination from "../../../Common/CustomPagination";
 
-const PartiesTable = ({
+const BarcodesTable = ({
   paginatedData,
   activePage,
   setActivePage,
@@ -28,10 +28,11 @@ const PartiesTable = ({
         </thead>
 
         <tbody>
-          {paginatedData?.map((x) => (
+          {paginatedData?.map((x, i) => (
             <tr
+              key={i}
               style={{ cursor: "pointer" }}
-              onClick={() => history.push("/barcode/parties/" + x.id)}
+              onClick={() => history.push("/barcodes/" + x.id)}
             >
               <td>{x.name}</td>
               <td>{new Date(x.createdTime).toString().split(" GMT")[0]}</td>
@@ -47,7 +48,7 @@ const PartiesTable = ({
               <td>
                 <CustomButton
                   as={Link}
-                  to={"/barcode/parties/" + x.id}
+                  to={"/barcodes/" + x.id}
                   style={{ color: "#7c4dff" }}
                   variant={null}
                 >
@@ -69,4 +70,4 @@ const PartiesTable = ({
   );
 };
 
-export default PartiesTable;
+export default BarcodesTable;

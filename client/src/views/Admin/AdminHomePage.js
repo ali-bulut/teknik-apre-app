@@ -5,7 +5,7 @@ const AdminHomePage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    history.push("/barcode/parties");
+    history.push("/barcodes");
   }, [history]);
   return <div>Admin Homepage</div>;
 };

@@ -1,31 +1,31 @@
 import React from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
-import Texts from "../../../../../constants/Texts";
-import CustomButton from "../../../../Common/CustomButton";
+import Texts from "../../../../constants/Texts";
+import CustomButton from "../../../Common/CustomButton";
 
-const CreatePartyForm = ({
-  createdPartyData,
-  setCreatedPartyData,
+const CreateBarcodeForm = ({
   barcodeTemplatesData,
   createdTemplateValuesData,
   setCreatedTemplateValuesData,
-  addNewParty,
-  createPartyLoading,
+  createdBarcodeData,
+  setCreatedBarcodeData,
+  addNewBarcode,
+  createBarcodeLoading,
 }) => {
   return (
     <Form>
       <Row className="mt-3">
         <Col md="6">
           <Form.Group className="mb-3">
-            <Form.Label>{Texts.partyName}</Form.Label>
+            <Form.Label>{Texts.barcodeName}</Form.Label>
             <Form.Control
               type="text"
-              placeholder={Texts.enterPartyName}
-              value={createdPartyData?.partyName}
+              placeholder={Texts.enterBarcodeName}
+              value={createdBarcodeData?.barcodeName}
               onChange={(e) =>
-                setCreatedPartyData((oldState) => ({
+                setCreatedBarcodeData((oldState) => ({
                   ...oldState,
-                  partyName: e.target.value,
+                  barcodeName: e.target.value,
                 }))
               }
             />
@@ -34,24 +34,24 @@ const CreatePartyForm = ({
         <Col md="6">
           <Form.Group className="mb-3">
             <Form.Label>
-              {Texts.partyCode} {Texts.maxFiveCharacter}
+              {Texts.barcodeCode} {Texts.maxFiveCharacter}
             </Form.Label>
             <Form.Control
               type="text"
               maxLength="5"
-              placeholder={Texts.enterPartyCode}
-              value={createdPartyData?.partyCode}
+              placeholder={Texts.enterBarcodeCode}
+              value={createdBarcodeData?.barcodeCode}
               onChange={(e) =>
-                setCreatedPartyData((oldState) => ({
+                setCreatedBarcodeData((oldState) => ({
                   ...oldState,
-                  partyCode: e.target.value,
+                  barcodeCode: e.target.value,
                 }))
               }
             />
             <Form.Text className="text-muted">
-              {Texts.partyCodeDesc}{" "}
+              {Texts.barcodeCodeDesc}{" "}
               <b>
-                <i>{Texts.partyCodeExm}</i>
+                <i>{Texts.barcodeCodeExm}</i>
               </b>
             </Form.Text>
           </Form.Group>
@@ -65,9 +65,9 @@ const CreatePartyForm = ({
             <Form.Control
               type="number"
               placeholder={Texts.enterDivisionNumber}
-              value={createdPartyData?.netWeightDivisonNum}
+              value={createdBarcodeData?.netWeightDivisonNum}
               onChange={(e) =>
-                setCreatedPartyData((oldState) => ({
+                setCreatedBarcodeData((oldState) => ({
                   ...oldState,
                   netWeightDivisonNum: e.target.value,
                 }))
@@ -84,9 +84,9 @@ const CreatePartyForm = ({
             <Form.Control
               type="number"
               placeholder={Texts.enterAdditionNumber}
-              value={createdPartyData?.grossWeightAdditionNum}
+              value={createdBarcodeData?.grossWeightAdditionNum}
               onChange={(e) =>
-                setCreatedPartyData((oldState) => ({
+                setCreatedBarcodeData((oldState) => ({
                   ...oldState,
                   grossWeightAdditionNum: e.target.value,
                 }))
@@ -110,7 +110,7 @@ const CreatePartyForm = ({
               <Card
                 key={index}
                 onClick={() => {
-                  setCreatedPartyData((oldState) => ({
+                  setCreatedBarcodeData((oldState) => ({
                     ...oldState,
                     templateId: template.templateId,
                   }));
@@ -129,7 +129,7 @@ const CreatePartyForm = ({
                   marginRight: 10,
                   cursor: "pointer",
                   backgroundColor:
-                    createdPartyData.templateId === template.templateId &&
+                    createdBarcodeData.templateId === template.templateId &&
                     "aquamarine",
                 }}
               >
@@ -149,9 +149,9 @@ const CreatePartyForm = ({
       </Form.Group>
 
       <Row>
-        {createdPartyData.templateId &&
+        {createdBarcodeData.templateId &&
           barcodeTemplatesData
-            ?.find((b) => b.templateId === createdPartyData.templateId)
+            ?.find((b) => b.templateId === createdBarcodeData.templateId)
             ?.staticTemplateValues?.map((p, i) => (
               <Col md="6" key={i}>
                 <Form.Group className="mb-3">
@@ -181,17 +181,17 @@ const CreatePartyForm = ({
               </Col>
             ))}
       </Row>
-      {createdPartyData.templateId && (
+      {createdBarcodeData.templateId && (
         <CustomButton
-          onClick={() => addNewParty()}
+          onClick={() => addNewBarcode()}
           className="float-right mb-3"
-          loading={createPartyLoading}
+          loading={createBarcodeLoading}
         >
-          {Texts.createParty}
+          {Texts.createBarcode}
         </CustomButton>
       )}
     </Form>
   );
 };
 
-export default CreatePartyForm;
+export default CreateBarcodeForm;

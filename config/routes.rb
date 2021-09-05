@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
+  resources :barcode_main_values
+  resources :barcodes do
+    # /barcodes/:id/parties
+    get 'parties', :on => :member
+    
+    # /barcodes/parties
+    # get 'parties', :on => :collection
+  end
   resources :party_line_item_values
   resources :party_line_items
-  resources :party_main_values
   resources :parties
   resources :template_values
   resources :templates
