@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_04_154923) do
+ActiveRecord::Schema.define(version: 2021_09_05_163656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "parties", force: :cascade do |t|
+  create_table "barcode_main_values", force: :cascade do |t|
+    t.string "value"
+    t.bigint "template_value_id", null: false
+    t.bigint "barcode_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["barcode_id"], name: "index_barcode_main_values_on_barcode_id"
+    t.index ["template_value_id"], name: "index_barcode_main_values_on_template_value_id"
+  end
+
+  create_table "barcodes", force: :cascade do |t|
     t.string "name"
     t.string "code"
     t.float "net_weight_division_num"
@@ -23,7 +33,15 @@ ActiveRecord::Schema.define(version: 2021_09_04_154923) do
     t.bigint "template_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["template_id"], name: "index_parties_on_template_id"
+    t.index ["template_id"], name: "index_barcodes_on_template_id"
+  end
+
+  create_table "parties", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "party_num"
+    t.bigint "barcode_id"
+    t.index ["barcode_id"], name: "index_parties_on_barcode_id"
   end
 
   create_table "party_line_item_values", force: :cascade do |t|
@@ -43,16 +61,6 @@ ActiveRecord::Schema.define(version: 2021_09_04_154923) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["party_id"], name: "index_party_line_items_on_party_id"
-  end
-
-  create_table "party_main_values", force: :cascade do |t|
-    t.string "value"
-    t.bigint "template_value_id", null: false
-    t.bigint "party_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["party_id"], name: "index_party_main_values_on_party_id"
-    t.index ["template_value_id"], name: "index_party_main_values_on_template_value_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -106,11 +114,12 @@ ActiveRecord::Schema.define(version: 2021_09_04_154923) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
-  add_foreign_key "parties", "templates"
+  add_foreign_key "barcode_main_values", "barcodes"
+  add_foreign_key "barcode_main_values", "template_values"
+  add_foreign_key "barcodes", "templates"
+  add_foreign_key "parties", "barcodes"
   add_foreign_key "party_line_item_values", "party_line_items"
   add_foreign_key "party_line_item_values", "template_values"
   add_foreign_key "party_line_items", "parties"
-  add_foreign_key "party_main_values", "parties"
-  add_foreign_key "party_main_values", "template_values"
   add_foreign_key "template_values", "templates"
 end

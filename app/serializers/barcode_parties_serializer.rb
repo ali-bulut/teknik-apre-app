@@ -1,4 +1,4 @@
-class PartySerializer < ActiveModel::Serializer
+class BarcodePartiesSerializer < ActiveModel::Serializer
   attributes :id, :partyNum, :createdTime
 
   def partyNum
@@ -8,6 +8,4 @@ class PartySerializer < ActiveModel::Serializer
   def createdTime
     object.created_at
   end
-
 end
-  
