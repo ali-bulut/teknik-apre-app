@@ -1,37 +1,31 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import PartyInfo from "../../../components/Admin/Party/PartyDetailPage/PartyInfo";
 
-import PartyDetailCard from "../../../../components/Admin/Barcode/Party/PartyDetailPage/PartyDetailCard";
-import PartyLineItemsTable from "../../../../components/Admin/Barcode/Party/PartyDetailPage/PartyLineItemsTable";
-import BlankSpace from "../../../../components/Common/BlankSpace";
-import CustomPagination from "../../../../components/Common/CustomPagination";
-import CustomSpinner from "../../../../components/Common/CustomSpinner";
-import HeaderContent from "../../../../components/Common/HeaderContent";
-import Texts from "../../../../constants/Texts";
+import PartyLineItemsTable from "../../../components/Admin/Party/PartyDetailPage/PartyLineItemsTable";
+import BlankSpace from "../../../components/Common/BlankSpace";
+import CustomPagination from "../../../components/Common/CustomPagination";
+import CustomSpinner from "../../../components/Common/CustomSpinner";
+import HeaderContent from "../../../components/Common/HeaderContent";
+import Texts from "../../../constants/Texts";
 
 import {
-  useFetchPartyDetails,
+  useFetchPartyLineItems,
   usePartyLineItemOperations,
   usePartyOperations,
-} from "../../../../hooks/Admin/Barcode/Party/PartyDetailPageHooks";
+} from "../../../hooks/Admin/Party/PartyDetailPageHooks";
 
 const PartyDetailPage = () => {
-  const { id } = useParams();
+  const id = useParams().partyId;
+  const barcodeId = useParams().barcodeId;
 
   const {
-    fetchPartyDetails,
     fetchSelectedPartyLineItems,
     partyLineItemsDataPagination,
     paginationItems,
     activePage,
     setActivePage,
-    divisionNum,
-    setDivisionNum,
-    additionNum,
-    setAdditionNum,
-    partyMainValues,
-    setPartyMainValues,
     enteredLineItemValues,
     setEnteredLineItemValues,
     lineItemHeaders,
@@ -39,29 +33,25 @@ const PartyDetailPage = () => {
     createdRollNo,
     setCreatedRollNo,
     pageCount,
-    partyLoading,
-    partyLoaded,
-    partyData,
     partyLineItemsLoading,
     partyLineItemsLoaded,
-  } = useFetchPartyDetails(id);
+    partyLineItemsData,
+  } = useFetchPartyLineItems(id);
 
   const {
-    isEditMode,
-    setIsEditMode,
-    updateSelectedParty,
     deleteSelectedParty,
     createPartyExcel,
-    partyUpdateLoading,
     partyDeleteLoading,
     createExcelFileLoading,
+    isEditMode,
+    setIsEditMode,
+    setUpdatedPartyNum,
+    updatedPartyNum,
+    partyUpdateLoading,
+    updateSelectedParty,
   } = usePartyOperations({
     id,
-    divisionNum,
-    additionNum,
-    partyMainValues,
-    partyData,
-    fetchPartyDetails,
+    barcodeId,
     fetchSelectedPartyLineItems,
   });
 
@@ -80,40 +70,18 @@ const PartyDetailPage = () => {
     createdRollNo,
     enteredLineItemValues,
     setEnteredLineItemValues,
-    partyData,
+    partyLineItemsData,
   });
 
   return (
     <React.Fragment>
       <HeaderContent
-        buttonText={Texts.backToParties}
-        to="/barcode/parties"
+        buttonText={Texts.backToBarcodePage}
+        to={"/barcodes/" + barcodeId}
         extraButtonText={Texts.createExcelFile}
         onClick={createPartyExcel}
         loading={createExcelFileLoading}
       />
-
-      <BlankSpace />
-
-      {partyLoading && !partyLoaded ? (
-        <CustomSpinner />
-      ) : (
-        <PartyDetailCard
-          partyData={partyData}
-          partyUpdateLoading={partyUpdateLoading}
-          isEditMode={isEditMode}
-          setIsEditMode={setIsEditMode}
-          updateSelectedParty={updateSelectedParty}
-          setPartyMainValues={setPartyMainValues}
-          additionNum={additionNum}
-          setAdditionNum={setAdditionNum}
-          divisionNum={divisionNum}
-          setDivisionNum={setDivisionNum}
-          partyMainValues={partyMainValues}
-          partyDeleteLoading={partyDeleteLoading}
-          deleteSelectedParty={deleteSelectedParty}
-        />
-      )}
 
       <Row>
         <Col md="12">
@@ -121,7 +89,17 @@ const PartyDetailPage = () => {
             <CustomSpinner />
           ) : (
             <div>
-              <BlankSpace />
+              <PartyInfo
+                partyLineItemsData={partyLineItemsData}
+                isEditMode={isEditMode}
+                setIsEditMode={setIsEditMode}
+                updatedPartyNum={updatedPartyNum}
+                setUpdatedPartyNum={setUpdatedPartyNum}
+                partyUpdateLoading={partyUpdateLoading}
+                updateSelectedParty={updateSelectedParty}
+                deleteSelectedParty={deleteSelectedParty}
+                partyDeleteLoading={partyDeleteLoading}
+              />
 
               <PartyLineItemsTable
                 lineItemHeaders={lineItemHeaders}
@@ -129,13 +107,13 @@ const PartyDetailPage = () => {
                 setIsCreateMode={setIsCreateMode}
                 createdRollNo={createdRollNo}
                 setCreatedRollNo={setCreatedRollNo}
-                partyData={partyData}
                 enteredLineItemValues={enteredLineItemValues}
                 setEnteredLineItemValues={setEnteredLineItemValues}
                 createNewLineItem={createNewLineItem}
                 partyLineItemCreateLoading={partyLineItemCreateLoading}
                 lastLineItemNum={lastLineItemNum}
                 partyLineItemsDataPagination={partyLineItemsDataPagination}
+                partyLineItemsData={partyLineItemsData}
                 deleteSelectedPartyLineItem={deleteSelectedPartyLineItem}
                 lastlyDeletedLineItemId={lastlyDeletedLineItemId}
                 partyLineItemDeleteLoading={partyLineItemDeleteLoading}

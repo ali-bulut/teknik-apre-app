@@ -1,22 +1,22 @@
 import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import Texts from "../../../../../constants/Texts";
-import CustomButton from "../../../../Common/CustomButton";
+import Texts from "../../../../constants/Texts";
+import CustomButton from "../../../Common/CustomButton";
 
-const PartyDetailCard = ({
-  partyData,
-  partyUpdateLoading,
+const BarcodeDetailCard = ({
+  barcodeData,
+  barcodeUpdateLoading,
   isEditMode,
   setIsEditMode,
-  updateSelectedParty,
-  setPartyMainValues,
+  updateSelectedBarcode,
+  setBarcodeMainValues,
   additionNum,
   setAdditionNum,
   divisionNum,
   setDivisionNum,
-  partyMainValues,
-  partyDeleteLoading,
-  deleteSelectedParty,
+  barcodeMainValues,
+  barcodeDeleteLoading,
+  deleteSelectedBarcode,
 }) => {
   return (
     <Row>
@@ -30,18 +30,18 @@ const PartyDetailCard = ({
           <div className="card-body">
             <div>
               <h4 style={{ display: "inline" }} className="card-title">
-                {partyData?.name}
+                {barcodeData?.name}
               </h4>
               <CustomButton
                 style={{ position: "relative", bottom: 6 }}
                 className="float-right"
                 variant="link"
-                loading={partyUpdateLoading}
+                loading={barcodeUpdateLoading}
                 onClick={() => {
                   if (!isEditMode) {
                     setIsEditMode(true);
                   } else {
-                    updateSelectedParty();
+                    updateSelectedBarcode();
                   }
                 }}
               >
@@ -58,7 +58,7 @@ const PartyDetailCard = ({
                 className="float-right"
                 variant="link"
                 onClick={() => {
-                  let mainValues = [...partyData.mainValues];
+                  let mainValues = [...barcodeData.mainValues];
                   let copyMainValues = [];
                   mainValues.forEach((p) => {
                     copyMainValues.push({
@@ -66,9 +66,9 @@ const PartyDetailCard = ({
                       value: p.value,
                     });
                   });
-                  setPartyMainValues([...copyMainValues]);
-                  setAdditionNum(partyData.grossWeightAdditionNum);
-                  setDivisionNum(partyData.netWeightDivisionNum);
+                  setBarcodeMainValues([...copyMainValues]);
+                  setAdditionNum(barcodeData.grossWeightAdditionNum);
+                  setDivisionNum(barcodeData.netWeightDivisionNum);
 
                   setIsEditMode(false);
                 }}
@@ -80,7 +80,7 @@ const PartyDetailCard = ({
             <div className="clearfix"></div>
 
             <Row>
-              {partyMainValues?.map((p, i) => {
+              {barcodeMainValues?.map((p, i) => {
                 return (
                   <Col key={i} md="6" style={{ marginBottom: 5 }}>
                     <b>{p.columnName.toUpperCase()}:</b>
@@ -92,9 +92,9 @@ const PartyDetailCard = ({
                         type="text"
                         value={p.value}
                         onChange={(e) => {
-                          const copyMainValues = [...partyMainValues];
+                          const copyMainValues = [...barcodeMainValues];
                           copyMainValues[i].value = e.target.value;
-                          setPartyMainValues(copyMainValues);
+                          setBarcodeMainValues(copyMainValues);
                         }}
                       />
                     )}
@@ -113,7 +113,7 @@ const PartyDetailCard = ({
                   type="number"
                 />
               ) : (
-                <b>{partyData?.netWeightDivisionNum}</b>
+                <b>{barcodeData?.netWeightDivisionNum}</b>
               )}
               {"'e "} Bölünecek. Net Kiloya{" "}
               {isEditMode ? (
@@ -123,7 +123,7 @@ const PartyDetailCard = ({
                   type="number"
                 />
               ) : (
-                <b>{partyData?.grossWeightAdditionNum}</b>
+                <b>{barcodeData?.grossWeightAdditionNum}</b>
               )}{" "}
               Eklenecek.
             </small>
@@ -132,12 +132,12 @@ const PartyDetailCard = ({
               style={{ padding: 0, color: "red" }}
               className="float-right"
               variant="link"
-              loading={partyDeleteLoading}
+              loading={barcodeDeleteLoading}
               onClick={() => {
-                deleteSelectedParty();
+                deleteSelectedBarcode();
               }}
             >
-              {Texts.deleteParty}
+              {Texts.deleteBarcode}
             </CustomButton>
           </div>
         </div>
@@ -145,7 +145,7 @@ const PartyDetailCard = ({
 
       <Col lg="3">
         <img
-          src={partyData?.templateImage}
+          src={barcodeData?.templateImage}
           className="card-img-top"
           alt="templateImage"
           style={{
@@ -158,4 +158,4 @@ const PartyDetailCard = ({
   );
 };
 
-export default PartyDetailCard;
+export default BarcodeDetailCard;

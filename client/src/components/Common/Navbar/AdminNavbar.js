@@ -8,8 +8,8 @@ const AdminNavbar = (props) => {
     <React.Fragment>
       <NavDropdown
         className={
-          (props.pathName === "/barcode/parties" ||
-            props.pathName === "/barcode/templates") &&
+          (props.pathName === "/barcodes" ||
+            props.pathName === "/barcodes/templates") &&
           "navbar-link-container-active"
         }
         title={
@@ -22,15 +22,14 @@ const AdminNavbar = (props) => {
       >
         <NavDropdown.Item
           className={
-            props.pathName === "/barcode/parties" &&
-            "navbar-link-container-active"
+            props.pathName === "/barcodes" && "navbar-link-container-active"
           }
           as={Link}
-          to="/barcode/parties"
+          to="/barcodes"
         >
           <div className="navbar-link-container">
             <i className="material-icons navbar-icon">article</i>
-            <span className="main-navbar-link">{Texts.parties}</span>
+            <span className="main-navbar-link">{Texts.barcodes}</span>
           </div>
         </NavDropdown.Item>
         <NavDropdown.Item

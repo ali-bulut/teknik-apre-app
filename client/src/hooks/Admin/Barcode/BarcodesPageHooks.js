@@ -3,20 +3,21 @@ import { Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import Texts from "../../../../constants/Texts";
-import { fetchParties } from "../../../../store/actions/Party/party";
+import Texts from "../../../constants/Texts";
+import { fetchBarcodes } from "../../../store/actions/Barcode/barcode";
 
-export function useFetchParties() {
+export function useFetchBarcodes() {
   const dispatch = useDispatch();
 
   const [paginationItems, setPaginationItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [perPage, setPerPage] = useState(10);
   const [paginatedData, setPaginatedData] = useState();
 
-  const fetchAllParties = useCallback(() => {
-    dispatch(fetchParties())
+  const fetchAllBarcodes = useCallback(() => {
+    dispatch(fetchBarcodes())
       .then((data) => {
         console.log(data.length);
         let itemCount = data.length;
@@ -44,23 +45,19 @@ export function useFetchParties() {
         setPaginationItems([...items]);
       })
       .catch((err) => {
-        toast.error(Texts.partiesFetchError);
+        toast.error(Texts.barcodesFetchError);
       });
   }, [dispatch, perPage]);
 
-  const barcodeTemplatesLoading = useSelector(
-    (state) => state.party.fetchAllLoading
-  );
+  const barcodesLoading = useSelector((state) => state.barcode.fetchAllLoading);
 
-  const barcodeTemplatesLoaded = useSelector(
-    (state) => state.party.fetchAllLoaded
-  );
+  const barcodesLoaded = useSelector((state) => state.barcode.fetchAllLoaded);
 
-  const barcodeTemplatesData = useSelector((state) => state.party.fetchAllData);
+  const barcodesData = useSelector((state) => state.barcode.fetchAllData);
 
   useEffect(() => {
-    fetchAllParties();
-  }, [fetchAllParties]);
+    fetchAllBarcodes();
+  }, [fetchAllBarcodes]);
 
   useEffect(() => {
     paginationItems.forEach((x) => {
@@ -73,8 +70,8 @@ export function useFetchParties() {
       }
     });
 
-    if (barcodeTemplatesData) {
-      let mainValues = [...barcodeTemplatesData];
+    if (barcodesData) {
+      let mainValues = [...barcodesData];
       let copyMainValues = [];
 
       mainValues.forEach((p) => {
@@ -88,11 +85,11 @@ export function useFetchParties() {
       );
       setPaginatedData([...rangeValues]);
     }
-  }, [activePage, paginationItems, barcodeTemplatesData, perPage]);
+  }, [activePage, paginationItems, barcodesData, perPage]);
 
   return {
-    barcodeTemplatesLoading,
-    barcodeTemplatesLoaded,
+    barcodesLoading,
+    barcodesLoaded,
     activePage,
     setActivePage,
     pageCount,

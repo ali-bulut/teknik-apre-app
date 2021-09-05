@@ -3,20 +3,16 @@ import { Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import Texts from "../../../../constants/Texts";
-import {
-  deleteParty,
-  fetchParty,
-  updateParty,
-} from "../../../../store/actions/Party/party";
+import Texts from "../../../constants/Texts";
+import { deleteParty, updateParty } from "../../../store/actions/Party/party";
 import {
   createExcelFile,
   createPartyLineItem,
   deletePartyLineItem,
   fetchPartyLineItems,
-} from "../../../../store/actions/Party/partyLineItems";
+} from "../../../store/actions/Party/partyLineItems";
 
-export function useFetchPartyDetails(id) {
+export function useFetchPartyLineItems(id) {
   const dispatch = useDispatch();
 
   const [partyLineItemsDataPagination, setPartyLineItemsDataPagination] =
@@ -24,18 +20,12 @@ export function useFetchPartyDetails(id) {
   const [paginationItems, setPaginationItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [divisionNum, setDivisionNum] = useState();
-  const [additionNum, setAdditionNum] = useState();
-  const [partyMainValues, setPartyMainValues] = useState([]);
+
   const [enteredLineItemValues, setEnteredLineItemValues] = useState([]);
   const [lineItemHeaders, setLineItemHeaders] = useState([]);
   const [lastLineItemNum, setLastLineItemNum] = useState(0);
   const [createdRollNo, setCreatedRollNo] = useState(0);
   const [pageCount, setPageCount] = useState(1);
-
-  const partyLoading = useSelector((state) => state.party.fetchLoading);
-  const partyLoaded = useSelector((state) => state.party.fetchLoaded);
-  const partyData = useSelector((state) => state.party.fetchData);
 
   const partyLineItemsLoading = useSelector(
     (state) => state.party.lineItemsLoading
@@ -44,35 +34,6 @@ export function useFetchPartyDetails(id) {
     (state) => state.party.lineItemsLoaded
   );
   const partyLineItemsData = useSelector((state) => state.party.lineItemsData);
-
-  const fetchPartyDetails = useCallback(() => {
-    dispatch(fetchParty(id))
-      .then((data) => {
-        setDivisionNum(data.netWeightDivisionNum);
-        setAdditionNum(data.grossWeightAdditionNum);
-        let mainValues = [...data.mainValues];
-        let copyMainValues = [];
-        mainValues.forEach((p) => {
-          copyMainValues.push({
-            id: p.id,
-            columnName: p.columnName,
-            value: p.value,
-          });
-        });
-        setPartyMainValues([...copyMainValues]);
-        setEnteredLineItemValues([]);
-
-        data?.enteredValues?.forEach((x) => {
-          setEnteredLineItemValues((oldState) => [
-            ...oldState,
-            { ...x, value: "" },
-          ]);
-        });
-      })
-      .catch((err) => {
-        toast.error(Texts.partyDetailsError);
-      });
-  }, [dispatch, id]);
 
   const fetchSelectedPartyLineItems = useCallback(() => {
     dispatch(fetchPartyLineItems(id))
@@ -91,6 +52,15 @@ export function useFetchPartyDetails(id) {
           setCreatedRollNo(sortedArr[0].lineItemNum + 1);
         }
         setLineItemHeaders(newArr);
+
+        setEnteredLineItemValues([]);
+
+        res.enteredValues?.forEach((x) => {
+          setEnteredLineItemValues((oldState) => [
+            ...oldState,
+            { ...x, value: "" },
+          ]);
+        });
 
         let itemCount = res.data.length;
         let pageCount = 1;
@@ -122,9 +92,8 @@ export function useFetchPartyDetails(id) {
   }, [dispatch, id, perPage]);
 
   useEffect(() => {
-    fetchPartyDetails();
     fetchSelectedPartyLineItems();
-  }, [fetchPartyDetails, fetchSelectedPartyLineItems]);
+  }, [fetchSelectedPartyLineItems]);
 
   useEffect(() => {
     paginationItems.forEach((x) => {
@@ -155,7 +124,6 @@ export function useFetchPartyDetails(id) {
   }, [activePage, paginationItems, partyLineItemsData, perPage]);
 
   return {
-    fetchPartyDetails,
     fetchSelectedPartyLineItems,
     partyLineItemsDataPagination,
     setPartyLineItemsDataPagination,
@@ -165,12 +133,6 @@ export function useFetchPartyDetails(id) {
     setActivePage,
     perPage,
     setPerPage,
-    divisionNum,
-    setDivisionNum,
-    additionNum,
-    setAdditionNum,
-    partyMainValues,
-    setPartyMainValues,
     enteredLineItemValues,
     setEnteredLineItemValues,
     lineItemHeaders,
@@ -181,9 +143,6 @@ export function useFetchPartyDetails(id) {
     setCreatedRollNo,
     pageCount,
     setPageCount,
-    partyLoading,
-    partyLoaded,
-    partyData,
     partyLineItemsLoading,
     partyLineItemsLoaded,
     partyLineItemsData,
@@ -192,36 +151,24 @@ export function useFetchPartyDetails(id) {
 
 export function usePartyOperations({
   id,
-  divisionNum,
-  additionNum,
-  partyMainValues,
-  partyData,
-  fetchPartyDetails,
+  barcodeId,
   fetchSelectedPartyLineItems,
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [isEditMode, setIsEditMode] = useState(false);
+  const [updatedPartyNum, setUpdatedPartyNum] = useState();
 
   const updateSelectedParty = () => {
-    if (!divisionNum || !additionNum) {
-      toast.error(Texts.fillBlanks);
-      return;
-    }
-
-    let newData = {
-      mainValues: partyMainValues,
-      id: partyData.id,
-      netWeightDivisionNum: parseFloat(divisionNum),
-      grossWeightAdditionNum: parseFloat(additionNum),
+    let data = {
+      partyId: id,
+      updatedPartyNum,
     };
-
-    dispatch(updateParty(newData))
-      .then((data) => {
+    dispatch(updateParty(data))
+      .then(() => {
         toast.success(Texts.partyUpdateSuccess);
         setIsEditMode(false);
-        fetchPartyDetails();
         fetchSelectedPartyLineItems();
       })
       .catch((err) => {
@@ -231,9 +178,9 @@ export function usePartyOperations({
 
   const deleteSelectedParty = () => {
     if (window.confirm(Texts.partyDeleteConfirm)) {
-      dispatch(deleteParty(partyData?.id))
+      dispatch(deleteParty(id))
         .then((data) => {
-          history.push("/barcode/parties");
+          history.push("/barcodes/" + barcodeId);
           toast.success(Texts.partyDeleteSuccess);
         })
         .catch((err) => {
@@ -242,6 +189,7 @@ export function usePartyOperations({
     } else {
     }
   };
+
   const createPartyExcel = () => {
     dispatch(createExcelFile(id))
       .then((data) => {
@@ -259,14 +207,16 @@ export function usePartyOperations({
   );
 
   return {
-    isEditMode,
-    setIsEditMode,
-    updateSelectedParty,
     deleteSelectedParty,
     createPartyExcel,
-    partyUpdateLoading,
     partyDeleteLoading,
     createExcelFileLoading,
+    isEditMode,
+    setIsEditMode,
+    updatedPartyNum,
+    setUpdatedPartyNum,
+    updateSelectedParty,
+    partyUpdateLoading,
   };
 }
 
@@ -277,7 +227,7 @@ export function usePartyLineItemOperations({
   createdRollNo,
   enteredLineItemValues,
   setEnteredLineItemValues,
-  partyData,
+  partyLineItemsData,
 }) {
   const dispatch = useDispatch();
 
@@ -304,10 +254,7 @@ export function usePartyLineItemOperations({
       isEmpty = true;
     }
 
-    console.log(createdRollNo);
-
     enteredLineItemValues.forEach((x) => {
-      console.log(x);
       if (!x.value) {
         isEmpty = true;
       }
@@ -332,7 +279,7 @@ export function usePartyLineItemOperations({
         setIsCreateMode(false);
         setEnteredLineItemValues([]);
 
-        partyData?.enteredValues?.forEach((x) => {
+        partyLineItemsData?.enteredValues?.forEach((x) => {
           setEnteredLineItemValues((oldState) => [
             ...oldState,
             { ...x, value: "" },

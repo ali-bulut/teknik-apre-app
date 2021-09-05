@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 
-import { fetchTemplatesData } from "../../../../store/actions/BarcodeTemplate/barcodeTemplate";
-import { createParty } from "../../../../store/actions/Party/party";
-import Texts from "../../../../constants/Texts";
+import { fetchTemplatesData } from "../../../store/actions/BarcodeTemplate/barcodeTemplate";
+import Texts from "../../../constants/Texts";
+import { createBarcode } from "../../../store/actions/Barcode/barcode";
 
 export function useFetchBarcodeTemplatesData() {
   const [createdTemplateValuesData, setCreatedTemplateValuesData] = useState(
@@ -45,10 +45,10 @@ export function useFetchBarcodeTemplatesData() {
   };
 }
 
-export function useCreateNewParty(createdTemplateValuesData) {
-  const [createdPartyData, setCreatedPartyData] = useState({
-    partyName: "",
-    partyCode: "",
+export function useCreateNewBarcode(createdTemplateValuesData) {
+  const [createdBarcodeData, setCreatedBarcodeData] = useState({
+    barcodeName: "",
+    barcodeCode: "",
     netWeightDivisonNum: "",
     grossWeightAdditionNum: 0,
     templateId: "",
@@ -57,11 +57,13 @@ export function useCreateNewParty(createdTemplateValuesData) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const createPartyLoading = useSelector((state) => state.party.createLoading);
+  const createBarcodeLoading = useSelector(
+    (state) => state.barcode.createLoading
+  );
 
-  const addNewParty = () => {
+  const addNewBarcode = () => {
     const data = {
-      ...createdPartyData,
+      ...createdBarcodeData,
       staticTemplateValues: [...createdTemplateValuesData],
     };
 
@@ -85,20 +87,20 @@ export function useCreateNewParty(createdTemplateValuesData) {
       return false;
     }
 
-    dispatch(createParty(data))
+    dispatch(createBarcode(data))
       .then(() => {
-        toast.success(Texts.partyCreateSuccess);
-        history.push("/barcode/parties");
+        toast.success(Texts.barcodeCreateSuccess);
+        history.push("/barcodes");
       })
       .catch((err) => {
-        toast.error(Texts.partyCreateError);
+        toast.error(Texts.barcodeCreateError);
       });
   };
 
   return {
-    createdPartyData,
-    setCreatedPartyData,
-    createPartyLoading,
-    addNewParty,
+    createdBarcodeData,
+    setCreatedBarcodeData,
+    createBarcodeLoading,
+    addNewBarcode,
   };
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Texts from "../../../../../constants/Texts";
-import CustomButton from "../../../../Common/CustomButton";
+import Texts from "../../../../constants/Texts";
+import CustomButton from "../../../Common/CustomButton";
 
 const PartyLineItemsTable = ({
   lineItemHeaders,
@@ -10,7 +10,7 @@ const PartyLineItemsTable = ({
   setIsCreateMode,
   createdRollNo,
   setCreatedRollNo,
-  partyData,
+  partyLineItemsData,
   enteredLineItemValues,
   setEnteredLineItemValues,
   createNewLineItem,
@@ -61,7 +61,7 @@ const PartyLineItemsTable = ({
               />
             </td>
             {lineItemHeaders.map((p, i) => {
-              let enteredValue = partyData.enteredValues.find(
+              let enteredValue = partyLineItemsData.enteredValues.find(
                 (x) => x.columnName === p
               );
 

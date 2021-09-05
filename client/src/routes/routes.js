@@ -7,9 +7,10 @@ import { getSubDomain } from "../helpers/RouteRedirection";
 import RolesPrefix from "../constants/RolesPrefix";
 import HomePage from "../views/Home/HomePage";
 import AdminHomePage from "../views/Admin/AdminHomePage";
-import PartiesPage from "../views/Admin/Barcode/Party/PartiesPage";
-import PartyDetailPage from "../views/Admin/Barcode/Party/PartyDetailPage";
-import CreatePartyPage from "../views/Admin/Barcode/Party/CreatePartyPage";
+import BarcodesPage from "../views/Admin/Barcode/BarcodesPage";
+import BarcodeDetailPage from "../views/Admin/Barcode/BarcodeDetailPage";
+import CreateBarcodePage from "../views/Admin/Barcode/CreateBarcodePage";
+import PartyDetailPage from "../views/Admin/Party/PartyDetailPage";
 
 const isAdminSite = getSubDomain() === RolesPrefix.admin;
 
@@ -35,36 +36,44 @@ export default [
     ),
   },
   {
-    path: "/barcode/parties",
+    path: "/barcodes",
     public: false,
     exact: true,
     roles: [RolesPrefix.admin],
     allowedSubdomains: [RolesPrefix.admin],
-    component: () => <PartiesPage />,
+    component: () => <BarcodesPage />,
   },
   {
-    path: "/barcode/parties/create",
+    path: "/barcodes/create",
     public: false,
     exact: true,
     roles: [RolesPrefix.admin],
     allowedSubdomains: [RolesPrefix.admin],
-    component: () => <CreatePartyPage />,
+    component: () => <CreateBarcodePage />,
   },
   {
-    path: "/barcode/parties/:id",
+    path: "/barcodes/:id",
+    public: false,
+    exact: true,
+    roles: [RolesPrefix.admin],
+    allowedSubdomains: [RolesPrefix.admin],
+    component: () => <BarcodeDetailPage />,
+  },
+  {
+    path: "/barcodes/templates",
+    public: false,
+    exact: true,
+    roles: [RolesPrefix.admin],
+    allowedSubdomains: [RolesPrefix.admin],
+    component: () => <BarcodesPage />,
+  },
+  {
+    path: "/barcodes/:barcodeId/parties/:partyId",
     public: false,
     exact: true,
     roles: [RolesPrefix.admin],
     allowedSubdomains: [RolesPrefix.admin],
     component: () => <PartyDetailPage />,
-  },
-  {
-    path: "/barcode/templates",
-    public: false,
-    exact: true,
-    roles: [RolesPrefix.admin],
-    allowedSubdomains: [RolesPrefix.admin],
-    component: () => <PartiesPage />,
   },
   {
     path: "/",

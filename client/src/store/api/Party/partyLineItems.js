@@ -4,7 +4,14 @@ const endpoints = {
       setTimeout(() => {
         console.log(partyId);
         resolve({
-          total: 12,
+          partyNum: "2983",
+          barcodeName: "Black/White",
+          enteredValues: [
+            {
+              id: 1, // id in TemplateValues table
+              columnName: "net mt",
+            },
+          ],
           data: [
             {
               id: 1,
