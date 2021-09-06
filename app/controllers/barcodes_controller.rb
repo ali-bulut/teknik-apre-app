@@ -32,8 +32,10 @@ class BarcodesController < ApplicationController
 
   # PATCH/PUT /barcodes/1
   def update
-    if @barcode.update(barcode_params)
-      render json: @barcode
+    update_status = @barcode.update_barcode(barcode_params)
+
+    if update_status
+      render json: { message: "Barcode successfully updated!" }
     else
       render json: @barcode.errors, status: :unprocessable_entity
     end
@@ -55,8 +57,7 @@ class BarcodesController < ApplicationController
     @barcode_with_parties = Barcode.includes(:parties).find(params[:id])
   end
 
-  # Only allow a trusted parameter "white list" through.
   def barcode_params
-    params.require(:barcode).permit(:name, :code, :net_weight_division_num, :gross_weight_addition_num, :templates_id)
+    params.permit!
   end
 end
