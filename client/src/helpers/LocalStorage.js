@@ -12,12 +12,5 @@ export const removeLocalStorage = () => {
 };
 
 export const setLocalStorage = (data) => {
-  localStorage.setItem(
-    "user_data",
-    JSON.stringify({
-      token: data.token,
-      role: data.role,
-      username: data.username,
-    })
-  );
+  localStorage.setItem("user_data", JSON.stringify(data));
 };

@@ -31,13 +31,6 @@ export const userLogin = (email, password) => (dispatch) =>
       .userLogin(email, password)
       .then((data) => {
         dispatch(userAuthenticated(data));
-
-        // TODO: will be replaced to apiWrapper helper function later.
-        const username = data.username;
-        const token = data.token;
-        const role = data.role;
-        setLocalStorage({ token, username, role });
-
         resolve(data);
       })
       .catch((err) => {
