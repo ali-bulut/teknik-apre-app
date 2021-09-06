@@ -1,6 +1,6 @@
 class PartyLineItemsController < ApplicationController
   before_action :set_party_line_item, only: [:show, :update, :destroy]
-  before_action :authenticate_api_web_user!
+  before_action :authenticate_user!
 
   # GET /party_line_items
   def index
@@ -16,10 +16,22 @@ class PartyLineItemsController < ApplicationController
 
   # POST /party_line_items
   def create
-    @party_line_item = PartyLineItem.new(party_line_item_params)
+    party = Party.find(party_line_item_params[:partyId])
+    @party_line_item = party.party_line_items.new
+    @party_line_item.line_item_num = party_line_item_params[:rollNo]
 
-    if @party_line_item.save
-      render json: @party_line_item, status: :created, location: @party_line_item
+    save_status = @party_line_item.save
+
+    party_line_item_params[:enteredLineItemValues].each do |record|
+      party_line_item_value = @party_line_item.party_line_item_values.new
+      party_line_item_value.template_value_id = record[:id]
+      party_line_item_value.value = record[:value]
+
+      party_line_item_value.save!
+    end
+
+    if save_status
+      render json: { message: "PartyLineItem successfully created!" }, status: :created
     else
       render json: @party_line_item.errors, status: :unprocessable_entity
     end
@@ -40,13 +52,13 @@ class PartyLineItemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_party_line_item
-      @party_line_item = PartyLineItem.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def party_line_item_params
-      params.require(:party_line_item).permit(:line_item_num, :html_path, :party_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_party_line_item
+    @party_line_item = PartyLineItem.find(params[:id])
+  end
+
+  def party_line_item_params
+    params.permit!
+  end
 end
