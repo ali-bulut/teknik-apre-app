@@ -136,7 +136,12 @@ const CreateBarcodeForm = ({
                 <Card.Img
                   variant="top"
                   style={{ height: 200 }}
-                  src={template.templateImage}
+                  src={
+                    "http://" +
+                    process.env.REACT_APP_API_URL +
+                    "/" +
+                    template.templateImage
+                  }
                 />
                 <Card.Body>
                   <Card.Title>{template.templateName}</Card.Title>
