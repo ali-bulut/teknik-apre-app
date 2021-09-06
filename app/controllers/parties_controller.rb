@@ -49,6 +49,10 @@ class PartiesController < ApplicationController
     @party.destroy
   end
 
+  def create_csv_file
+    #TODO: Create CSV file and return its path
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
