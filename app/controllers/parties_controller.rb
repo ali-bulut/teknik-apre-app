@@ -16,10 +16,12 @@ class PartiesController < ApplicationController
 
   # POST /parties
   def create
-    @party = Party.new(party_params)
+    @party = Party.new
+    @party.party_num = party_params[:createdPartyNum]
+    @party.barcode_id = party_params[:barcodeId]
 
     if @party.save
-      render json: @party, status: :created, location: @party
+      render json: { message: "Party successfully created!" }, status: :created
     else
       render json: @party.errors, status: :unprocessable_entity
     end
@@ -27,8 +29,10 @@ class PartiesController < ApplicationController
 
   # PATCH/PUT /parties/1
   def update
-    if @party.update(party_params)
-      render json: @party
+    update_status = @party.update_party(party_params)
+
+    if update_status
+      render json: { message: "Party successfully updated!" }
     else
       render json: @party.errors, status: :unprocessable_entity
     end
@@ -46,8 +50,7 @@ class PartiesController < ApplicationController
     @party = Party.find(params[:id])
   end
 
-  # Only allow a trusted parameter "white list" through.
   def party_params
-    params.require(:party).permit(:name, :code, :net_weight_division_num, :gross_weight_addition_num, :template_id)
+    params.permit!
   end
 end
