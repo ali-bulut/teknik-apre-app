@@ -1,14 +1,21 @@
+import Texts from "../../../constants/Texts";
+import { apiWrapper } from "../../../helpers/ApiWrapper";
+
 const endpoints = {
   userLogin: (email, password) =>
     new Promise(async function (resolve, reject) {
-      console.log({ email, password });
-      setTimeout(() => {
-        resolve({
-          username: "teknikapre_admin",
-          role: "admin",
-          token: "test-admin-token",
-        });
-      }, 1000);
+      const response = await apiWrapper("auth/sign_in", "POST", {
+        email,
+        password,
+      });
+
+      if (!response) {
+        return reject({ message: Texts.somethingWrong });
+      } else if (response.error) {
+        return reject({ message: response.error });
+      } else {
+        return resolve(response);
+      }
     }),
 };
 
