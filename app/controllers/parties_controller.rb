@@ -1,5 +1,6 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:show, :update, :destroy]
+  before_action :set_party_with_line_items, only: [:party_line_items]
   before_action :authenticate_user!
 
   # GET /parties
@@ -12,6 +13,11 @@ class PartiesController < ApplicationController
   # GET /parties/1
   def show
     render json: @party
+  end
+
+  # GET /parties/1/party_line_items
+  def party_line_items
+    render json: @party_with_line_items, serializer: PartyWithLineItemsSerializer
   end
 
   # POST /parties
@@ -48,6 +54,10 @@ class PartiesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_party
     @party = Party.find(params[:id])
+  end
+
+  def set_party_with_line_items
+    @party_with_line_items = Party.includes(:party_line_items).find(params[:id])
   end
 
   def party_params
