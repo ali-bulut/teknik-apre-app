@@ -8,6 +8,9 @@ class TemplateValue < ApplicationRecord
     gross_mt: "gross mt"
   }
 
+  scope :gross_kg?, -> { where(column_name: TemplateValue.calculated_value_types[:gross_kg]) }
+  scope :net_kg?, -> { where(column_name: TemplateValue.calculated_value_types[:net_kg]) }
+  scope :gross_mt?, -> { where(column_name: TemplateValue.calculated_value_types[:gross_mt]) }
   scope :net_mt?, -> { where(column_name: TemplateValue.calculated_value_types[:net_mt]) }
 
   def gross_kg?

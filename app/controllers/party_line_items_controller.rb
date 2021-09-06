@@ -18,7 +18,8 @@ class PartyLineItemsController < ApplicationController
   def create
     html_path = PartyLineItemCreator.call(party_id: party_line_item_params[:partyId],
                                           line_item_num: party_line_item_params[:rollNo],
-                                          entered_l_i_values: party_line_item_params[:enteredLineItemValues])
+                                          entered_l_i_values: party_line_item_params[:enteredLineItemValues],
+                                          base_url: request.base_url)
 
     if html_path
       render json: { message: "PartyLineItem successfully created!", htmlPath: html_path }, status: :created
