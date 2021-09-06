@@ -23,13 +23,14 @@ const BarcodeDetailPage = () => {
     setDivisionNum,
     additionNum,
     setAdditionNum,
-
     fetchBarcodeDetails,
     barcodeMainValues,
     setBarcodeMainValues,
     barcodeLoading,
     barcodeLoaded,
     barcodeData,
+    updatedBarcodeName,
+    setUpdatedBarcodeName,
   } = useFetchBarcodeDetails(id);
 
   const {
@@ -43,6 +44,7 @@ const BarcodeDetailPage = () => {
     id,
     divisionNum,
     additionNum,
+    updatedBarcodeName,
     barcodeMainValues,
     barcodeData,
     fetchBarcodeDetails,
@@ -91,6 +93,8 @@ const BarcodeDetailPage = () => {
           barcodeMainValues={barcodeMainValues}
           barcodeDeleteLoading={barcodeDeleteLoading}
           deleteSelectedBarcode={deleteSelectedBarcode}
+          updatedBarcodeName={updatedBarcodeName}
+          setUpdatedBarcodeName={setUpdatedBarcodeName}
         />
       )}
 

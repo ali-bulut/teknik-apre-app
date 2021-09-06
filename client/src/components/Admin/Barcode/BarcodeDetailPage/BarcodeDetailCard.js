@@ -17,6 +17,8 @@ const BarcodeDetailCard = ({
   barcodeMainValues,
   barcodeDeleteLoading,
   deleteSelectedBarcode,
+  updatedBarcodeName,
+  setUpdatedBarcodeName,
 }) => {
   return (
     <Row>
@@ -29,9 +31,11 @@ const BarcodeDetailCard = ({
         >
           <div className="card-body">
             <div>
-              <h4 style={{ display: "inline" }} className="card-title">
-                {barcodeData?.name}
-              </h4>
+              {!isEditMode && (
+                <h4 style={{ display: "inline" }} className="card-title">
+                  {barcodeData?.name}
+                </h4>
+              )}
               <CustomButton
                 style={{ position: "relative", bottom: 6 }}
                 className="float-right"
@@ -69,15 +73,27 @@ const BarcodeDetailCard = ({
                   setBarcodeMainValues([...copyMainValues]);
                   setAdditionNum(barcodeData.grossWeightAdditionNum);
                   setDivisionNum(barcodeData.netWeightDivisionNum);
+                  setUpdatedBarcodeName(barcodeData.name);
 
                   setIsEditMode(false);
                 }}
               >
                 {Texts.cancel}
               </Button>
-            </div>
 
-            <div className="clearfix"></div>
+              <div className="clearfix"></div>
+
+              {isEditMode && (
+                <div style={{ marginBottom: 10 }}>
+                  <b>{Texts.barcodeName.toUpperCase()}:</b>
+                  <Form.Control
+                    type="text"
+                    value={updatedBarcodeName}
+                    onChange={(e) => setUpdatedBarcodeName(e.target.value)}
+                  />
+                </div>
+              )}
+            </div>
 
             <Row>
               {barcodeMainValues?.map((p, i) => {
