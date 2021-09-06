@@ -16,22 +16,12 @@ class PartyLineItemsController < ApplicationController
 
   # POST /party_line_items
   def create
-    party = Party.find(party_line_item_params[:partyId])
-    @party_line_item = party.party_line_items.new
-    @party_line_item.line_item_num = party_line_item_params[:rollNo]
+    html_path = PartyLineItemCreator.call(party_id: party_line_item_params[:partyId],
+                                          line_item_num: party_line_item_params[:rollNo],
+                                          entered_l_i_values: party_line_item_params[:enteredLineItemValues])
 
-    save_status = @party_line_item.save
-
-    party_line_item_params[:enteredLineItemValues].each do |record|
-      party_line_item_value = @party_line_item.party_line_item_values.new
-      party_line_item_value.template_value_id = record[:id]
-      party_line_item_value.value = record[:value]
-
-      party_line_item_value.save!
-    end
-
-    if save_status
-      render json: { message: "PartyLineItem successfully created!" }, status: :created
+    if html_path
+      render json: { message: "PartyLineItem successfully created!", htmlPath: html_path }, status: :created
     else
       render json: @party_line_item.errors, status: :unprocessable_entity
     end
