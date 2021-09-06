@@ -234,7 +234,7 @@ export function useFetchBarcodeParties(id) {
   };
 }
 
-export function useCreateParty({ fetchSelectedBarcodeParties }) {
+export function useCreateParty({ fetchSelectedBarcodeParties, id }) {
   const dispatch = useDispatch();
 
   const [isCreateMode, setIsCreateMode] = useState(false);
@@ -245,6 +245,7 @@ export function useCreateParty({ fetchSelectedBarcodeParties }) {
   const createNewParty = useCallback(() => {
     let data = {
       createdPartyNum,
+      barcodeId: id,
     };
 
     if (!data.createdPartyNum) {

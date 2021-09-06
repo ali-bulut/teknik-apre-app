@@ -68,7 +68,7 @@ const BarcodeDetailPage = () => {
     setCreatedPartyNum,
     partyCreateLoading,
     createNewParty,
-  } = useCreateParty({ fetchSelectedBarcodeParties });
+  } = useCreateParty({ fetchSelectedBarcodeParties, id });
 
   return (
     <React.Fragment>
