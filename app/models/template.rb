@@ -1,6 +1,6 @@
 class Template < ApplicationRecord
-  has_many :template_values
-  has_many :barcodes
+  has_many :template_values, dependent: :destroy
+  has_many :barcodes, dependent: :destroy
 
   def static_template_values
     template_values.where(is_calculated: false, is_entered: false)

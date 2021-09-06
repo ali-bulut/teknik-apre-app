@@ -1,5 +1,6 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:show, :update, :destroy]
+  before_action :set_party_with_line_items, only: [:party_line_items]
   before_action :authenticate_user!
 
   # GET /parties
@@ -14,12 +15,19 @@ class PartiesController < ApplicationController
     render json: @party
   end
 
+  # GET /parties/1/party_line_items
+  def party_line_items
+    render json: @party_with_line_items, serializer: PartyWithLineItemsSerializer
+  end
+
   # POST /parties
   def create
-    @party = Party.new(party_params)
+    @party = Party.new
+    @party.party_num = party_params[:createdPartyNum]
+    @party.barcode_id = party_params[:barcodeId]
 
     if @party.save
-      render json: @party, status: :created, location: @party
+      render json: { message: "Party successfully created!" }, status: :created
     else
       render json: @party.errors, status: :unprocessable_entity
     end
@@ -27,8 +35,10 @@ class PartiesController < ApplicationController
 
   # PATCH/PUT /parties/1
   def update
-    if @party.update(party_params)
-      render json: @party
+    update_status = @party.update_party(party_params)
+
+    if update_status
+      render json: { message: "Party successfully updated!" }
     else
       render json: @party.errors, status: :unprocessable_entity
     end
@@ -39,6 +49,10 @@ class PartiesController < ApplicationController
     @party.destroy
   end
 
+  def create_csv_file
+    #TODO: Create CSV file and return its path
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -46,8 +60,11 @@ class PartiesController < ApplicationController
     @party = Party.find(params[:id])
   end
 
-  # Only allow a trusted parameter "white list" through.
+  def set_party_with_line_items
+    @party_with_line_items = Party.includes(:party_line_items).find(params[:id])
+  end
+
   def party_params
-    params.require(:party).permit(:name, :code, :net_weight_division_num, :gross_weight_addition_num, :template_id)
+    params.permit!
   end
 end

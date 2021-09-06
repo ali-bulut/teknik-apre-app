@@ -21,10 +21,25 @@ class BarcodesController < ApplicationController
 
   # POST /barcodes
   def create
-    @barcode = Barcode.new(barcode_params)
+    @barcode = Barcode.new
+    @barcode.name = barcode_params[:barcodeName]
+    @barcode.code = barcode_params[:barcodeCode]
+    @barcode.gross_weight_addition_num = barcode_params[:grossWeightAdditionNum].to_f
+    @barcode.net_weight_division_num = barcode_params[:netWeightDivisionNum].to_f
+    @barcode.template_id = barcode_params[:templateId]
 
-    if @barcode.save
-      render json: @barcode, status: :created, location: @barcode
+    save_status = @barcode.save
+
+    barcode_params[:staticTemplateValues].each do |record|
+      barcode_main_value = @barcode.barcode_main_values.new
+      barcode_main_value.template_value_id = record[:templateValuesId]
+      barcode_main_value.value = record[:value]
+
+      barcode_main_value.save!
+    end
+
+    if save_status
+      render json: { message: "Barcode successfully created!" }, status: :created
     else
       render json: @barcode.errors, status: :unprocessable_entity
     end
@@ -32,8 +47,10 @@ class BarcodesController < ApplicationController
 
   # PATCH/PUT /barcodes/1
   def update
-    if @barcode.update(barcode_params)
-      render json: @barcode
+    update_status = @barcode.update_barcode(barcode_params)
+
+    if update_status
+      render json: { message: "Barcode successfully updated!" }
     else
       render json: @barcode.errors, status: :unprocessable_entity
     end
@@ -55,8 +72,7 @@ class BarcodesController < ApplicationController
     @barcode_with_parties = Barcode.includes(:parties).find(params[:id])
   end
 
-  # Only allow a trusted parameter "white list" through.
   def barcode_params
-    params.require(:barcode).permit(:name, :code, :net_weight_division_num, :gross_weight_addition_num, :templates_id)
+    params.permit!
   end
 end

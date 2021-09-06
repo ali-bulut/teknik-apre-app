@@ -18,6 +18,7 @@ export function useFetchBarcodeDetails(id) {
   const [divisionNum, setDivisionNum] = useState();
   const [additionNum, setAdditionNum] = useState();
   const [barcodeMainValues, setBarcodeMainValues] = useState([]);
+  const [updatedBarcodeName, setUpdatedBarcodeName] = useState("");
 
   const barcodeLoading = useSelector((state) => state.barcode.fetchLoading);
   const barcodeLoaded = useSelector((state) => state.barcode.fetchLoaded);
@@ -26,6 +27,7 @@ export function useFetchBarcodeDetails(id) {
   const fetchBarcodeDetails = useCallback(() => {
     dispatch(fetchBarcode(id))
       .then((data) => {
+        setUpdatedBarcodeName(data.name);
         setDivisionNum(data.netWeightDivisionNum);
         setAdditionNum(data.grossWeightAdditionNum);
 
@@ -60,6 +62,8 @@ export function useFetchBarcodeDetails(id) {
     barcodeLoading,
     barcodeLoaded,
     barcodeData,
+    updatedBarcodeName,
+    setUpdatedBarcodeName,
   };
 }
 
@@ -70,6 +74,7 @@ export function useBarcodeOperations({
   barcodeMainValues,
   barcodeData,
   fetchBarcodeDetails,
+  updatedBarcodeName,
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -85,6 +90,7 @@ export function useBarcodeOperations({
     let newData = {
       mainValues: barcodeMainValues,
       id: barcodeData.id,
+      name: updatedBarcodeName,
       netWeightDivisionNum: parseFloat(divisionNum),
       grossWeightAdditionNum: parseFloat(additionNum),
     };
@@ -228,7 +234,7 @@ export function useFetchBarcodeParties(id) {
   };
 }
 
-export function useCreateParty({ fetchSelectedBarcodeParties }) {
+export function useCreateParty({ fetchSelectedBarcodeParties, id }) {
   const dispatch = useDispatch();
 
   const [isCreateMode, setIsCreateMode] = useState(false);
@@ -239,6 +245,7 @@ export function useCreateParty({ fetchSelectedBarcodeParties }) {
   const createNewParty = useCallback(() => {
     let data = {
       createdPartyNum,
+      barcodeId: id,
     };
 
     if (!data.createdPartyNum) {

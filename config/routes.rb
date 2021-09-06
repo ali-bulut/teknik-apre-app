@@ -3,13 +3,15 @@ Rails.application.routes.draw do
   resources :barcodes do
     # /barcodes/:id/parties
     get 'parties', :on => :member
-    
+
     # /barcodes/parties
     # get 'parties', :on => :collection
   end
   resources :party_line_item_values
   resources :party_line_items
-  resources :parties
+  resources :parties do
+    get 'party_line_items', :on => :member
+  end
   resources :template_values
   resources :templates
 
