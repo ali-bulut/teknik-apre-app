@@ -49,7 +49,7 @@ export function useCreateNewBarcode(createdTemplateValuesData) {
   const [createdBarcodeData, setCreatedBarcodeData] = useState({
     barcodeName: "",
     barcodeCode: "",
-    netWeightDivisonNum: "",
+    netWeightDivisionNum: "",
     grossWeightAdditionNum: 0,
     templateId: "",
   });

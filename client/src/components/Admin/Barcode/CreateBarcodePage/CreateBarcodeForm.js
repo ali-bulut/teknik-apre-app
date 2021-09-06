@@ -65,11 +65,11 @@ const CreateBarcodeForm = ({
             <Form.Control
               type="number"
               placeholder={Texts.enterDivisionNumber}
-              value={createdBarcodeData?.netWeightDivisonNum}
+              value={createdBarcodeData?.netWeightDivisionNum}
               onChange={(e) =>
                 setCreatedBarcodeData((oldState) => ({
                   ...oldState,
-                  netWeightDivisonNum: e.target.value,
+                  netWeightDivisionNum: e.target.value,
                 }))
               }
             />
