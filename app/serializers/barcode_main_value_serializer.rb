@@ -1,5 +1,5 @@
 class BarcodeMainValueSerializer < ActiveModel::Serializer
-  attributes :barcodeMainValueId, :columnName, :value
+  attributes :id, :barcodeMainValueId, :columnName, :value
 
   def barcodeMainValueId
     object.id

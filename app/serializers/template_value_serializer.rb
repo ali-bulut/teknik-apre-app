@@ -1,5 +1,5 @@
 class TemplateValueSerializer < ActiveModel::Serializer
-  attributes :templateValuesId, :columnName
+  attributes :id, :templateValuesId, :columnName
 
   def templateValuesId
     object.id
