@@ -29,6 +29,10 @@ const PartyLineItemsTable = ({
           {lineItemHeaders.map((p, i) => {
             return <th key={i}>{p.toUpperCase()}</th>;
           })}
+          {lineItemHeaders.length <= 0 &&
+            partyLineItemsData?.enteredValues?.map((p, i) => (
+              <th key={i}>{p.columnName.toUpperCase()}</th>
+            ))}
           <th>
             {Texts.operations}
             <CustomButton
@@ -60,6 +64,24 @@ const PartyLineItemsTable = ({
                 }}
               />
             </td>
+            {lineItemHeaders.length <= 0 &&
+              partyLineItemsData?.enteredValues?.map((p, i) => (
+                <td key={i}>
+                  <Form.Control
+                    placeholder={p.columnName.toUpperCase()}
+                    type="number"
+                    value={
+                      enteredLineItemValues.find((x) => x.id === p.id).value
+                    }
+                    onChange={(e) => {
+                      let newArr = [...enteredLineItemValues];
+                      newArr.find((x) => x.id === p.id).value = e.target.value;
+                      setEnteredLineItemValues([...newArr]);
+                    }}
+                  />
+                </td>
+              ))}
+
             {lineItemHeaders.map((p, i) => {
               let enteredValue = partyLineItemsData.enteredValues.find(
                 (x) => x.columnName === p
@@ -130,11 +152,17 @@ const PartyLineItemsTable = ({
             ))}
             <td style={{ textAlign: "center" }}>
               <CustomButton
-                as={Link}
                 variant="link"
                 style={{ color: "#7c4dff" }}
-                to={item.htmlPath}
-                target="_blank"
+                onClick={() => {
+                  window.open(
+                    "http://" +
+                      process.env.REACT_APP_API_URL +
+                      "/" +
+                      item.htmlPath,
+                    "_blank"
+                  );
+                }}
               >
                 {Texts.openBarcode}
               </CustomButton>
