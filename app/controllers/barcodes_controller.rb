@@ -58,7 +58,11 @@ class BarcodesController < ApplicationController
 
   # DELETE /barcodes/1
   def destroy
-    @barcode.destroy
+    if @barcode.destroy
+      render json: { message: "Barcode successfully deleted!" }
+    else
+      render json: @barcode.errors, status: :unprocessable_entity
+    end
   end
 
   private

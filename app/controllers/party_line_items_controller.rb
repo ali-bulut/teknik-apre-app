@@ -38,7 +38,11 @@ class PartyLineItemsController < ApplicationController
 
   # DELETE /party_line_items/1
   def destroy
-    @party_line_item.destroy
+    if @party_line_item.destroy
+      render json: { message: "PartyLineItem successfully deleted!" }
+    else
+      render json: @party_line_item.errors, status: :unprocessable_entity
+    end
   end
 
   private

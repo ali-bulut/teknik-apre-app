@@ -46,7 +46,11 @@ class PartiesController < ApplicationController
 
   # DELETE /parties/1
   def destroy
-    @party.destroy
+    if @party.destroy
+      render json: { message: "Party successfully deleted!" }
+    else
+      render json: @party.errors, status: :unprocessable_entity
+    end
   end
 
   def create_csv_file
