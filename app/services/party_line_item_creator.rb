@@ -85,6 +85,8 @@ class PartyLineItemCreator
 
     if @party.barcode.template.is_default?
       create_default_template
+    elsif @party.barcode.template.is_with_width?
+      create_template_with_width
     end
 
     common_path = "barcodes/" + barcode_name + '/' + party_num
@@ -103,14 +105,14 @@ class PartyLineItemCreator
   end
 
   def create_default_template
-    @value_1 = @party.barcode.barcode_main_values.find(1).value
-    @value_2 = @party.barcode.barcode_main_values.find(2).value
-    @value_3 = @party.barcode.barcode_main_values.find(3).value
-    @value_4 = @party.barcode.barcode_main_values.find(4).value
-    @value_5 = @party.barcode.barcode_main_values.find(5).value
-    @value_6 = @party.barcode.barcode_main_values.find(6).value
-    @value_7 = @party.barcode.barcode_main_values.find(7).value
-    @value_8 = @party.barcode.barcode_main_values.find(8).value
+    @value_1 = @party.barcode.barcode_main_values.find_by(template_value_id: 1).value
+    @value_2 = @party.barcode.barcode_main_values.find_by(template_value_id: 2).value
+    @value_3 = @party.barcode.barcode_main_values.find_by(template_value_id: 3).value
+    @value_4 = @party.barcode.barcode_main_values.find_by(template_value_id: 4).value
+    @value_5 = @party.barcode.barcode_main_values.find_by(template_value_id: 5).value
+    @value_6 = @party.barcode.barcode_main_values.find_by(template_value_id: 6).value
+    @value_7 = @party.barcode.barcode_main_values.find_by(template_value_id: 7).value
+    @value_8 = @party.barcode.barcode_main_values.find_by(template_value_id: 8).value
     @value_roll_no = @party_line_item.line_item_num
 
     gross_kg_id = @party.barcode.template.template_values.gross_kg?.first
@@ -121,6 +123,24 @@ class PartyLineItemCreator
 
     gross_mt_id = @party.barcode.template.template_values.gross_mt?.first
     @gross_mt = @party_line_item.party_line_item_values.find_by(template_value_id: gross_mt_id).value
+
+    net_mt_id = @party.barcode.template.template_values.net_mt?.first
+    @net_mt = @party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
+  end
+
+  def create_template_with_width
+    @value_13 = @party.barcode.barcode_main_values.find_by(template_value_id: 13).value
+    @value_14 = @party.barcode.barcode_main_values.find_by(template_value_id: 14).value
+    @value_15 = @party.barcode.barcode_main_values.find_by(template_value_id: 15).value
+    @value_16 = @party.barcode.barcode_main_values.find_by(template_value_id: 16).value
+    @value_17 = @party.barcode.barcode_main_values.find_by(template_value_id: 17).value
+    @value_roll_no = @party_line_item.line_item_num
+
+    net_kg_id = @party.barcode.template.template_values.net_kg?.first
+    @net_kg = @party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
+
+    width_id = @party.barcode.template.template_values.width?.first
+    @width = @party_line_item.party_line_item_values.find_by(template_value_id: width_id).value
 
     net_mt_id = @party.barcode.template.template_values.net_mt?.first
     @net_mt = @party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
