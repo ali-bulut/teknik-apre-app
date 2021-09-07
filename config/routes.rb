@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :party_line_items
   resources :parties do
     get 'party_line_items', :on => :member
+    post 'create_csv_file', :on => :collection
   end
   resources :templates
 

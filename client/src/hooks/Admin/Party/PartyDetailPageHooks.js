@@ -196,7 +196,10 @@ export function usePartyOperations({
   const createPartyExcel = () => {
     dispatch(createExcelFile(id))
       .then((data) => {
-        window.open(data.file, "_blank");
+        window.open(
+          "http://" + process.env.REACT_APP_API_URL + "/" + data.file,
+          "_blank"
+        );
       })
       .catch((err) => {
         toast.error(Texts.createExcelFileError);

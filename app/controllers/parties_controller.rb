@@ -41,8 +41,14 @@ class PartiesController < ApplicationController
     end
   end
 
+  # POST /parties/create_csv_file
   def create_csv_file
-    #TODO: Create CSV file and return its path
+    excel_path = ExcelCreator.call(party_id: params[:id])
+    if excel_path
+      render json: { file: excel_path }
+    else
+      render json: { error: "Excel file could not be created!" }, status: :unprocessable_entity
+    end
   end
 
   private

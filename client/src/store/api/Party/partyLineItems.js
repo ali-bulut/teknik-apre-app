@@ -33,12 +33,17 @@ const endpoints = {
 
   createExcelFile: (id) =>
     new Promise(async function (resolve, reject) {
-      setTimeout(() => {
-        console.log(id);
-        resolve({
-          file: "https://i.hizliresim.com/itfc8ab.png",
-        });
-      }, 1000);
+      const response = await apiWrapper("parties/create_csv_file", "POST", {
+        id,
+      });
+
+      if (!response) {
+        return reject({ message: Texts.somethingWrong });
+      } else if (response.error) {
+        return reject({ message: response.error });
+      } else {
+        return resolve(response);
+      }
     }),
 
   createPartyLineItem: (data) =>
