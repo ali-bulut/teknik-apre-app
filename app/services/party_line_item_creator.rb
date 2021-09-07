@@ -26,8 +26,6 @@ class PartyLineItemCreator
     self.create_entered_l_i_values
     self.create_calculated_l_i_values
 
-    # TODO: create barcode and return html_path
-
     html_path = create_rendered_html
     @party_line_item.html_path = html_path
     @party_line_item.save!
@@ -85,8 +83,26 @@ class PartyLineItemCreator
 
     created_html_path = Rails.root.join(html_dir, html_file_name)
 
-    @title = "#{barcode_name} - #{party_num} - #{html_file_name}"
+    if @party.barcode.template.is_default?
+      create_default_template
+    end
 
+    common_path = "barcodes/" + barcode_name + '/' + party_num
+    html_path = common_path + '/' + html_file_name
+
+    create_barcode(common_path, file_name)
+
+    renderer = ERB.new(erb_str)
+    result = renderer.result(binding)
+
+    File.open(created_html_path, 'w') do |f|
+      f.write(result)
+    end
+
+    html_path
+  end
+
+  def create_default_template
     @value_1 = @party.barcode.barcode_main_values.find(1).value
     @value_2 = @party.barcode.barcode_main_values.find(2).value
     @value_3 = @party.barcode.barcode_main_values.find(3).value
@@ -108,25 +124,16 @@ class PartyLineItemCreator
 
     net_mt_id = @party.barcode.template.template_values.net_mt?.first
     @net_mt = @party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
+  end
 
+  def create_barcode(common_path, file_name)
     barcode = Barby::Code39.new("#{@party.barcode.code}-#{Time.now.to_i}")
 
-    common_path = "barcodes/" + barcode_name + '/' + party_num
-    html_path = common_path + '/' + html_file_name
     barcode_img_path = common_path + '/barcode_images/' + file_name + ".png"
 
     File.open(Rails.root.join("public", barcode_img_path), 'wb') { |f| f.write barcode.to_png }
 
     @barcode_img = @base_url + '/' + barcode_img_path
     @barcode_text = barcode.to_s
-
-    renderer = ERB.new(erb_str)
-    result = renderer.result(binding)
-
-    File.open(created_html_path, 'w') do |f|
-      f.write(result)
-    end
-
-    html_path
   end
 end

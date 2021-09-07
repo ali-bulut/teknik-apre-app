@@ -13,4 +13,12 @@ class Template < ApplicationRecord
   def calculated_values
     template_values.where(is_calculated: true)
   end
+
+  def is_default?
+    self.id == 1
+  end
+
+  def is_with_width?
+    self.id == 2
+  end
 end
