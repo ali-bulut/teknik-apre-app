@@ -155,8 +155,14 @@ margin-left: 25px;
       </div>
     </div>
   </div>
-  <div class="qrcode">
-    <img src="<%= @barcode_img %>" alt="QR Kodu"/>
+  <div class="qrcode" style="height: 64px">
+    <img src="<%= @barcode_img %>" alt="QR Kodu" style="height: 50px"/>
+    <p style="font-size: 13px;
+      font-weight: 100;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      bottom: 7px;">*<%= @barcode_text %>*</p>
   </div>
 </div>
 </body>
