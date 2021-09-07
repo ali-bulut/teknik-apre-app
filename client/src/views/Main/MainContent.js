@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 
 import MainNavbar from "../../components/Common/MainNavbar";
 import MainPanel from "../../components/Common/MainPanel";
+import RolesPrefix from "../../constants/RolesPrefix";
+import { getSubDomain } from "../../helpers/RouteRedirection";
 import AuthenticationContainer from "../Authentication/AuthenticationContainer";
 
 const MainContent = (props) => {
@@ -15,8 +17,14 @@ const MainContent = (props) => {
 
   return (
     <React.Fragment>
-      <MainNavbar />
-      <MainPanel style={props.style}>{props.children}</MainPanel>
+      {getSubDomain() !== RolesPrefix.admin ? (
+        <React.Fragment>{props.children}</React.Fragment>
+      ) : (
+        <React.Fragment>
+          <MainNavbar />
+          <MainPanel style={props.style}>{props.children}</MainPanel>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };
