@@ -44,3 +44,6 @@ gem 'devise_token_auth'
 gem 'rolify'
 
 gem 'active_model_serializers'
+
+gem 'barby', '~> 0.6.2'
+gem 'chunky_png', '~> 1.4'

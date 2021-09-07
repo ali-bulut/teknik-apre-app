@@ -1,19 +1,7 @@
 class PartiesController < ApplicationController
-  before_action :set_party, only: [:show, :update, :destroy]
+  before_action :set_party, only: [:update, :destroy]
   before_action :set_party_with_line_items, only: [:party_line_items]
   before_action :authenticate_user!
-
-  # GET /parties
-  def index
-    @parties = Party.all
-
-    render json: @parties
-  end
-
-  # GET /parties/1
-  def show
-    render json: @party
-  end
 
   # GET /parties/1/party_line_items
   def party_line_items
@@ -29,7 +17,7 @@ class PartiesController < ApplicationController
     if @party.save
       render json: { message: "Party successfully created!" }, status: :created
     else
-      render json: @party.errors, status: :unprocessable_entity
+      render json: { error: "Party num cannot be same within the same year!" }, status: :unprocessable_entity
     end
   end
 
@@ -40,13 +28,17 @@ class PartiesController < ApplicationController
     if update_status
       render json: { message: "Party successfully updated!" }
     else
-      render json: @party.errors, status: :unprocessable_entity
+      render json: { error: "Party could not be updated!" }, status: :unprocessable_entity
     end
   end
 
   # DELETE /parties/1
   def destroy
-    @party.destroy
+    if @party.destroy
+      render json: { message: "Party successfully deleted!" }
+    else
+      render json: { error: "Party could not be deleted!" }, status: :unprocessable_entity
+    end
   end
 
   def create_csv_file
@@ -55,7 +47,6 @@ class PartiesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_party
     @party = Party.find(params[:id])
   end

@@ -65,11 +65,11 @@ const CreateBarcodeForm = ({
             <Form.Control
               type="number"
               placeholder={Texts.enterDivisionNumber}
-              value={createdBarcodeData?.netWeightDivisonNum}
+              value={createdBarcodeData?.netWeightDivisionNum}
               onChange={(e) =>
                 setCreatedBarcodeData((oldState) => ({
                   ...oldState,
-                  netWeightDivisonNum: e.target.value,
+                  netWeightDivisionNum: e.target.value,
                 }))
               }
             />
@@ -136,7 +136,12 @@ const CreateBarcodeForm = ({
                 <Card.Img
                   variant="top"
                   style={{ height: 200 }}
-                  src={template.templateImage}
+                  src={
+                    "http://" +
+                    process.env.REACT_APP_API_URL +
+                    "/" +
+                    template.templateImage
+                  }
                 />
                 <Card.Body>
                   <Card.Title>{template.templateName}</Card.Title>

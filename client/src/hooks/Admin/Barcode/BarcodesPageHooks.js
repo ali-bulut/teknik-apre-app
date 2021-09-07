@@ -19,7 +19,6 @@ export function useFetchBarcodes() {
   const fetchAllBarcodes = useCallback(() => {
     dispatch(fetchBarcodes())
       .then((data) => {
-        console.log(data.length);
         let itemCount = data.length;
         let pageCount = 1;
         if (itemCount % perPage !== 0) {

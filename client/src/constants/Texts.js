@@ -94,4 +94,12 @@ export default {
   partyNum: "Parti Numarası",
   backToBarcodePage: "Barkod Sayfasına Dön",
   clickToUpdate: "Güncellemek İçin Tıklayın!",
+  internalServerError: "500 Internal Server Error. Lütfen tekrar deneyin!",
+  authenticationFailed: "Kimlik doğrulama başarısız!",
+  authorizationFailed: "Yetki doğrulama başarısız!",
+  notFoundError: "Kayıt bulunamadı!",
+  badGatewayError: "Sistem cevap vermiyor. Lütfen daha sonra tekrar deneyin!",
+  somethingWrong: "Bir hata meydana geldi!",
+  samePartyNumError:
+    "Aynı parti numarasını bu yıl içerisinde zaten kullandınız.",
 };
