@@ -1,6 +1,7 @@
 class BarcodesController < ApplicationController
   before_action :set_barcode, only: [:show, :update, :destroy]
   before_action :set_barcode_with_parties, only: [:parties]
+  before_action :authenticate_user!
 
   # GET /barcodes
   def index
@@ -41,7 +42,7 @@ class BarcodesController < ApplicationController
     if save_status
       render json: { message: "Barcode successfully created!" }, status: :created
     else
-      render json: @barcode.errors, status: :unprocessable_entity
+      render json: { error: "Barcode could not be created!" }, status: :unprocessable_entity
     end
   end
 
@@ -52,7 +53,7 @@ class BarcodesController < ApplicationController
     if update_status
       render json: { message: "Barcode successfully updated!" }
     else
-      render json: @barcode.errors, status: :unprocessable_entity
+      render json: { error: "Barcode could not be updated!" }, status: :unprocessable_entity
     end
   end
 
@@ -61,7 +62,7 @@ class BarcodesController < ApplicationController
     if @barcode.destroy
       render json: { message: "Barcode successfully deleted!" }
     else
-      render json: @barcode.errors, status: :unprocessable_entity
+      render json: { error: "Barcode could not be deleted!" }, status: :unprocessable_entity
     end
   end
 
