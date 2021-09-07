@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=11">
+  <title></title>
+  <style>
+    .container {
+      width: 304px;
+      margin: 10px 24px;
+      border: 3px solid black;
+      padding: 2px;
+      margin-top: 20px;
+    }
+
+    .caption {
+      font-size: medium;
+      margin-bottom: 5px;
+    }
+
+    .title {
+      font-weight: bold;
+      text-align: center;
+      color: black;
+      /*visibility:hidden;*/
+    }
+
+    .date {
+      text-align: right;
+    }
+
+    .qrcode {
+      width: 300px;
+      text-align: center;
+      vertical-align: middle;
+      margin-top: 5px;
+    }
+
+    .qrcode img {
+      height: 60px;
+      width: 240px;
+    }
+
+    .informations {
+      font-size: small;
+      border: solid 0.5px black;
+      margin-top: 5px;
+    }
+
+    .info {
+      width: 303px;
+      margin: 1px 5px -1px 0px;
+      height: 20px;
+      font-size: 9px;
+      border-bottom: solid 0.5px;
+    }
+
+    .label {
+      width: 65px;
+      float: left;
+      height: 20px;
+      padding-left: 2px;
+    }
+
+    .desc {
+      width: 90px;
+      float: left;
+      height: 20px;
+    }
+
+    .longdesc {
+      float: left;
+    }
+
+    .bigsize {
+      font-size: 23px;
+    }
+
+    .sira {
+      text-align: center;
+    }
+
+    .labelbottom {
+      width: 146px;
+      float: left;
+      border-right: solid 0.5px black;
+      padding-left: 2px;
+      height: 30px;
+      font-size: 13px;
+    }
+
+    .labelbottomstrong {
+      float: left;
+      width: 73px;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body style="
+margin-left: 25px;
+  width: 304px;
+  max-height: 238px;
+  margin-right: 43px;
+">
+<div class="container">
+  <div class="informations">
+    <div class="info">
+      <div class="label"><strong>TEDARIKCI</strong></div>
+      <div class="longdesc"><strong>: <%= @value_13 %></strong></div>
+    </div>
+    <div class="info">
+      <div class="label"><strong></strong></div>
+      <div class="desc"><strong></strong></div>
+      <div class="label" style="width:50px"><strong></strong></div>
+      <div class="desc" style="width:92px; font-size: 7px;"><strong></strong></div>
+    </div>
+    <div class="info">
+      <div class="label"><strong>MALZEME KODU</strong></div>
+      <div class="desc" style="border-right: solid 0.5px black;"><strong>: <%= @value_14 %></strong></div>
+      <div class="label" style="width:50px"><strong>MODEL</strong></div>
+      <div class="desc" style="width:70px"><strong>: <%= @value_15 %></strong></div>
+    </div>
+
+    <div class="info">
+      <div class="label"><strong>GRM</strong></div>
+      <div class="desc" style="border-right: solid 0.5px black;"><strong>: <%= @value_16 %></div>
+      <div class="label" style="width:50px"><strong>TAHA SİP. NO</strong></div>
+      <div class="desc" style="width:92px"><strong>: <%= @value_17 %></strong></div>
+    </div>
+
+    <div class="info">
+      <div class="label"><strong>EN</strong></div>
+      <div class="desc" style="border-right: solid 0.5px black;"><strong>: <%= @width %></strong></div>
+      <div class="label" style="width:50px"><strong>TOP NO</strong></div>
+      <div class="desc" style="width:92px; font-size: 15px;"><strong>: <%= @value_roll_no %></strong></div>
+    </div>
+    <div class="info" style="border: none; height: 31px;">
+      <div class="labelbottom">
+        <strong class="labelbottomstrong">KILO</strong>
+        <label class="labelbottomstrong"><%= @net_kg %></label>
+      </div>
+      <div class="labelbottom" style="border-right: none;">
+        <strong class="labelbottomstrong">METRE</strong>
+        <label class="labelbottomstrong"><%= @net_mt %></label>
+      </div>
+    </div>
+  </div>
+  <div class="qrcode" style="height: 64px">
+    <img src="<%= @barcode_img %>" alt="QR Kodu" style="height: 50px"/>
+    <p style="font-size: 13px;
+      font-weight: 100;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      bottom: 7px;">*<%= @barcode_text %>*</p>
+  </div>
+</div>
+</body>
+</html>
