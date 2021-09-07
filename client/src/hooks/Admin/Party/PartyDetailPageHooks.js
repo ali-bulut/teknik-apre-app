@@ -275,29 +275,41 @@ export function usePartyLineItemOperations({
       enteredLineItemValues,
     };
 
-    dispatch(createPartyLineItem(data))
-      .then((res) => {
-        toast.success(Texts.createPartyLineItemSuccess);
-        fetchSelectedPartyLineItems();
-        setIsCreateMode(false);
-        setEnteredLineItemValues([]);
+    dispatch(createPartyLineItem(data)).then((res) => {
+      toast.success(Texts.createPartyLineItemSuccess);
+      fetchSelectedPartyLineItems();
+      setIsCreateMode(false);
+      setEnteredLineItemValues([]);
 
-        partyLineItemsData?.enteredValues?.forEach((x) => {
-          setEnteredLineItemValues((oldState) => [
-            ...oldState,
-            { ...x, value: "" },
-          ]);
-        });
-        setActivePage(1);
-
-        window.open(
-          "http://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath,
-          "_blank"
-        );
-      })
-      .catch((err) => {
-        toast.error(Texts.createPartyLineItemError);
+      partyLineItemsData?.enteredValues?.forEach((x) => {
+        setEnteredLineItemValues((oldState) => [
+          ...oldState,
+          { ...x, value: "" },
+        ]);
       });
+      setActivePage(1);
+
+      let url = "http://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath;
+      openPrintDialog(url);
+    });
+  };
+
+  const openPrintDialog = (url) => {
+    var proxyIframe = document.createElement("iframe");
+    var body = document.getElementsByTagName("body")[0];
+    body.appendChild(proxyIframe);
+    proxyIframe.style.width = "100%";
+    proxyIframe.style.height = "100%";
+    proxyIframe.style.display = "none";
+
+    var contentWindow = proxyIframe.contentWindow;
+    contentWindow.document.open();
+    contentWindow.document.write(
+      '<iframe src="' +
+        url +
+        '" onload="print();" width="600" height="600" frameborder="0" marginheight="0" marginwidth="0">'
+    );
+    contentWindow.document.close();
   };
 
   const partyLineItemDeleteLoading = useSelector(
