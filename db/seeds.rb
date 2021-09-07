@@ -14,6 +14,14 @@ template_1 = Template.create!({
                               })
 p "SEED: Template-1 Created!"
 
+template_2 = Template.create!({
+                                name: "En Girilebilen Şablon",
+                                description: "Barkod için kullanılan el ile en girilebilen şablondur.",
+                                html_path: "barcode_templates/template_with_width.html.erb",
+                                image_path: "barcode_template_images/template_with_width_img.jpg"
+                              })
+p "SEED: Template-2 Created!"
+
 template_1.template_values.create!([
                                      {
                                        column_name: "supp",
@@ -78,6 +86,50 @@ template_1.template_values.create!([
                                    ])
 p "SEED: Template-1 Values Created!"
 
+template_2.template_values.create!([
+                                     {
+                                       column_name: "tedarikci",
+                                       is_calculated: false,
+                                       is_entered: false
+                                     },
+                                     {
+                                       column_name: "malzeme kodu",
+                                       is_calculated: false,
+                                       is_entered: false
+                                     },
+                                     {
+                                       column_name: "model",
+                                       is_calculated: false,
+                                       is_entered: false
+                                     },
+                                     {
+                                       column_name: "grm",
+                                       is_calculated: false,
+                                       is_entered: false
+                                     },
+                                     {
+                                       column_name: "taha sip no",
+                                       is_calculated: false,
+                                       is_entered: false
+                                     },
+                                     {
+                                       column_name: "en",
+                                       is_calculated: false,
+                                       is_entered: true
+                                     },
+                                     {
+                                       column_name: "net kg",
+                                       is_calculated: true,
+                                       is_entered: false
+                                     },
+                                     {
+                                       column_name: "net mt",
+                                       is_calculated: false,
+                                       is_entered: true
+                                     }
+                                   ])
+p "SEED: Template-2 Values Created!"
+
 Role.create!([{
                 name: "admin",
               },
@@ -92,9 +144,9 @@ p "SEED: Roles Created!"
 
 user = User.create({
                      provider: "email",
-                     uid: "admin@teknikapre.com",
+                     uid: "hilmi@teknikapre.com",
                      username: "teknikapre",
-                     email: "admin@teknikapre.com",
+                     email: "hilmi@teknikapre.com",
                      password: "28092002",
                      password_confirmation: "28092002"
                    })
