@@ -261,9 +261,9 @@ export function useCreateParty({ fetchSelectedBarcodeParties, id }) {
         fetchSelectedBarcodeParties();
       })
       .catch((err) => {
-        toast.error(Texts.partyCreateError);
+        toast.error(Texts.partyCreateError + " " + Texts.samePartyNumError);
       });
-  }, [dispatch, createdPartyNum, fetchSelectedBarcodeParties]);
+  }, [dispatch, createdPartyNum, fetchSelectedBarcodeParties, id]);
 
   return {
     isCreateMode,

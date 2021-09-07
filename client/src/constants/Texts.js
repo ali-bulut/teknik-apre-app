@@ -100,4 +100,6 @@ export default {
   notFoundError: "Kayıt bulunamadı!",
   badGatewayError: "Sistem cevap vermiyor. Lütfen daha sonra tekrar deneyin!",
   somethingWrong: "Bir hata meydana geldi!",
+  samePartyNumError:
+    "Aynı parti numarasını bu yıl içerisinde zaten kullandınız.",
 };
