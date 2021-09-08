@@ -80,6 +80,8 @@ test:
 #
 production:
   <<: *default
-  database: teknik_apre_api_production
-  username: teknik_apre_api
-  password: <%= ENV['TEKNIK_APRE_API_DATABASE_PASSWORD'] %>
+  database: <%= ENV['RDS_DB_NAME'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
