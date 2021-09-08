@@ -49,3 +49,10 @@ gem 'barby', '~> 0.6.2'
 gem 'chunky_png', '~> 1.4'
 
 gem 'spreadsheet'
+
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv'
+
+gem 'capistrano3-puma'
