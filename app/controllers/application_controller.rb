@@ -15,10 +15,14 @@ class ApplicationController < ActionController::API
   end
 
   def get_current_user
-    access_token = request.headers["access-token"]
-    expiry = request.headers["expiry"]
-    uid = request.headers["uid"]
-    client = request.headers["client"]
+    access_token = request.headers["HTTP_ACCESS_TOKEN"]
+    expiry = request.headers["HTTP_EXPIRY"]
+    uid = request.headers["HTTP_UID"]
+    client = request.headers["HTTP_CLIENT"]
+
+    request.headers.each do |t|
+      puts t
+    end
 
     puts "******ACCESS_TOKEN****** --->>> " + access_token
     puts "******EXPIRY****** --->>> " + expiry
