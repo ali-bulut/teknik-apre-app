@@ -6,9 +6,9 @@ class BarcodesController < ApplicationController
   # GET /barcodes
   def index
     @barcodes = Barcode.all
-    puts "********** REQUEST.HEADERS.ANY? ====>>>> ********" + request.headers.any?
     request.headers.each do |t|
       puts "inside"
+      puts t
     end
 
     render json: @barcodes
