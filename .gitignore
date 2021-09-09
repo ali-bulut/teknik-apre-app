@@ -76,3 +76,9 @@ yarn-debug.log*
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+/tmp/*
+/tmp/pids/*
+!/tmp/.keep
+!/tmp/pids
+!/tmp/pids/.keep
