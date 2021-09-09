@@ -19,7 +19,7 @@ export const apiWrapper = async (
   try {
     // login request
     if (!data || Object.keys(data).length === 0) {
-      response = await fetch(`http://${apiUrl}/${url}`, {
+      response = await fetch(`https://${apiUrl}/${url}`, {
         method: type,
         headers: {
           "Content-Type": contentType,
@@ -28,7 +28,7 @@ export const apiWrapper = async (
       });
     } else {
       if (contentType !== "application/json") {
-        response = await fetch(`http://${apiUrl}/${url}`, {
+        response = await fetch(`https://${apiUrl}/${url}`, {
           method: type,
           headers: {
             token: data.token ? data.token : null,
@@ -41,7 +41,7 @@ export const apiWrapper = async (
           body: body,
         });
       } else {
-        response = await fetch(`http://${apiUrl}/${url}`, {
+        response = await fetch(`https://${apiUrl}/${url}`, {
           method: type,
           headers: {
             "Content-Type": contentType,
