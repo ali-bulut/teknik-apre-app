@@ -15,6 +15,12 @@ class ApplicationController < ActionController::API
   end
 
   def get_current_user
+    puts "outside"
+    puts "********** REQUEST.HEADERS.ANY? ====>>>> ********" + request.headers.any?
+    request.headers.each do |t|
+      puts "inside"
+    end
+    puts request.headers["Content-Type"]
     access_token = request.headers["HTTP_ACCESS_TOKEN"]
     expiry = request.headers["HTTP_EXPIRY"]
     uid = request.headers["HTTP_UID"]
