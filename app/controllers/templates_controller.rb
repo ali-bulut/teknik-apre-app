@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-  before_action :authenticate_member!
+  before_action :authenticate_current_user!
 
   # GET /templates
   def index

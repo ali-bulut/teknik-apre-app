@@ -1,7 +1,7 @@
 class PartiesController < ApplicationController
   before_action :set_party, only: [:update, :destroy]
   before_action :set_party_with_line_items, only: [:party_line_items]
-  before_action :authenticate_member!
+  before_action :authenticate_current_user!
 
   # GET /parties/1/party_line_items
   def party_line_items

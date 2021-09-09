@@ -2,14 +2,33 @@ class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :set_headers
 
-  devise_token_auth_group :member, contains: [:user]
-
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
   def cors_preflight_check
     return unless request.method == 'OPTIONS'
     cors_set_access_control_headers
     render json: {}
+  end
+
+  def authenticate_current_user!
+    head :unauthorized if get_current_user.nil?
+  end
+
+  def get_current_user
+    access_token = request.headers["access-token"]
+    expiry = request.headers["expiry"]
+    uid = request.headers["uid"]
+    client = request.headers["client"]
+
+    return nil unless access_token and expiry
+
+    expiration_datetime = DateTime.strptime(expiry, "%s")
+    current_user = User.find_by(uid: uid)
+
+    if current_user && current_user.tokens.has_key?(client) && expiration_datetime > DateTime.now
+      @current_user = current_user
+    end
+    @current_user
   end
 
   protected
