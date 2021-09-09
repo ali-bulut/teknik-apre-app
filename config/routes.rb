@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  match '*all', controller: 'application', action: 'cors_preflight_check', via: [:options]
+
   resources :barcodes do
     # /barcodes/:id/parties
     get 'parties', :on => :member
