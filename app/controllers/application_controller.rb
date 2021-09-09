@@ -2,9 +2,7 @@ class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :set_headers
 
-  # unless Rails.env.development?
-  #   rescue_from StandardError, :with => :standard_error
-  # end
+  devise_token_auth_group :member, contains: [:user]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
@@ -35,8 +33,4 @@ class ApplicationController < ActionController::API
   def set_headers
     response.headers['Access-Control-Expose-Headers'] = 'access-token, uid, client, expiry'
   end
-
-  # def standard_error(error)
-  #   render json: { error: "Something went wrong!" }, status: :internal_server_error
-  # end
 end

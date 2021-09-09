@@ -1,6 +1,6 @@
 class PartyLineItemsController < ApplicationController
   before_action :set_party_line_item, only: [:destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_member!
 
   # POST /party_line_items
   def create
