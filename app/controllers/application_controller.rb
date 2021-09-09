@@ -20,10 +20,17 @@ class ApplicationController < ActionController::API
     uid = request.headers["uid"]
     client = request.headers["client"]
 
+    puts "******ACCESS_TOKEN****** --->>> " + access_token
+    puts "******EXPIRY****** --->>> " + expiry
+    puts "******UID****** --->>> " + uid
+    puts "******CLIENT****** --->>> " + client
+
     return nil unless access_token and expiry
 
     expiration_datetime = DateTime.strptime(expiry, "%s")
     current_user = User.find_by(uid: uid)
+
+    puts "******CURRENT_USER****** --->>> " + current_user.username
 
     if current_user && current_user.tokens.has_key?(client) && expiration_datetime > DateTime.now
       @current_user = current_user
