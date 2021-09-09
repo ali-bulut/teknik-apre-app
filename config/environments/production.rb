@@ -1,6 +1,10 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.hosts << ENV["API_URL"]
+  config.hosts << ENV["BASE_DOMAIN"]
+  config.hosts << ENV["CLOUDFRONT_URL"]
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
