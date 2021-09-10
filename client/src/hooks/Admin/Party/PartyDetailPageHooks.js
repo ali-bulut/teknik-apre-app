@@ -197,7 +197,7 @@ export function usePartyOperations({
     dispatch(createExcelFile(id))
       .then((data) => {
         window.open(
-          "http://" + process.env.REACT_APP_API_URL + "/" + data.file,
+          "https://" + process.env.REACT_APP_API_URL + "/" + data.file,
           "_blank"
         );
       })
@@ -292,7 +292,7 @@ export function usePartyLineItemOperations({
       });
       setActivePage(1);
 
-      let url = "http://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath;
+      let url = "https://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath;
       openPrintDialog(url);
     });
   };

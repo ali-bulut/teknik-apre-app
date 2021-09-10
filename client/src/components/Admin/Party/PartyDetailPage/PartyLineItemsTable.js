@@ -156,7 +156,7 @@ const PartyLineItemsTable = ({
                 style={{ color: "#7c4dff" }}
                 onClick={() => {
                   window.open(
-                    "http://" +
+                    "https://" +
                       process.env.REACT_APP_API_URL +
                       "/" +
                       item.htmlPath,

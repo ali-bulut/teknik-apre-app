@@ -137,7 +137,7 @@ const CreateBarcodeForm = ({
                   variant="top"
                   style={{ height: 200 }}
                   src={
-                    "http://" +
+                    "https://" +
                     process.env.REACT_APP_API_URL +
                     "/" +
                     template.templateImage

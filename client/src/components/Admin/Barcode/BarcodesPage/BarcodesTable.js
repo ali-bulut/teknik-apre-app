@@ -42,7 +42,7 @@ const BarcodesTable = ({
                 <img
                   style={{ width: 200, height: 100 }}
                   src={
-                    "http://" +
+                    "https://" +
                     process.env.REACT_APP_API_URL +
                     "/" +
                     x.templateImage
