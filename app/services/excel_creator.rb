@@ -46,6 +46,12 @@ class ExcelCreator
     excel_name = "#{barcode_name}-#{party_num}.xls"
     excel_path = html_dir + "#{barcode_name}-#{party_num}.xls"
 
+    if File.exists? excel_path
+      File.open(excel_path, 'r') do |f|
+        File.delete(f)
+      end
+    end
+
     book.write excel_path
     "excel_files/#{barcode_name}/#{excel_name}"
   end
