@@ -10,32 +10,6 @@ class ApplicationController < ActionController::API
     render json: {}
   end
 
-  def authenticate_current_user!
-    head :unauthorized if get_current_user.nil?
-  end
-
-  def get_current_user
-    request.headers.each.with_index do |t, i|
-      Rails.logger.debug(i)
-      Rails.logger.debug(t)
-    end
-
-    access_token = request.headers["HTTP_ACCESS_TOKEN"]
-    expiry = request.headers["HTTP_EXPIRY"]
-    uid = request.headers["HTTP_UID"]
-    client = request.headers["HTTP_CLIENT"]
-
-    return nil unless access_token and expiry
-
-    expiration_datetime = DateTime.strptime(expiry, "%s")
-    current_user = User.find_by(uid: uid)
-
-    if current_user && current_user.tokens.has_key?(client) && expiration_datetime > DateTime.now
-      @current_user = current_user
-    end
-    @current_user
-  end
-
   protected
 
   def cors_set_access_control_headers

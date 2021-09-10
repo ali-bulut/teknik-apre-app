@@ -31,6 +31,7 @@ export const apiWrapper = async (
         response = await fetch(`https://${apiUrl}/${url}`, {
           method: type,
           headers: {
+            Authorization: "Bearer " + data.token ? data.token : null,
             token: data.token ? data.token : null,
             "access-token": data.token ? data.token : null,
             "token-type": "Bearer",
@@ -44,6 +45,7 @@ export const apiWrapper = async (
         response = await fetch(`https://${apiUrl}/${url}`, {
           method: type,
           headers: {
+            Authorization: "Bearer " + data.token ? data.token : null,
             "Content-Type": contentType,
             "access-token": data.token ? data.token : null,
             "token-type": "Bearer",

@@ -1,7 +1,7 @@
 class BarcodesController < ApplicationController
   before_action :set_barcode, only: [:show, :update, :destroy]
   before_action :set_barcode_with_parties, only: [:parties]
-  before_action :authenticate_current_user!
+  before_action :authenticate_user!
 
   # GET /barcodes
   def index
