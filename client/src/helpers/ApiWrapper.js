@@ -14,12 +14,13 @@ export const apiWrapper = async (
 ) => {
   const data = await getLocalStorage();
   const apiUrl = process.env.REACT_APP_API_URL;
+  const fullUrl = `https://${apiUrl}/${url}`;
 
   let response;
   try {
     // login request
     if (!data || Object.keys(data).length === 0) {
-      response = await fetch(`https://${apiUrl}/${url}`, {
+      response = await fetch(fullUrl, {
         method: type,
         headers: {
           "Content-Type": contentType,
@@ -28,7 +29,7 @@ export const apiWrapper = async (
       });
     } else {
       if (contentType !== "application/json") {
-        response = await fetch(`https://${apiUrl}/${url}`, {
+        response = await fetch(fullUrl, {
           method: type,
           headers: {
             Authorization: "Bearer " + data.token ? data.token : null,
@@ -42,7 +43,7 @@ export const apiWrapper = async (
           body: body,
         });
       } else {
-        response = await fetch(`https://${apiUrl}/${url}`, {
+        response = await fetch(fullUrl, {
           method: type,
           headers: {
             Authorization: "Bearer " + data.token ? data.token : null,
