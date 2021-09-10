@@ -23,7 +23,7 @@ class ExcelCreator
       sheet.row(0).push(template_value.column_name.titleize)
     end
 
-    party.party_line_items.map.with_index do |line_item, index|
+    party.party_line_items.order(line_item_num: "ASC").map.with_index do |line_item, index|
       sheet.row(index + 1).push(line_item.line_item_num.to_s)
 
       party.barcode.barcode_main_values.map do |main_value|
