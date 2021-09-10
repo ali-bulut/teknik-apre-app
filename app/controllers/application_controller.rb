@@ -5,6 +5,11 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
   def cors_preflight_check
+    request.headers.each.with_index do |t, i|
+      Rails.logger.debug("FROM PREFLIGHT")
+      Rails.logger.debug(i)
+      Rails.logger.debug(t)
+    end
     return unless request.method == 'OPTIONS'
     cors_set_access_control_headers
     render json: {}
