@@ -1,15 +1,11 @@
 class BarcodesController < ApplicationController
   before_action :set_barcode, only: [:show, :update, :destroy]
   before_action :set_barcode_with_parties, only: [:parties]
-  before_action :authenticate_current_user!, except: [:index]
+  before_action :authenticate_current_user!
 
   # GET /barcodes
   def index
     @barcodes = Barcode.all
-    request.headers.each.with_index do |t, i|
-      Rails.logger.debug(i)
-      Rails.logger.debug(t)
-    end
 
     render json: @barcodes
   end

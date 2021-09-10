@@ -15,12 +15,11 @@ class ApplicationController < ActionController::API
   end
 
   def get_current_user
-    puts "outside"
-    puts "********** REQUEST.HEADERS.ANY? ====>>>> ********" + request.headers.any?
-    request.headers.each do |t|
-      puts "inside"
+    request.headers.each.with_index do |t, i|
+      Rails.logger.debug(i)
+      Rails.logger.debug(t)
     end
-    puts request.headers["Content-Type"]
+
     access_token = request.headers["HTTP_ACCESS_TOKEN"]
     expiry = request.headers["HTTP_EXPIRY"]
     uid = request.headers["HTTP_UID"]
@@ -40,7 +39,7 @@ class ApplicationController < ActionController::API
   protected
 
   def cors_set_access_control_headers
-    response.headers['Access-Control-Allow-Origin'] = "https://admin#{ENV["BASE_DOMAIN"]}"
+    response.headers['Access-Control-Allow-Origin'] = "*"
     response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, ' \
       'Auth-Token, Email, X-User-Token, X-User-Email, x-xsrf-token, access-token, uid, client, expiry, token-type, access-control-allow-origin, ' \
