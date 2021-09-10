@@ -43,14 +43,8 @@ class ExcelCreator
 
     html_dir = Rails.root.join('public', 'excel_files', barcode_name)
     FileUtils.mkdir_p(html_dir) unless File.exist?(html_dir)
-    excel_name = "#{barcode_name}-#{party_num}.xls"
-    excel_path = html_dir + "#{barcode_name}-#{party_num}.xls"
-
-    if File.exists? excel_path
-      File.open(excel_path, 'r') do |f|
-        File.delete(f)
-      end
-    end
+    excel_name = "#{barcode_name}-#{party_num}-#{Time.now.to_i}.xls"
+    excel_path = html_dir + excel_name
 
     book.write excel_path
     "excel_files/#{barcode_name}/#{excel_name}"
