@@ -102,4 +102,7 @@ export default {
   somethingWrong: "Bir hata meydana geldi!",
   samePartyNumError:
     "Aynı parti numarasını bu yıl içerisinde zaten kullandınız.",
+  sameRollNoError:
+    "Lütfen daha önce aynı Roll No'yu girip girmediğinizi kontrol edin.",
+  partyNumMinValueError: "Parti numarası minimum 1001 olmalıdır!",
 };

@@ -19,6 +19,10 @@ class PartyLineItemCreator
 
   def create_line_item
     @party = Party.find(@party_id)
+    unless @party.party_line_items.find_by(line_item_num: @line_item_num).nil?
+      return false
+    end
+    
     @party_line_item = @party.party_line_items.new
     @party_line_item.line_item_num = @line_item_num
     @party_line_item.save!
@@ -147,7 +151,7 @@ class PartyLineItemCreator
   end
 
   def create_barcode(common_path, file_name)
-    barcode = Barby::Code39.new("#{@party.barcode.code}-#{Time.now.to_i}")
+    barcode = Barby::Code39.new("#{@party.barcode.code}-#{Time.now.to_i}", true)
 
     barcode_img_path = common_path + '/barcode_images/' + file_name + ".png"
 

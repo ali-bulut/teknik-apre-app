@@ -47,7 +47,7 @@ const BarcodePartiesTable = ({
           <tr>
             <td>
               <Form.Control
-                type="text"
+                type="number"
                 placeholder={Texts.partyNum}
                 value={createdPartyNum}
                 onChange={(e) => {

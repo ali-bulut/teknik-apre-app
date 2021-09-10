@@ -253,6 +253,11 @@ export function useCreateParty({ fetchSelectedBarcodeParties, id }) {
       return false;
     }
 
+    if (data.createdPartyNum < 1001) {
+      toast.error(Texts.partyNumMinValueError);
+      return false;
+    }
+
     dispatch(createParty(data))
       .then((data) => {
         toast.success(Texts.partyCreateSuccess);

@@ -278,23 +278,30 @@ export function usePartyLineItemOperations({
       enteredLineItemValues,
     };
 
-    dispatch(createPartyLineItem(data)).then((res) => {
-      toast.success(Texts.createPartyLineItemSuccess);
-      fetchSelectedPartyLineItems();
-      setIsCreateMode(false);
-      setEnteredLineItemValues([]);
+    dispatch(createPartyLineItem(data))
+      .then((res) => {
+        toast.success(Texts.createPartyLineItemSuccess);
+        fetchSelectedPartyLineItems();
+        setIsCreateMode(false);
+        setEnteredLineItemValues([]);
 
-      partyLineItemsData?.enteredValues?.forEach((x) => {
-        setEnteredLineItemValues((oldState) => [
-          ...oldState,
-          { ...x, value: "" },
-        ]);
+        partyLineItemsData?.enteredValues?.forEach((x) => {
+          setEnteredLineItemValues((oldState) => [
+            ...oldState,
+            { ...x, value: "" },
+          ]);
+        });
+        setActivePage(1);
+
+        let url =
+          "https://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath;
+        openPrintDialog(url);
+      })
+      .catch((err) => {
+        toast.error(
+          Texts.createPartyLineItemError + " " + Texts.sameRollNoError
+        );
       });
-      setActivePage(1);
-
-      let url = "https://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath;
-      openPrintDialog(url);
-    });
   };
 
   const openPrintDialog = (url) => {
