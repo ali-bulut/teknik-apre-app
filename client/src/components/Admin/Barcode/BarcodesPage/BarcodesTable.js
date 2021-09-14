@@ -41,12 +41,7 @@ const BarcodesTable = ({
               <td style={{ textAlign: "center" }}>
                 <img
                   style={{ width: 200, height: 100 }}
-                  src={
-                    "https://" +
-                    process.env.REACT_APP_API_URL +
-                    "/" +
-                    x.templateImage
-                  }
+                  src={Texts.apiUrl + x.templateImage}
                   alt="templateImage"
                 />
               </td>

@@ -105,4 +105,5 @@ export default {
   sameRollNoError:
     "Lütfen daha önce aynı Roll No'yu girip girmediğinizi kontrol edin.",
   partyNumMinValueError: "Parti numarası minimum 1001 olmalıdır!",
+  apiUrl: "https://" + process.env.REACT_APP_API_URL + "/",
 };

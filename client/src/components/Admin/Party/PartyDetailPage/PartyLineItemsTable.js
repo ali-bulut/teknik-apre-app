@@ -155,13 +155,7 @@ const PartyLineItemsTable = ({
                 variant="link"
                 style={{ color: "#7c4dff" }}
                 onClick={() => {
-                  window.open(
-                    "https://" +
-                      process.env.REACT_APP_API_URL +
-                      "/" +
-                      item.htmlPath,
-                    "_blank"
-                  );
+                  window.open(Texts.apiUrl + item.htmlPath, "_blank");
                 }}
               >
                 {Texts.openBarcode}

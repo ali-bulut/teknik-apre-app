@@ -161,12 +161,7 @@ const BarcodeDetailCard = ({
 
       <Col lg="3">
         <img
-          src={
-            "https://" +
-            process.env.REACT_APP_API_URL +
-            "/" +
-            barcodeData?.templateImage
-          }
+          src={Texts.apiUrl + barcodeData?.templateImage}
           className="card-img-top"
           alt="templateImage"
           style={{
