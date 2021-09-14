@@ -49,3 +49,8 @@ gem 'barby', '~> 0.6.2'
 gem 'chunky_png', '~> 1.4'
 
 gem 'spreadsheet'
+
+gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+
+gem 'sidekiq', '~> 6.1.3'
+gem 'pusher', '~> 1.3'

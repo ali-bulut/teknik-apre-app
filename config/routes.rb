@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   match '*all', controller: 'application', action: 'cors_preflight_check', via: [:options]
 
@@ -21,4 +23,6 @@ Rails.application.routes.draw do
   }
 
   root "home#index"
+
+  mount Sidekiq::Web => '/sidekiq'
 end
