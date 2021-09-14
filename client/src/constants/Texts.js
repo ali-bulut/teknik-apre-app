@@ -106,4 +106,8 @@ export default {
     "Lütfen daha önce aynı Roll No'yu girip girmediğinizi kontrol edin.",
   partyNumMinValueError: "Parti numarası minimum 1001 olmalıdır!",
   apiUrl: "https://" + process.env.REACT_APP_API_URL + "/",
+  excelFileCreationStarted:
+    "Excel oluşturma işlemi başladı! İşlem bittiğinde bilgilendirileceksiniz.",
+  excelFileReady: "Excel dosyanız hazır! İndirmek için tıklayın.",
+  excelFileReadyError: "Excel dosyası oluşturulurken bir hata meydana geldi!",
 };

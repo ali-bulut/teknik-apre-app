@@ -11,6 +11,7 @@ import {
   deletePartyLineItem,
   fetchPartyLineItems,
 } from "../../../store/actions/Party/partyLineItems";
+import subscribeCreateExcelChannel from "../../../util/Pusher/createExcelChannel";
 
 export function useFetchPartyLineItems(id) {
   const dispatch = useDispatch();
@@ -196,10 +197,7 @@ export function usePartyOperations({
   const createPartyExcel = () => {
     dispatch(createExcelFile(id))
       .then((data) => {
-        window.open(
-          "https://" + process.env.REACT_APP_API_URL + "/" + data.file,
-          "_blank"
-        );
+        toast.success(Texts.excelFileCreationStarted);
       })
       .catch((err) => {
         toast.error(Texts.createExcelFileError);
@@ -211,6 +209,10 @@ export function usePartyOperations({
   const createExcelFileLoading = useSelector(
     (state) => state.party.createExcelFileLoading
   );
+
+  useEffect(() => {
+    subscribeCreateExcelChannel();
+  }, []);
 
   return {
     deleteSelectedParty,
@@ -293,8 +295,7 @@ export function usePartyLineItemOperations({
         });
         setActivePage(1);
 
-        let url =
-          "https://" + process.env.REACT_APP_API_URL + "/" + res.htmlPath;
+        let url = Texts.apiUrl + res.htmlPath;
         openPrintDialog(url);
       })
       .catch((err) => {
