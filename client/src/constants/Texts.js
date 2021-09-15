@@ -110,4 +110,6 @@ export default {
     "Excel oluşturma işlemi başladı! İşlem bittiğinde bilgilendirileceksiniz.",
   excelFileReady: "Excel dosyanız hazır! İndirmek için tıklayın.",
   excelFileReadyError: "Excel dosyası oluşturulurken bir hata meydana geldi!",
+  barcodeUpdateStarted:
+    "Barkod güncelleme işlemi başladı! İşlem bittiğinde bilgilendirileceksiniz.",
 };

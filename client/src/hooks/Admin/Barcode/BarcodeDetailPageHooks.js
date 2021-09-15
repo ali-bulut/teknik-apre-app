@@ -11,6 +11,7 @@ import {
   updateBarcode,
 } from "../../../store/actions/Barcode/barcode";
 import { createParty } from "../../../store/actions/Party/party";
+import subscribeUpdateBarcodeChannel from "../../../util/Pusher/updateBarcodeChannel";
 
 export function useFetchBarcodeDetails(id) {
   const dispatch = useDispatch();
@@ -50,6 +51,10 @@ export function useFetchBarcodeDetails(id) {
   useEffect(() => {
     fetchBarcodeDetails();
   }, [fetchBarcodeDetails]);
+
+  useEffect(() => {
+    subscribeUpdateBarcodeChannel();
+  }, []);
 
   return {
     fetchBarcodeDetails,
@@ -105,7 +110,7 @@ export function useBarcodeOperations({
 
     dispatch(updateBarcode(newData))
       .then((data) => {
-        toast.success(Texts.barcodeUpdateSuccess);
+        toast.success(Texts.barcodeUpdateStarted);
         setIsEditMode(false);
         fetchBarcodeDetails();
       })
