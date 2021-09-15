@@ -4,7 +4,7 @@ require 'barby/barcode/code_39'
 require 'barby/outputter/png_outputter'
 
 class PartyLineItemCreator
-  def initialize(party_id:, line_item_num:, entered_l_i_values:, base_url:)
+  def initialize(party_id: nil, line_item_num: nil, entered_l_i_values: nil, base_url: nil)
     @party_id = party_id
     @line_item_num = line_item_num
     @entered_l_i_values = entered_l_i_values
@@ -15,14 +15,14 @@ class PartyLineItemCreator
     new(*args).send(:create_line_item)
   end
 
-  private
+  public
 
   def create_line_item
     @party = Party.find(@party_id)
     unless @party.party_line_items.find_by(line_item_num: @line_item_num).nil?
       return false
     end
-    
+
     @party_line_item = @party.party_line_items.new
     @party_line_item.line_item_num = @line_item_num
     @party_line_item.save!
@@ -30,7 +30,7 @@ class PartyLineItemCreator
     self.create_entered_l_i_values
     self.create_calculated_l_i_values
 
-    html_path = create_rendered_html
+    html_path = create_rendered_html(@party, @party_line_item, @base_url)
     @party_line_item.html_path = html_path
     @party_line_item.save!
 
@@ -71,13 +71,13 @@ class PartyLineItemCreator
     end
   end
 
-  def create_rendered_html
-    erb_path = @party.barcode.template.html_path
+  def create_rendered_html(party, party_line_item, base_url)
+    erb_path = party.barcode.template.html_path
     erb_str = File.read(Rails.root.join('public', erb_path))
 
-    barcode_name = @party.barcode.name.delete(' ')
-    party_num = "Party-#{@party.party_num.to_s}"
-    file_name = "Item-#{@party_line_item.line_item_num.to_s}"
+    barcode_name = party.barcode.id.to_s
+    party_num = "Party-#{party.id.to_s}"
+    file_name = "Item-#{party_line_item.id.to_s}"
     html_file_name = file_name + ".html"
 
     html_dir = Rails.root.join('public', 'barcodes', barcode_name, party_num)
@@ -87,16 +87,16 @@ class PartyLineItemCreator
 
     created_html_path = Rails.root.join(html_dir, html_file_name)
 
-    if @party.barcode.template.is_default?
-      create_default_template
-    elsif @party.barcode.template.is_with_width?
-      create_template_with_width
+    if party.barcode.template.is_default?
+      create_default_template(party, party_line_item)
+    elsif party.barcode.template.is_with_width?
+      create_template_with_width(party, party_line_item)
     end
 
     common_path = "barcodes/" + barcode_name + '/' + party_num
     html_path = common_path + '/' + html_file_name
 
-    create_barcode(common_path, file_name)
+    create_barcode(common_path, file_name, party, base_url)
 
     renderer = ERB.new(erb_str)
     result = renderer.result(binding)
@@ -108,56 +108,56 @@ class PartyLineItemCreator
     html_path
   end
 
-  def create_default_template
-    @value_1 = @party.barcode.barcode_main_values.find_by(template_value_id: 1).value
-    @value_2 = @party.barcode.barcode_main_values.find_by(template_value_id: 2).value
-    @value_3 = @party.barcode.barcode_main_values.find_by(template_value_id: 3).value
-    @value_4 = @party.barcode.barcode_main_values.find_by(template_value_id: 4).value
-    @value_5 = @party.barcode.barcode_main_values.find_by(template_value_id: 5).value
-    @value_6 = @party.barcode.barcode_main_values.find_by(template_value_id: 6).value
-    @value_7 = @party.barcode.barcode_main_values.find_by(template_value_id: 7).value
-    @value_8 = @party.barcode.barcode_main_values.find_by(template_value_id: 8).value
-    @value_roll_no = @party_line_item.line_item_num
+  def create_default_template(party, party_line_item)
+    @value_1 = party.barcode.barcode_main_values.find_by(template_value_id: 1).value
+    @value_2 = party.barcode.barcode_main_values.find_by(template_value_id: 2).value
+    @value_3 = party.barcode.barcode_main_values.find_by(template_value_id: 3).value
+    @value_4 = party.barcode.barcode_main_values.find_by(template_value_id: 4).value
+    @value_5 = party.barcode.barcode_main_values.find_by(template_value_id: 5).value
+    @value_6 = party.barcode.barcode_main_values.find_by(template_value_id: 6).value
+    @value_7 = party.barcode.barcode_main_values.find_by(template_value_id: 7).value
+    @value_8 = party.barcode.barcode_main_values.find_by(template_value_id: 8).value
+    @value_roll_no = party_line_item.line_item_num
 
-    gross_kg_id = @party.barcode.template.template_values.gross_kg?.first
-    @gross_kg = @party_line_item.party_line_item_values.find_by(template_value_id: gross_kg_id).value
+    gross_kg_id = party.barcode.template.template_values.gross_kg?.first
+    @gross_kg = party_line_item.party_line_item_values.find_by(template_value_id: gross_kg_id).value
 
-    net_kg_id = @party.barcode.template.template_values.net_kg?.first
-    @net_kg = @party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
+    net_kg_id = party.barcode.template.template_values.net_kg?.first
+    @net_kg = party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
 
-    gross_mt_id = @party.barcode.template.template_values.gross_mt?.first
-    @gross_mt = @party_line_item.party_line_item_values.find_by(template_value_id: gross_mt_id).value
+    gross_mt_id = party.barcode.template.template_values.gross_mt?.first
+    @gross_mt = party_line_item.party_line_item_values.find_by(template_value_id: gross_mt_id).value
 
-    net_mt_id = @party.barcode.template.template_values.net_mt?.first
-    @net_mt = @party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
+    net_mt_id = party.barcode.template.template_values.net_mt?.first
+    @net_mt = party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
   end
 
-  def create_template_with_width
-    @value_13 = @party.barcode.barcode_main_values.find_by(template_value_id: 13).value
-    @value_14 = @party.barcode.barcode_main_values.find_by(template_value_id: 14).value
-    @value_15 = @party.barcode.barcode_main_values.find_by(template_value_id: 15).value
-    @value_16 = @party.barcode.barcode_main_values.find_by(template_value_id: 16).value
-    @value_17 = @party.barcode.barcode_main_values.find_by(template_value_id: 17).value
-    @value_roll_no = @party_line_item.line_item_num
+  def create_template_with_width(party, party_line_item)
+    @value_13 = party.barcode.barcode_main_values.find_by(template_value_id: 13).value
+    @value_14 = party.barcode.barcode_main_values.find_by(template_value_id: 14).value
+    @value_15 = party.barcode.barcode_main_values.find_by(template_value_id: 15).value
+    @value_16 = party.barcode.barcode_main_values.find_by(template_value_id: 16).value
+    @value_17 = party.barcode.barcode_main_values.find_by(template_value_id: 17).value
+    @value_roll_no = party_line_item.line_item_num
 
-    net_kg_id = @party.barcode.template.template_values.net_kg?.first
-    @net_kg = @party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
+    net_kg_id = party.barcode.template.template_values.net_kg?.first
+    @net_kg = party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
 
-    width_id = @party.barcode.template.template_values.width?.first
-    @width = @party_line_item.party_line_item_values.find_by(template_value_id: width_id).value
+    width_id = party.barcode.template.template_values.width?.first
+    @width = party_line_item.party_line_item_values.find_by(template_value_id: width_id).value
 
-    net_mt_id = @party.barcode.template.template_values.net_mt?.first
-    @net_mt = @party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
+    net_mt_id = party.barcode.template.template_values.net_mt?.first
+    @net_mt = party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
   end
 
-  def create_barcode(common_path, file_name)
-    barcode = Barby::Code39.new("#{@party.barcode.code}-#{Time.now.to_i}", true)
+  def create_barcode(common_path, file_name, party, base_url)
+    barcode = Barby::Code39.new("#{party.barcode.code}-#{Time.now.to_i}", true)
 
     barcode_img_path = common_path + '/barcode_images/' + file_name + ".png"
 
     File.open(Rails.root.join("public", barcode_img_path), 'wb') { |f| f.write barcode.to_png }
 
-    @barcode_img = @base_url + '/' + barcode_img_path
+    @barcode_img = base_url + '/' + barcode_img_path
     @barcode_text = barcode.to_s
   end
 end

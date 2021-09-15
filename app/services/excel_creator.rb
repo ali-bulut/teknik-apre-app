@@ -39,14 +39,16 @@ class ExcelCreator
     sheet.row(0).default_format = format
 
     barcode_name = party.barcode.name.delete(' ')
+    barcode_id = party.barcode.id.to_s
+
     party_num = "Party-#{party.party_num.to_s}"
 
-    html_dir = Rails.root.join('public', 'excel_files', barcode_name)
+    html_dir = Rails.root.join('public', 'excel_files', barcode_id)
     FileUtils.mkdir_p(html_dir) unless File.exist?(html_dir)
     excel_name = "#{barcode_name}-#{party_num}-#{Time.now.to_i}.xls"
     excel_path = html_dir + excel_name
 
     book.write excel_path
-    "excel_files/#{barcode_name}/#{excel_name}"
+    "excel_files/#{barcode_id}/#{excel_name}"
   end
 end

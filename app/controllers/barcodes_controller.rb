@@ -48,13 +48,8 @@ class BarcodesController < ApplicationController
 
   # PATCH/PUT /barcodes/1
   def update
-    update_status = @barcode.update_barcode(barcode_params)
-
-    if update_status
-      render json: { message: "Barcode successfully updated!" }
-    else
-      render json: { error: "Barcode could not be updated!" }, status: :unprocessable_entity
-    end
+    UpdateBarcodeJob.perform_later(@barcode, barcode_params, request.base_url)
+    render json: { message: "Barcode update operation has been started!" }
   end
 
   # DELETE /barcodes/1
