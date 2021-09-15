@@ -210,10 +210,6 @@ export function usePartyOperations({
     (state) => state.party.createExcelFileLoading
   );
 
-  useEffect(() => {
-    subscribeCreateExcelChannel();
-  }, []);
-
   return {
     deleteSelectedParty,
     createPartyExcel,

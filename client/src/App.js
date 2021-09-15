@@ -3,10 +3,14 @@ import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { renderRoutes } from "./routes/RouteRendering";
+import subscribeCreateExcelChannel from "./util/Pusher/createExcelChannel";
+import subscribeUpdateBarcodeChannel from "./util/Pusher/updateBarcodeChannel";
 
 import MainContent from "./views/Main/MainContent";
 
 const App = () => {
+  subscribeCreateExcelChannel();
+  subscribeUpdateBarcodeChannel();
   return (
     <React.Fragment>
       <ToastContainer

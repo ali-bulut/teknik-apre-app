@@ -52,10 +52,6 @@ export function useFetchBarcodeDetails(id) {
     fetchBarcodeDetails();
   }, [fetchBarcodeDetails]);
 
-  useEffect(() => {
-    subscribeUpdateBarcodeChannel();
-  }, []);
-
   return {
     fetchBarcodeDetails,
     divisionNum,
