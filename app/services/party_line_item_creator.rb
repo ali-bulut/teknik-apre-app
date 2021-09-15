@@ -77,7 +77,7 @@ class PartyLineItemCreator
 
     barcode_name = party.barcode.id.to_s
     party_num = "Party-#{party.id.to_s}"
-    file_name = "Item-#{party_line_item.id.to_s}"
+    file_name = "Item-#{party_line_item.id.to_s}-#{Time.now.to_i}"
     html_file_name = file_name + ".html"
 
     html_dir = Rails.root.join('public', 'barcodes', barcode_name, party_num)
