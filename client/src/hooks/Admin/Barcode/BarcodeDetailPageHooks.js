@@ -82,7 +82,15 @@ export function useBarcodeOperations({
   const [isEditMode, setIsEditMode] = useState(false);
 
   const updateSelectedBarcode = () => {
-    if (!divisionNum || !additionNum) {
+    console.log({ divisionNum, additionNum });
+    if (
+      divisionNum === undefined ||
+      divisionNum === null ||
+      divisionNum === "" ||
+      additionNum === undefined ||
+      additionNum === null ||
+      additionNum === ""
+    ) {
       toast.error(Texts.fillBlanks);
       return;
     }
