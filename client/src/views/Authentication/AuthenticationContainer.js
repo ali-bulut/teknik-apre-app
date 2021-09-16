@@ -11,7 +11,7 @@ const AuthenticationContainer = (props) => {
       <Container className="main-container">
         <AuthenticationNavbar />
         <Row
-          style={{ maxHeight: "75%", overflow: "scroll" }}
+          style={{ maxHeight: "75%" }}
           className="login-form-container d-flex justify-content-center align-items-center"
         >
           <Col className="login-form" md="6" sm="12" xs="12">

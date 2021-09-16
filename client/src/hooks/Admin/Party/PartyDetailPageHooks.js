@@ -306,7 +306,7 @@ export function usePartyLineItemOperations({
     var body = document.getElementsByTagName("body")[0];
     body.appendChild(proxyIframe);
     proxyIframe.style.width = "100%";
-    proxyIframe.style.height = "100%";
+    proxyIframe.style.height = "270px";
     proxyIframe.style.display = "none";
 
     var contentWindow = proxyIframe.contentWindow;
@@ -314,7 +314,7 @@ export function usePartyLineItemOperations({
     contentWindow.document.write(
       '<iframe src="' +
         url +
-        '" onload="print();" width="600" height="600" frameborder="0" marginheight="0" marginwidth="0">'
+        '" onload="print();" width="100%" height="260" frameborder="0" marginheight="0" marginwidth="0" style="margin-top:-8px; margin-left:-8px;"  >'
     );
     contentWindow.document.close();
   };
