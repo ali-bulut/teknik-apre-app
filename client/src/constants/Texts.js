@@ -112,4 +112,6 @@ export default {
   excelFileReadyError: "Excel dosyası oluşturulurken bir hata meydana geldi!",
   barcodeUpdateStarted:
     "Barkod güncelleme işlemi başladı! İşlem bittiğinde bilgilendirileceksiniz.",
+  createTemplate: "Şablon Oluştur",
+  clickIfRollNo: "Top No ise Tıklayın!",
 };

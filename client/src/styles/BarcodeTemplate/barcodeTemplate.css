@@ -1,0 +1,103 @@
+.barcode_main {
+  width: 304px;
+  max-height: 238px;
+  line-height: 1;
+}
+
+.barcode_container {
+  width: 314px;
+  margin: 10px 24px;
+  border: 3px solid black;
+  padding: 2px;
+  margin-top: 20px;
+}
+
+.barcode_caption {
+  font-size: medium;
+  margin-bottom: 5px;
+}
+
+.barcode_title {
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+
+.barcode_date {
+  text-align: right;
+}
+
+.qrcode {
+  width: 300px;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 5px;
+}
+
+.qrcode img {
+  height: 60px;
+  width: 240px;
+}
+
+.informations {
+  font-size: small;
+  border: solid 0.5px black;
+  margin-top: 5px;
+}
+
+.barcode_info {
+  width: 303px;
+  margin: 1px 5px -1px 0px;
+  height: 20px;
+  font-size: 9px;
+  border-bottom: solid 0.5px;
+}
+
+.barcode_label {
+  width: 65px;
+  float: left;
+  height: 20px;
+  padding-left: 2px;
+}
+
+.barcode_desc {
+  width: 86px;
+  float: left;
+  height: 20px;
+}
+
+.barcode_longdesc {
+  float: left;
+}
+
+.bigsize {
+  font-size: 23px;
+}
+
+.sira {
+  text-align: center;
+}
+
+.labelbottom {
+  width: 146px;
+  float: left;
+  border-right: solid 0.5px black;
+  padding-left: 2px;
+  height: 30px;
+  font-size: 13px;
+}
+
+.labelbottomstrong {
+  float: left;
+  width: 73px;
+  text-align: center;
+}
+
+.barcode_text {
+  font-size: 13px;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  bottom: 7px;
+}
