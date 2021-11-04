@@ -87,11 +87,7 @@ class PartyLineItemCreator
 
     created_html_path = Rails.root.join(html_dir, html_file_name)
 
-    if party.barcode.template.is_default?
-      create_default_template(party, party_line_item)
-    elsif party.barcode.template.is_with_width?
-      create_template_with_width(party, party_line_item)
-    end
+    set_barcode_values(party, party_line_item)
 
     common_path = "barcodes/" + barcode_name + '/' + party_num
     html_path = common_path + '/' + html_file_name
@@ -108,46 +104,18 @@ class PartyLineItemCreator
     html_path
   end
 
-  def create_default_template(party, party_line_item)
-    @value_1 = party.barcode.barcode_main_values.find_by(template_value_id: 1).value
-    @value_2 = party.barcode.barcode_main_values.find_by(template_value_id: 2).value
-    @value_3 = party.barcode.barcode_main_values.find_by(template_value_id: 3).value
-    @value_4 = party.barcode.barcode_main_values.find_by(template_value_id: 4).value
-    @value_5 = party.barcode.barcode_main_values.find_by(template_value_id: 5).value
-    @value_6 = party.barcode.barcode_main_values.find_by(template_value_id: 6).value
-    @value_7 = party.barcode.barcode_main_values.find_by(template_value_id: 7).value
-    @value_8 = party.barcode.barcode_main_values.find_by(template_value_id: 8).value
+  def set_barcode_values(party, party_line_item)
+    party.barcode.template.static_template_values.each do |template_value|
+      party_line_item_v = party.barcode.barcode_main_values.find_by(template_value_id: template_value.id).value
+      instance_variable_set("@#{template_value.column_name.parameterize(separator: '_')}", party_line_item_v)
+    end
+
     @value_roll_no = party_line_item.line_item_num
 
-    gross_kg_id = party.barcode.template.template_values.gross_kg?.first
-    @gross_kg = party_line_item.party_line_item_values.find_by(template_value_id: gross_kg_id).value
-
-    net_kg_id = party.barcode.template.template_values.net_kg?.first
-    @net_kg = party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
-
-    gross_mt_id = party.barcode.template.template_values.gross_mt?.first
-    @gross_mt = party_line_item.party_line_item_values.find_by(template_value_id: gross_mt_id).value
-
-    net_mt_id = party.barcode.template.template_values.net_mt?.first
-    @net_mt = party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
-  end
-
-  def create_template_with_width(party, party_line_item)
-    @value_13 = party.barcode.barcode_main_values.find_by(template_value_id: 13).value
-    @value_14 = party.barcode.barcode_main_values.find_by(template_value_id: 14).value
-    @value_15 = party.barcode.barcode_main_values.find_by(template_value_id: 15).value
-    @value_16 = party.barcode.barcode_main_values.find_by(template_value_id: 16).value
-    @value_17 = party.barcode.barcode_main_values.find_by(template_value_id: 17).value
-    @value_roll_no = party_line_item.line_item_num
-
-    net_kg_id = party.barcode.template.template_values.net_kg?.first
-    @net_kg = party_line_item.party_line_item_values.find_by(template_value_id: net_kg_id).value
-
-    width_id = party.barcode.template.template_values.width?.first
-    @width = party_line_item.party_line_item_values.find_by(template_value_id: width_id).value
-
-    net_mt_id = party.barcode.template.template_values.net_mt?.first
-    @net_mt = party_line_item.party_line_item_values.find_by(template_value_id: net_mt_id).value
+    party.barcode.template.dynamic_template_values.each do |dynamic_template_v|
+      party_line_item_v = party_line_item.party_line_item_values.find_by(template_value_id: dynamic_template_v.id).value
+      instance_variable_set("@#{dynamic_template_v.column_name.parameterize(separator: '_')}", party_line_item_v)
+    end
   end
 
   def create_barcode(common_path, file_name, party, base_url)

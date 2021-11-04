@@ -6,19 +6,15 @@ class Template < ApplicationRecord
     template_values.where(is_calculated: false, is_entered: false)
   end
 
+  def dynamic_template_values
+    template_values.where(is_calculated: true).or(template_values.where(is_entered: true))
+  end
+
   def entered_values
     template_values.where(is_entered: true)
   end
 
   def calculated_values
     template_values.where(is_calculated: true)
-  end
-
-  def is_default?
-    self.id == 1
-  end
-
-  def is_with_width?
-    self.id == 2
   end
 end
