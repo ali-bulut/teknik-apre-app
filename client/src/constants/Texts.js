@@ -114,4 +114,5 @@ export default {
     "Barkod güncelleme işlemi başladı! İşlem bittiğinde bilgilendirileceksiniz.",
   createTemplate: "Şablon Oluştur",
   clickIfRollNo: "Top No ise Tıklayın!",
+  clickIfEnteredValue: "El ile Girilecekse Tıklayın! (Örn: En)",
 };

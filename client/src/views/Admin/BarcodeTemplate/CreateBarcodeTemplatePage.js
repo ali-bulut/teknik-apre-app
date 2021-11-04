@@ -38,6 +38,8 @@ const CreateBarcodeTemplatePage = () => {
     values[line].push({
       name: "",
       text: "",
+      isRollNo: false,
+      isEntered: false,
     });
 
     setBarcodeValues({ ...values });
@@ -66,7 +68,13 @@ const CreateBarcodeTemplatePage = () => {
     setBarcodeValues({ ...values });
   };
 
-  console.log(barcodeValues);
+  const setIsEntered = (line, index) => {
+    let values = { ...barcodeValues };
+
+    values[line][index].isEntered = !values[line][index].isEntered;
+
+    setBarcodeValues({ ...values });
+  };
 
   return (
     <React.Fragment>
@@ -134,10 +142,34 @@ const CreateBarcodeTemplatePage = () => {
                                   style={{
                                     position: "relative",
                                     bottom: 14.5,
-                                    left: 128,
+                                    left: 119,
+                                    width: 10,
                                   }}
                                   checked={value.isRollNo}
+                                  onChange={() => {}}
                                   onClick={() => setRollNo(key, i)}
+                                />
+                              </OverlayTrigger>
+                              <OverlayTrigger
+                                placement="right"
+                                delay={{ show: 100, hide: 100 }}
+                                overlay={
+                                  <Tooltip id="tooltip-disabled">
+                                    {Texts.clickIfEnteredValue}
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  style={{
+                                    position: "relative",
+                                    bottom: 14.5,
+                                    left: 125,
+                                    width: 10,
+                                  }}
+                                  checked={value.isEntered}
+                                  onChange={() => {}}
+                                  onClick={() => setIsEntered(key, i)}
                                 />
                               </OverlayTrigger>
                             </div>
