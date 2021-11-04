@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import CustomButton from "../../../components/Common/CustomButton";
 import HeaderContent from "../../../components/Common/HeaderContent";
 import Texts from "../../../constants/Texts";
 
@@ -74,6 +75,10 @@ const CreateBarcodeTemplatePage = () => {
     values[line][index].isEntered = !values[line][index].isEntered;
 
     setBarcodeValues({ ...values });
+  };
+
+  const createNewBarcodeTemplate = () => {
+    console.log(barcodeValues);
   };
 
   return (
@@ -236,6 +241,7 @@ const CreateBarcodeTemplatePage = () => {
                       className="labelbottomstrong"
                       style={{ width: "100%" }}
                       value={x.text}
+                      disabled
                       onChange={(e) => {
                         let values = { ...barcodeValues };
 
@@ -260,7 +266,7 @@ const CreateBarcodeTemplatePage = () => {
             </div>
           </div>
 
-          <div style={{ height: 25 }}></div>
+          <div style={{ height: 15 }}></div>
 
           <div className="qrcode" style={{ height: 34 }}>
             <img src="@barcode_img" alt="QR Kodu" style={{ height: 50 }} />
@@ -269,6 +275,14 @@ const CreateBarcodeTemplatePage = () => {
           </div>
         </div>
       </div>
+
+      <CustomButton
+        onClick={() => createNewBarcodeTemplate()}
+        className="float-left mt-3 ml-4"
+        loading={false}
+      >
+        {Texts.createBarcodeTemplate}
+      </CustomButton>
     </React.Fragment>
   );
 };

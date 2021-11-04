@@ -115,4 +115,5 @@ export default {
   createTemplate: "Şablon Oluştur",
   clickIfRollNo: "Top No ise Tıklayın!",
   clickIfEnteredValue: "El ile Girilecekse Tıklayın! (Örn: En)",
+  createBarcodeTemplate: "Barkod Şablonu Oluştur",
 };
