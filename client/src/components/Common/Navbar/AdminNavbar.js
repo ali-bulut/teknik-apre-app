@@ -9,7 +9,7 @@ const AdminNavbar = (props) => {
       <NavDropdown
         className={
           (props.pathName === "/barcodes" ||
-            props.pathName === "/barcodes/templates") &&
+            props.pathName === "/barcodes/templates/create") &&
           "navbar-link-container-active"
         }
         title={
@@ -28,22 +28,21 @@ const AdminNavbar = (props) => {
           to="/barcodes"
         >
           <div className="navbar-link-container">
-            <i className="material-icons navbar-icon">article</i>
+            <i className="material-icons navbar-icon">view_compact</i>
             <span className="main-navbar-link">{Texts.barcodes}</span>
           </div>
         </NavDropdown.Item>
         <NavDropdown.Item
           className={
-            props.pathName === "/barcode/templates" &&
+            props.pathName === "/barcodes/templates/create" &&
             "navbar-link-container-active"
           }
           as={Link}
-          to="/barcode/templates"
-          disabled
+          to="/barcodes/templates/create"
         >
           <div className="navbar-link-container">
-            <i className="material-icons navbar-icon">view_compact</i>
-            <span className="main-navbar-link">{Texts.templates}</span>
+            <i className="material-icons navbar-icon">add_circle_outline</i>
+            <span className="main-navbar-link">{Texts.createTemplate}</span>
           </div>
         </NavDropdown.Item>
       </NavDropdown>
