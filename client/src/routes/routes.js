@@ -11,6 +11,7 @@ import BarcodesPage from "../views/Admin/Barcode/BarcodesPage";
 import BarcodeDetailPage from "../views/Admin/Barcode/BarcodeDetailPage";
 import CreateBarcodePage from "../views/Admin/Barcode/CreateBarcodePage";
 import PartyDetailPage from "../views/Admin/Party/PartyDetailPage";
+import CreateBarcodeTemplatePage from "../views/Admin/BarcodeTemplate/CreateBarcodeTemplatePage";
 
 const isAdminSite = getSubDomain() === RolesPrefix.admin;
 
@@ -60,12 +61,12 @@ export default [
     component: () => <BarcodeDetailPage />,
   },
   {
-    path: "/barcodes/templates",
+    path: "/barcodes/templates/create",
     public: false,
     exact: true,
     roles: [RolesPrefix.admin],
     allowedSubdomains: [RolesPrefix.admin],
-    component: () => <BarcodesPage />,
+    component: () => <CreateBarcodeTemplatePage />,
   },
   {
     path: "/barcodes/:barcodeId/parties/:partyId",
